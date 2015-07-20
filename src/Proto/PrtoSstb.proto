@@ -1,0 +1,43 @@
+package com.tomting.orion;
+
+enum iCsstabletype {
+	SSTABLE = 0;
+	MEMORYSSTABLE = 1;
+	PARTIALMEMTABLE = 2;
+}
+
+message PrtoStix {
+  	required bytes sVindex = 1;			  		  		
+  	required uint32 iVindexed32 = 2;
+  	optional uint32 iVmainindexlength = 3;
+	optional uint64 iVindexed64 = 4;
+} 
+
+message PrtoHash {
+	required int32 	iVindex = 1;
+  	required uint32 iVhash = 2;
+	required int32 	iVsortedradix = 3;
+	required int32 	iVchained = 4;
+}  	
+		
+
+message PrtoIndx {
+	repeated PrtoStix cVstix = 1;
+	repeated PrtoHash cVhash = 2; 
+	optional uint32 iVhashtablesize = 3;
+	optional uint32 iVhashtablerealsize = 4;
+	required iCsstabletype iVsstabletype = 5;
+	required bytes sVredotimestamp = 6;
+}
+
+message PrtoIatm {
+	repeated PrtoStix cVstix = 1;
+	repeated PrtoHash cVhash = 2; 	
+}
+
+message PrtoData {
+	required bytes sVkey = 1;
+	required uint32 iVmainkeylength = 2;
+	required bytes sVopaquevalue = 3;
+}
+

@@ -1,0 +1,41 @@
+package com.tomting.orion;
+import "PrtoAlog.proto";
+
+message PrtoMktr {
+	required bool bVleaf = 1;
+	required bytes sVhash = 2;
+	optional int32 iVmerkeltreedataposition = 3;
+	repeated PrtoMktr cVchildren = 4;
+	optional PrtoLkey cVkey = 5;
+	optional PrtoLval cVvalue = 6;	
+}
+
+message PrtoQres {
+	required bytes sVnodeid = 1;
+	required PrtoLkey cVkey = 2;
+	required bool bVresult = 3;
+	required PrtoLval cVvalue = 4;
+	required bool bVdigest = 5 [default = false];
+}
+
+enum iCcompactiontype {
+	MINOR = 0;
+	MAJOR = 1;
+	MERGE = 2;
+	FLUSH = 3;
+}
+
+message PrtoSeda {
+	optional bytes sVnamespace = 1;			  		  		
+	optional bytes sVtable = 2;		  		  		
+	optional iCcompactiontype iVcompactiontype = 3;
+	
+	optional bytes sVmessage = 4;
+
+	optional PrtoGoel cVgossipelement = 5;
+	optional PrtoLstm cVstatement = 6;
+	optional bytes sVcallback = 7;
+	optional PrtoLqry cVquery = 8;
+	repeated PrtoQres cVlistqueryresult = 9;
+	repeated PrtoGoel cVlistgossipelement = 10;
+}  

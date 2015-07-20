@@ -1,0 +1,126 @@
+#include <IfceOrn_.hpp>
+#include "TmplSdmg.cpp"
+#include "TmplFsys.cpp"
+#include "TmplList.cpp"
+#include "TmplSdel.cpp"
+#include "TmplSdmq.cpp"
+#include "TmplOo2w.cpp"
+#include "TmplOo2t.cpp"
+#include "TmplClps.cpp"
+#include "CoreSmph.cpp"
+#include "TmplShst.cpp"
+
+
+
+
+
+/*
+int main(int argc, char **argv) {
+
+
+    orion::Instance db;
+    orion::Options options;
+
+    options.log_path = "./templog";
+    options.error_if_exists = false;
+    db = orion::DB::Open (options, "./orionfoldernew");
+
+    auto storage_options = orion::StorageOptions ();
+    auto write_options = orion::WriteOptions ();
+    auto read_options = orion::ReadOptions ();
+
+    db->Create (storage_options);
+    orion::Status s = db->Put (write_options, "test", "value");
+    string value;
+    if (s.ok ()) s = db->Get (read_options, "test", &value);
+    if (s.ok ()) printf ("result prima di delete: %s\n", value.c_str ());
+    db->Delete (write_options, "test");
+    if (s.ok ()) s = db->Get (read_options, "test", &value);
+    if (s.ok ()) printf ("result dopo delete: %s\n", value.c_str ());
+
+
+    orion::DB::Shutdown ();
+
+    return 0;
+}*/
+
+
+#include <boost/random/random_device.hpp>
+#include <boost/random/uniform_int_distribution.hpp>
+
+std::string chars(
+        "abcdefghijklmnopqrstuvwxyz"
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                "1234567890"
+                "!@#$%^&*()"
+                "`~-_=+[{]}\\|;:'\",<.>/? ");
+
+void generate_random(std::string *value) {
+    boost::random::random_device rng;
+    boost::random::uniform_int_distribution<> index_dist(0, chars.size() - 1);
+
+    for (int i=0; i<10; i++) {
+        value->push_back(chars[index_dist(rng)]);
+    }
+}
+
+int main(int argc, char **argv) {
+    orion::Instance db;
+    orion::Options options;
+
+    //options.log_path = "./templog";
+    options.error_if_exists = false;
+    //db = orion::DB::Open (options, "./orionfoldernew");
+
+    options.log_path = "/Users/sommoyogurt/Desktop/templog";
+    DB::DestroyDB (options, "./orionfoldernew/test/");
+    db = DB::Open (options, "./orionfoldernew/test/");
+
+    auto storage_options = orion::StorageOptions ();
+    auto write_options = orion::WriteOptions ();
+    auto write_options2 = orion::WriteOptions ();
+    auto read_options = orion::ReadOptions();
+    auto read_options2 = orion::ReadOptions();
+
+    string key;
+    string value = "value";
+    string res_value;
+
+    printf("%lld\n",CoreButl::tmstl());
+
+
+    db->Create (storage_options);
+    orion::Status s = db->Put (write_options, "test", "peppemas");
+    if (s.ok ()) {
+        s = db->Get (read_options, "test", &value);
+        if (s.ok ()) {
+            printf ("result prima di delete: %s\n", value.c_str ());
+        } else {
+            printf ("[ERROR] non riesco a leggere la chiave\n");
+        }
+    } else {
+        printf ("[ERROR] non riesco a scrivere il valore\n");
+    }
+
+    db->Delete (write_options, "test");
+
+    if (s.ok ()) s = db->Get (read_options, "test", &value);
+    if (s.ok ()) printf ("result dopo delete: %s\n", value.c_str ());
+
+    printf("%lld\n",CoreButl::tmstl());
+
+    s = db->Put (write_options2, "test", "value2");
+    if (s.ok ()) {
+        printf("result dopo put test\n");
+        s = db->Get(read_options2, "test", &value);
+        if (s.ok ()){ printf ("result prima di delete: %s\n", value.c_str ());
+        }else{
+            printf("Error read test\n");
+        }
+    }
+
+
+    orion::DB::Shutdown ();
+
+    return 0;
+}

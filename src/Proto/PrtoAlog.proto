@@ -1,0 +1,402 @@
+package com.tomting.orion;
+
+message PrtoSsls {
+	repeated bytes sVlistindex = 1;
+}
+
+enum iCpartitiontype {
+	NOPARTITION = 0;
+	RANDOMPARTITION = 1;
+	BYTEORDERPARTITION = 2;
+	CUSTOMPARTITION = 3;
+	BALANCEDCUSTOMPARTITION = 4;
+}
+
+message PrtoLstr {
+	optional int32 iVmemtabledim = 1;
+	optional int32 iVmemtablesize = 2;
+	optional int32 iVmemtablechunk = 8;
+	optional bool bVmemorytable = 3 [default = false];
+	optional bool bVvolatiletable = 11 [default = false];
+	optional bool bVlocalindex = 12 [default = false];
+	optional bool bVfastkey = 14 [default = false];
+
+	optional bytes sVshardingfrom = 4;
+	optional bytes sVshardingto = 5;
+	optional bytes sVshardingindexfrom = 6;
+	optional bytes sVshardingindexto = 7;
+	optional iCpartitiontype  iVpartitiontype = 9;
+
+	optional bool bVrepair = 10 [default = false];
+
+	optional int32 iVreplicationfactor = 13 [default = -1];
+}
+
+message PrtoLmtb {
+	required bytes sVnamespace = 1;			  		  		
+	optional bytes sVtable = 2;
+	optional PrtoLstr cVstorage = 3;
+}  
+
+enum iCstatetype {
+	UPSERT = 0;
+	DELTMB = 1;
+}
+
+message PrtoLkey {
+	required bytes sVmain = 1;			  		  		
+	optional bytes sVaccessgroup = 2 [default = ""];
+	optional bytes sVqualifier = 3 [default = ""];
+	optional iCstatetype iVstate = 4 [default = UPSERT];
+	optional int64 iVtimestamp = 5 [default = 0];
+}  	
+
+message PrtoLval {
+	required bytes sVopaquevalue = 1;
+	required int64 iVtimestamp = 2;
+}
+
+enum iCopcodetype {
+	MUTATOR = 0;
+	STORAGE = 1;
+	REPAIR_ = 2;
+}
+
+message PrtoLstm {
+	required iCopcodetype iVopcode = 1;
+	required PrtoLmtb cVmutable = 2;
+	optional PrtoLkey cVkey = 4;
+	optional PrtoLval cVvalue = 5;
+}
+
+message PrtoLsts {
+	repeated PrtoLstm cVliststatement = 1;
+}
+
+enum iCquerytype {
+	EXACTQUERY = 0;
+	RANGEQUERY = 1;
+	TOKENQUERY = 2;
+	TKSLWQUERY = 4;
+}
+
+message PrtoLqry {
+	required iCquerytype iVquery = 1;
+	required PrtoLmtb cVmutable = 2;
+	required PrtoLkey cVkey = 4;
+	required bool bVdigest = 5 [default = false];
+}
+
+enum iCtablettype {
+	MEMORYTABLETYPE = 0;
+	SSTABLETYPE = 1;
+	VOLATILETABLETYPE = 2;
+}
+
+message PrtoLlog {
+	required bytes sVtimestamp = 1;
+	required PrtoLstm cVstatement = 2;
+}
+
+enum iCcolumntype {
+	KEYTYPE___ = 0;
+	STRINGTYPE = 1;
+	LSTRNGTYPE = 2;
+	INTEGRTYPE = 3;
+	LINTGRTYPE = 4;
+	DOUBLETYPE = 5;
+	LDOUBLTYPE = 6;
+	BOOLN_TYPE = 7;
+}
+
+message PrtoL2cv {
+	optional iCcolumntype iVtype = 1 [default = STRINGTYPE];
+
+	optional bytes sVvalue = 2;
+	repeated bytes sVlistvalue = 3;
+	optional int32 iVvalue = 4;
+	repeated int32 iVlistvalue = 5;
+	optional double dVvalue = 6;
+	repeated double dVlistvalue = 7;
+	optional bool bVvalue = 8;
+}
+
+enum iCconditiontype {
+	ECOND = 0;
+	GCOND = 1;
+	LCOND = 2;
+	GECOND = 3;
+	LECOND = 4;
+}
+
+message PrtoL2cl {
+	//COLUMN DEFINITION
+	required bytes sVcolumn = 1;
+	optional iCcolumntype iVtype = 2 [default = STRINGTYPE];
+
+	//VALUE
+	optional PrtoL2cv cVvalue = 3;
+
+	//COMPARE CONDITION
+	optional iCconditiontype iVconditiontype = 4;
+}
+
+message PrtoL2st {
+	optional iCopcodetype iVopcode = 1 [default = MUTATOR];
+	required PrtoLmtb cVmutable = 2;
+	required PrtoLkey cVkey = 3;
+	repeated PrtoL2cl cVcolumns = 4;	
+	optional int64 iVtimestamp = 5 [default = 0];
+}
+
+message PrtoL2ag {
+	required bytes sVname = 1;
+	repeated bytes sVcolumns = 2;
+}
+
+enum iCtabletype {
+	STANDARDTABLE = 0;
+	MEMORYTABLE__ = 1;
+	VOLATILETABLE = 2;
+}
+
+enum iCindextype {
+	DISTRINDEX = 0;
+	LOCALINDEX = 1;
+}
+
+message PrtoL2ct {
+	required PrtoLmtb cVmutable = 1;
+	repeated PrtoL2cl cVcolumns = 2;
+	repeated PrtoL2ag cVaccessgroups = 3;
+	optional int32 iVmemtabledim = 4 [default = 0];
+	optional int32 iVreplicationfactor = 5 [default = 1];
+	optional iCtabletype iVtabletype = 6 [default = VOLATILETABLE];
+	optional iCpartitiontype iVpartitiontype = 7 [default = NOPARTITION];
+	optional iCindextype iVindextype = 8 [default = DISTRINDEX];
+}
+
+message PrtoL2ao {
+	repeated PrtoL2cl cVcolumns = 1;
+}
+
+message PrtoL2vo {
+	repeated PrtoL2ao cVaccessobject = 1;
+}
+
+message PrtoL2ks {
+	required PrtoLkey cVkey = 1;
+	repeated PrtoL2cl cVcolumns = 2;	
+}
+
+enum iCordertype {
+	ASC = 0;
+	DESC = 1;
+}
+
+message PrtoL2or {
+	required bytes sVcolumn = 1;
+	required iCordertype  iVordertype = 2;
+}
+
+message PrtoL2wh {
+	repeated PrtoL2cl cVcondition = 1;
+	repeated PrtoL2or cVorderby = 2;
+}
+
+message PrtoL2qr {
+	//SELECT
+	repeated PrtoL2cl cVselect = 1;
+
+	//FROM
+	required PrtoLmtb cVmutable = 2;
+
+	//WHERE
+	optional iCquerytype iVquery = 3;
+	optional PrtoLkey cVkey_start = 4;
+	optional PrtoLkey cVkey_end = 5;
+	optional PrtoL2wh cVwhere = 6;
+	optional int32 iVcount = 7 [default = 100];
+	optional bool bVonlysecondary = 8 [default = false];
+	optional bool bVdisableteleport = 9 [default = false];
+	optional bool bVfulltablescan = 10 [default = false];
+}
+
+message PrtoL2os {
+	required bytes sVnamespace = 1;
+	required bytes sVosqlstring = 2;
+	repeated PrtoL2cv cVinputbindings = 3;
+	optional bool bVonlysecondary = 4 [default = false];
+	optional bool bVdisableteleport = 5 [default = false];
+	optional int64 iVtimestamp = 6 [default = 0];
+	optional bool bVfulltablescan = 7 [default = false];
+}
+
+//dMl Result
+message PrtoL2mr {
+	repeated PrtoL2ks cVkeyslice = 1;	
+}
+
+message PrtoL2iv {
+	repeated int32 iVkeydelimiters = 1;
+	required bytes sVoriginalkey = 2;
+}
+
+enum iCstategossipnode {
+	RUNNING = 0;
+	JOINING = 1;
+	LEAVING = 2;
+	STOPPED = 3;
+}
+
+message PrtoGoel {
+	required bytes sVtoken = 1;
+	required bytes sVnodeid = 2;
+	required bytes sVdatacenterid = 3;
+	optional double dVphiaccrual = 4;
+	optional bytes sVaddress = 5;
+	optional int32 iVport = 6;
+	optional bytes sVreader = 7;
+	optional bytes sVwriter = 8;
+	optional iCstategossipnode iVstate = 9;	
+	optional int64 iVtimestamp = 10;
+	optional int64 iVsize = 11;
+}
+
+message PrtoGoss {
+	repeated PrtoGoel cVgossipelement = 1;
+}
+
+//GOSsip Result
+message PrtoGosr {
+	required PrtoGoel cVgossipelement = 1;
+}
+
+//HInted HAndoff
+message PrtoHiha {
+	required bytes sVnode = 1;
+	required PrtoLsts cVstatements = 2;
+}
+
+message PrtoPtel {
+	required bytes sVnodeid = 1;
+	required bytes sVbound = 2;
+}
+
+enum iCstatstype {
+	READ = 0;
+	WRITE = 1;
+}
+
+//STats ELement
+message PrtoStel {
+	required int64 iVcount = 1;
+	required int32 iVmeandelay = 2;
+	required int32 iVworstdelay = 3;
+	required int64 iVsize = 4;
+
+	optional int64 iVelapsed = 5;
+}
+
+//TabLet ELement
+message PrtoTlel {
+	required iCtablettype iVtablettype = 1;
+	required bytes sVname = 2;
+	required bool bVvalid = 3;
+
+	required bool bVneedcompaction = 4;
+	required bool bVvalidasmemorytable = 5;
+	required int32 iVcompactionlevel = 6;
+	required bytes sVmemorytable = 7;
+	required int64 iVres = 8;
+	required int64 iVmapped = 9;
+	required int64 iVsize = 10;
+	required int64 iVcount = 11;
+	required bytes sVredotimestamp = 12;
+	required int32 iVsstabletype = 13;
+}
+
+//stored TABLe
+message PrtoTabl {
+	required bytes sVxml = 1;
+	repeated PrtoPtel cVpartitionedelements = 2;
+	repeated PrtoPtel cVpartitionedindexelements = 3;
+	repeated PrtoTlel cVtabletelement = 4;
+	repeated PrtoTlel cVindextabletelement = 5;
+	optional bytes sVjoincustompartition = 6;
+	optional bytes sVjoincustompartitionindex = 7;
+	optional bytes sVpartitiontype = 8;
+}
+
+//AntiENtroPhy
+message PrtoAenp {
+	required bytes sVopaquedata = 1;
+	optional bytes sVnodeid = 2;
+	optional PrtoLmtb cVmutable = 3;
+	optional bytes sVkeystart = 4;
+	optional int32 iVlimitsize = 5;
+}
+
+//TOP Entry
+message PrtoTope {
+	required bytes sVtablet = 1;
+	optional int64 iVreadtime = 2;
+	optional int64 iVwritetime = 3;
+	optional int64 iVreadcountl2 = 4;
+	optional int64 iVwritecountl2 = 5;
+	optional int64 iVreadcountl1 = 6;
+	optional int64 iVwritecountl1 = 7;
+}
+
+//TOP 
+message PrtoTop_ {
+	optional int64 iVtimestamp = 1;
+	repeated PrtoTope cVtopelement = 2;
+}
+
+enum iCservicetype {
+	STATEMENT = 0;
+	QUERY = 1;
+	OSQL = 2;
+}
+
+//SeRViCe
+message PrtoSrvc {
+	required iCservicetype iVservicetype = 1;
+	optional PrtoL2qr cVquery = 2;
+	optional PrtoL2st cVstatement = 3;
+	optional PrtoL2os cVosql = 4;
+}
+
+//SeRVice Result
+message PrtoSrvr {
+	optional bool bVreturn = 1;
+	optional PrtoL2mr cVdmlresult = 2;
+}
+
+enum iCbulkservicetype {
+	BULKPROTO = 0;
+	BULKSTRING = 1;
+	SINGLEPROTO = 2;
+	PING = 3;
+}
+
+//Bulk SeRviCe
+message PrtoBsrc {
+	required iCbulkservicetype iVbulkservicetype = 1;
+	repeated PrtoSrvc cVbulkproto = 2;
+	repeated bytes cVbulkstring = 3;
+	optional PrtoSrvc cVsingleproto = 4;
+}
+
+//Bulk SeRvice Result
+message PrtoBsrr {
+	repeated PrtoSrvr cVbulkproto = 1;
+	repeated bytes cVbulkstring = 2;
+	optional PrtoSrvr cVsingleproto = 3;
+}
+
+enum iCdbleveltype {
+	L1 = 1;
+	L2 = 2;
+}

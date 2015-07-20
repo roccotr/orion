@@ -1,0 +1,26 @@
+package com.tomting.orion;
+
+enum iCsqllcolumntype {
+	STRING = 0;
+	INTEGER = 1;
+	STRINGLIST = 2;
+}
+
+message PrtoScol {
+	required bytes sVcolumn = 1;
+	required bool bViskey = 2 [default = false];	
+	required iCsqllcolumntype iVtype = 3 [default = STRING];
+	optional uint32 iVlength = 4;	
+	optional uint32 iVleftposition = 5;
+	optional uint32 iVrightposition = 6;
+}  	
+
+message PrtoSctl {
+	required bytes sVnamespace = 1;	 
+	required bytes sVtable = 2;
+	repeated PrtoScol cVcolumns = 3;
+	optional bytes sVterminatedby = 4 [default = ";"];	
+	optional uint32 iVlimitrows = 5;
+	optional bytes sVlistseparator = 6 [default = "|"];		
+}
+

@@ -1,0 +1,8 @@
+message PrtoPvlc {
+	required bytes sVvalue = 1;		
+	optional bytes sVcolumn = 2;
+}
+message PrtoPval {
+	repeated PrtoPvlc cVvaluecells = 1;	
+}
+
