@@ -82,7 +82,7 @@ add_definitions( -DiCdisableprintlog )
 
 
 
-add_library(orione STATIC ${SOURCE_FILES})
+add_library(orione SHARED ${SOURCE_FILES})
 add_library(orione_static STATIC ${SOURCE_FILES})
 set_target_properties(orione PROPERTIES OUTPUT_NAME orion CLEAN_DIRECTORY_OUTPUT 1)
 set_target_properties(orione_static PROPERTIES OUTPUT_NAME orion CLEAN_DIRECTORY_OUTPUT 1)
