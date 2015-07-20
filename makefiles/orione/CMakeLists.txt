@@ -82,14 +82,16 @@ add_definitions( -DiCdisableprintlog )
 
 
 
-add_library(orione SHARED ${SOURCE_FILES})
+add_library(orione STATIC ${SOURCE_FILES})
 add_library(orione_static STATIC ${SOURCE_FILES})
-set_target_properties(orione_static PROPERTIES OUTPUT_NAME orione CLEAN_DIRECTORY_OUTPUT 1)
+set_target_properties(orione PROPERTIES OUTPUT_NAME orion CLEAN_DIRECTORY_OUTPUT 1)
+set_target_properties(orione_static PROPERTIES OUTPUT_NAME orion CLEAN_DIRECTORY_OUTPUT 1)
 
 
 target_link_libraries (orione  thrift thriftnb event snappy re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
 
-install(FILES ${CMAKE_SOURCE_DIR}/src/Engne/IfceOrn_.hpp DESTINATION include RENAME orione.h)
+install(FILES ${CMAKE_SOURCE_DIR}/src/Engne/IfceOrn_.hpp DESTINATION include RENAME orion.h)
 
+install(TARGETS orione DESTINATION lib)
 install(TARGETS orione_static DESTINATION lib)
 
