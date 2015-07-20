@@ -1,13 +1,13 @@
 # Orion
-Orion is a NoSQL database entirely written in C++ designed to manage large quantities of data located in
+Orion is a **NoSql database** entirely written in **C++** designed to manage large quantities of data located in
 different servers, while being highly available with no single point of failure.
-Orion implements a dvanced memory pooling, s hared memory, custom implementations for mutex, smart
+Orion implements advanced memory pooling, s hared memory, custom implementations for mutex, smart
 pointers and different tree structures, including, RedBlack
 and O2.
-The keyvalue
+The key value
 memorization offers the possibility to executing queries with thousands ORs in an extremely
 rapid way. Values corresponding to k eys are organized in columns that, in turn, are clustered in column
-families. C olumn families are defined when the database is created, but columns can be added to a family
+families. Column families are defined when the database is created, but columns can be added to a family
 anytime. Furthermore, columns are added by simply defining the keys and different keys can have a different
 column number in the same family. Values belonging to a column family are memorized together, since Orion
 uses a hybrid approach between column and row oriented DB.
