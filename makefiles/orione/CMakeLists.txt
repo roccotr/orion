@@ -89,7 +89,7 @@ set_target_properties(orione_static PROPERTIES OUTPUT_NAME orione CLEAN_DIRECTOR
 
 target_link_libraries (orione  thrift thriftnb event snappy re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
 
-install(FILES ${CMAKE_SOURCE_DIR}/src/Engne/IfceOrn_.hpp DESTINATION ${CMAKE_SOURCE_DIR}/include RENAME orione.h)
+install(FILES ${CMAKE_SOURCE_DIR}/src/Engne/IfceOrn_.hpp DESTINATION include RENAME orione.h)
 
-install(TARGETS orione_static DESTINATION ${CMAKE_SOURCE_DIR}/lib)
+install(TARGETS orione_static DESTINATION lib)
 
