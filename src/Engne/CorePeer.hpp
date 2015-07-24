@@ -1,7 +1,7 @@
 #ifndef COREPEER
 #define COREPEER
 #include <glog/logging.h>
-#include <protocol/TBinaryProtocol.h>
+#include <thrift/protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
 #include "CorePool.hpp"
 #include "CoreSdmg.hpp"

@@ -4,7 +4,7 @@
 #include <boost/interprocess/mapped_region.hpp>
 #pragma warning(default:4018)	
 #include <glog/logging.h>
-#include <protocol/TBinaryProtocol.h>
+#include <thrift/protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
 
 

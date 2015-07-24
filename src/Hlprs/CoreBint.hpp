@@ -3,7 +3,7 @@
 #include <vector>
 #include <cstdlib>
 #include <glog/logging.h>
-#include <protocol/TBinaryProtocol.h>
+#include <thrift/protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
 
 namespace orion {

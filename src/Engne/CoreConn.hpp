@@ -3,13 +3,13 @@
 #include <glog/logging.h>
 #include "ThrfOrn_.h"
 #pragma warning(disable:4244)	
-#include <protocol/TBinaryProtocol.h>
-#include <server/TSimpleServer.h>
-#include <transport/TServerSocket.h>
-#include <transport/TBufferTransports.h>
-#include <transport/TSocket.h>
-#include <transport/TBufferTransports.h>
-#include <protocol/TBinaryProtocol.h>
+#include <thrift/protocol/TBinaryProtocol.h>
+#include <thrift/server/TSimpleServer.h>
+#include <thrift/transport/TServerSocket.h>
+#include <thrift/transport/TBufferTransports.h>
+#include <thrift/transport/TSocket.h>
+#include <thrift/transport/TBufferTransports.h>
+#include <thrift/protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
 
 namespace orion {

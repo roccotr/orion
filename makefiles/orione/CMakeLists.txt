@@ -11,11 +11,11 @@ include_directories(${CMAKE_SOURCE_DIR}/src/Extrn)
 include_directories(${CMAKE_SOURCE_DIR}/src/Proto)
 include_directories(${CMAKE_SOURCE_DIR}/src/Extrn/md5)
 include_directories(${CMAKE_SOURCE_DIR}/src/Ordbc)
-include_directories(/opt/gtest/include)
+#include_directories(/opt/gtest/include)
 #include_directories(/usr/local/Cellar/thrift/0.9.2/include)
-include_directories(/usr/local/Cellar/thrift/0.9.2/include/thrift)
+#include_directories(/usr/local/Cellar/thrift/0.9.2/include/thrift)
 #include_directories(/usr/local/Cellar/libevent/2.0.22/include)
-include_directories(/opt/liblfds/include)
+#include_directories(/opt/liblfds/include)
 #include_directories(/usr/local/include)
 #link_directories( /opt/gtest/lib/ )
 
@@ -25,6 +25,8 @@ set(CMAKE_CXX_COMPILER /usr/bin/g++)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -w -fmessage-length=0 -std=c++0x -static-libstdc++ -stdlib=libc++")
 set(CMAKE_INSTALL_PREFIX dist)
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/debug)
+add_definitions(-fPIC)
+
 
 set_target_properties( ${targetname} PROPERTIES LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/Debug )
 
@@ -90,8 +92,8 @@ set_target_properties(orione_static PROPERTIES OUTPUT_NAME orion CLEAN_DIRECTORY
 
 target_link_libraries (orione  thrift thriftnb event snappy re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
 
-install(FILES ${CMAKE_SOURCE_DIR}/src/Engne/IfceOrn_.hpp DESTINATION include RENAME orion.h)
+install(FILES ${CMAKE_SOURCE_DIR}/src/Engne/IfceOrn_.hpp DESTINATION ${CMAKE_SOURCE_DIR}/include RENAME orion.h)
 
-install(TARGETS orione DESTINATION lib)
-install(TARGETS orione_static DESTINATION lib)
+install(TARGETS orione DESTINATION ${CMAKE_SOURCE_DIR}/lib)
+install(TARGETS orione_static DESTINATION ${CMAKE_SOURCE_DIR}/lib)
 

@@ -1,7 +1,7 @@
 #ifndef COREBUTL
 #define COREBUTL
 #include <glog/logging.h>
-#include <protocol/TBinaryProtocol.h>
+#include <thrift/protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
 #include "CorePool.hpp"
 

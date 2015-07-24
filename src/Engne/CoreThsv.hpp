@@ -2,11 +2,11 @@
 #define CORETHSV
 #include <glog/logging.h>
 #include "ThrfOrn_.h"
-#include <protocol/TBinaryProtocol.h>
-#include <server/TSimpleServer.h>
-#include <server/TNonblockingServer.h>
-#include <transport/TServerSocket.h>
-#include <transport/TBufferTransports.h>
+#include <thrift/protocol/TBinaryProtocol.h>
+#include <thrift/server/TSimpleServer.h>
+#include <thrift/server/TNonblockingServer.h>
+#include <thrift/transport/TServerSocket.h>
+#include <thrift/transport/TBufferTransports.h>
 
 #include "CoreVcl_.hpp"
 #include "CoreOrn_.hpp"

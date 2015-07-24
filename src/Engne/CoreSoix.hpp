@@ -1,7 +1,7 @@
 #ifndef CORESOIX
 #define CORESOIX
 #include <glog/logging.h>
-#include <protocol/TBinaryProtocol.h>
+#include <thrift/protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
 #include "CoreStib.hpp"
 #include "CoreOo2w.hpp"

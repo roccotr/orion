@@ -1,7 +1,7 @@
 #ifndef COREHSRX
 #define COREHSRX
 #include <glog/logging.h>
-#include <protocol/TBinaryProtocol.h>
+#include <thrift/protocol/TBinaryProtocol.h>
 #include "CorePool.hpp"
 #include "CoreStix.hpp"
 #include "CoreSoix.hpp"
