@@ -1,7 +1,7 @@
 #ifndef CORESDEL
 #define CORESDEL
 #include <glog/logging.h>
-#include <thrift/protocol/TBinaryProtocol.h>
+#include <protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
 #include "CoreSdmq.hpp"
 #include "CoreSdwk.hpp"

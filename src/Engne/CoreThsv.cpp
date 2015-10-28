@@ -20,7 +20,7 @@ using namespace orion;
 
 	const int CoreThsv::iCwaitshutdownms = 10;
 
-  DEFINE_string(path, "", "Orion path");
+  DEFINE_string(path, "Orion/", "Orion path");
   DEFINE_string(configuration, "", "Configuration file");
 
   __fastcall CoreThsv::CoreThsv() {

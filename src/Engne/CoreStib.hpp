@@ -1,7 +1,7 @@
 #ifndef CORESTIB
 #define CORESTIB
 #include <glog/logging.h>
-#include <thrift/protocol/TBinaryProtocol.h>
+#include <protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
 
 namespace orion {

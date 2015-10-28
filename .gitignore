@@ -1,0 +1,7 @@
+.svn/
+.idea/
+debug/
+Release/
+tmp/
+lib/
+build/

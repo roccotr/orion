@@ -10,7 +10,7 @@ using namespace orion;
 	const AnsiString CoreOrn_::sCnodeid = "DEFAULTNODE";
 	const AnsiString CoreOrn_::sClocaladdress = "127.0.0.1";
 	const AnsiString CoreOrn_::sCdefault = "DEFAULT";
-	const int CoreOrn_::iCthriftport = 9000;
+	const int CoreOrn_::iCthriftport = 9001;
 	const int CoreOrn_::iCredologdim = 50000;
 	const short int CoreOrn_::iCthriftlisteners = 15;
 	const short int CoreOrn_::iCreplicationfactor = 2;

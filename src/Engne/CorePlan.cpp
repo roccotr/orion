@@ -1348,6 +1348,7 @@ using namespace google;
 			cVcolumnloc = getcl (cVcolumninput->svcolumn (), cVtableloc);
 			if (cVcolumnloc == NULL) continue;
 			cVaccessgrouploc = cVtableloc->cVaccessgrouppool.get__ (cVcolumnloc->iVaccessgroup);
+			if (cVcolumnloc->iVaccessobjectitem < 0) return false;
 			cVcolumnoutput = cVaccessgrouploc->cVaccessobject.mutable_cvcolumns (cVcolumnloc->iVaccessobjectitem);
 			cVcolumnoutput->CopyFrom (*cVcolumninput);
 			iVmask |= 1 << cVcolumnloc->iVaccessgroup;

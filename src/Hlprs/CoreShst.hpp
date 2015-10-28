@@ -1,7 +1,7 @@
 #ifndef CORESHST
 #define CORESHST
 #include <glog/logging.h>
-#include <thrift/protocol/TBinaryProtocol.h>
+#include <protocol/TBinaryProtocol.h>
 #include "CoreShme.hpp"
 #include "CoreVcl_.hpp"
 #include "CoreSmph.hpp"

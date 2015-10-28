@@ -1,7 +1,7 @@
 #ifndef COREPART
 #define COREPART
 #include <glog/logging.h>
-#include <thrift/protocol/TBinaryProtocol.h>
+#include <protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
 #include "CoreEnpo.hpp"
 #include "CoreTble.hpp"

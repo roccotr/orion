@@ -20,6 +20,7 @@ using namespace orion;
 	const int CoreTbsv::iCredotimestampsize = sizeof (int64vcl) + sizeof (int);
 	const AnsiString CoreTbsv::sCchar0 = CoreButl::chr2s (0);
 	const AnsiString CoreTbsv::sCchar1 = CoreButl::chr2s (1);
+	const AnsiString CoreTbsv::sCchar255 = CoreButl::chr2s (255);
 	const AnsiString CoreTbsv::sCcleanredotimestamp = CoreButl::lpadt (sCchar0, sCchar0, iCredotimestampsize);
 	const AnsiString CoreTbsv::sCfastkeyupsertdelimiters = 
 		(AnsiString) bCmaindelimiter + (AnsiString) bCqualifierdelimiter + (AnsiString) bCmajordelimiter + (char) bCupsert;
@@ -93,7 +94,7 @@ using namespace orion;
 			if (cStorage->ivmemtablechunk () > 0) iVmemtablechunk = cStorage->ivmemtablechunk ();
 			bVmemorytable = cStorage->bvmemorytable ();
 			bVvolatiletable = cStorage->bvvolatiletable ();
-			bVfastkey = cStorage->bvfastkey ();
+			bVfastkey = cStorage->bvfastkey (); 
 			cVactivememloc->cVmemtable->setmx (iVmemtabledim, iVmemtablesize, iVmemtablechunk);
 			iVpartitiontype = (CorePart::iCpartitiontype) cStorage->ivpartitiontype ();
 			cVdbopmutex.relse ();
@@ -282,11 +283,12 @@ using namespace orion;
 					sVreturnkey = NULL;
 					for (int iV = 0; iV < gettc (); iV++) {
 						if (!gette (iV, cVtable)) continue;
-						sViteratorkey = sVbuiltkey;					
+						sViteratorkey = sVbuiltkey;	
+
 						sVdiscardkey = "";
 						while (true) {
 							if (!cVtable->get__ (sViteratorkey, &cVcandidatevalue)) break;					
-							sVcompareiteratorkey = getmj (sViteratorkey);
+							sVcompareiteratorkey = !bVfastkey ? getmj (sViteratorkey) : getfm (sViteratorkey);
 							sVcomparableiteratorkey = sViteratorkey;
 							bViteratorupsert = sViteratorkey.c_str () [sViteratorkey.Length () - 1] == (char) bCupsert;
 							sViteratorkey += sCchar1;
@@ -330,7 +332,7 @@ using namespace orion;
 						sVdiscardkey = sViteratorkey = sVbuiltkey;					
 						while (true) {
 							if (!cVtable->get__ (sViteratorkey, &cVcandidatevalue)) break;
-							sVcompareiteratorkey = getmj (sViteratorkey);
+							sVcompareiteratorkey = !bVfastkey ? getmj (sViteratorkey) : getfm (sViteratorkey);
 							sVcomparableiteratorkey = sViteratorkey;
 							bViteratorupsert = sViteratorkey.c_str () [sViteratorkey.Length () - 1] == (char) bCupsert;
 							sViteratorkey += sCchar1;
@@ -341,6 +343,7 @@ using namespace orion;
 								bVreturniteratorupsert = bViteratorupsert ;
 								cValue->CopyFrom (cVcandidatevalue);
 								cKey->set_ivtimestamp (cValue->ivtimestamp ());
+								
 							}
 							break;
 						}
@@ -924,6 +927,12 @@ using namespace orion;
 	AnsiString __fastcall CoreTbsv::getmj ( AnsiString sKey) {
 
 		return sKey.SubString (0, sKey.Length () - 2 - sizeof (int64vcl));
+	}
+
+	/*GET Fast Major from key shipped with attributes*/
+	AnsiString __fastcall CoreTbsv::getfm ( AnsiString sKey) {
+
+		return sKey.SubString (0, sKey.Length () - 2);
 	}
 
 	/*GET MaiN from major string*/

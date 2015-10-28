@@ -1,7 +1,7 @@
 #ifndef COREBUTL
 #define COREBUTL
 #include <glog/logging.h>
-#include <thrift/protocol/TBinaryProtocol.h>
+#include <protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
 #include "CorePool.hpp"
 
@@ -38,7 +38,7 @@ public:
 	static AnsiString __fastcall ci64_ (int64vcl iInput, bool bLpad = true);
 	static AnsiString __fastcall dbl2s (double dLittleendian);
 	static AnsiString __fastcall bol2s (bool bInput);
-	static AnsiString __fastcall chr2s (char bInput, int iRepetitions = 1);
+	static AnsiString __fastcall chr2s (unsigned char bInput, int iRepetitions = 1);
 	static AnsiString __fastcall desca (AnsiString sAnsistring);
 	static int __fastcall revap (AnsiString sInput, char cSearchchar);
 	static AnsiString __fastcall sbstr (AnsiString sAnsistring, int iIndex);

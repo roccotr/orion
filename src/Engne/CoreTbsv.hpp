@@ -1,7 +1,7 @@
 #ifndef CORETBSV
 #define CORETBSV
 #include <glog/logging.h>
-#include <thrift/protocol/TBinaryProtocol.h>
+#include <protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
 #include "CorePool.hpp"
 #include "CoreSdmg.hpp"
@@ -26,6 +26,7 @@ public:
 	const static int iCredotimestampsize;
 	const static AnsiString sCchar0;
 	const static AnsiString sCchar1;
+	const static AnsiString sCchar255;
 	const static AnsiString sCcleanredotimestamp;
 	const static AnsiString sCfastkeyupsertdelimiters; 
 	const static AnsiString sCfastkeydeletedelimiters;
@@ -167,6 +168,7 @@ private:
 
 
 	AnsiString __fastcall getmj ( AnsiString sKey);
+	AnsiString __fastcall getfm ( AnsiString sKey);
 	AnsiString __fastcall getmn ( AnsiString sKey);
 	bool __fastcall dumps ();
 	bool __fastcall rests (CoreList<TABLELOC>* cSystemsstable);

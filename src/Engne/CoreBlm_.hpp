@@ -1,7 +1,7 @@
 #ifndef COREBLM_
 #define COREBLM_
 #include <glog/logging.h>
-#include <thrift/protocol/TBinaryProtocol.h>
+#include <protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
 #include "CorePool.hpp"
 

@@ -225,7 +225,7 @@ using namespace orion;
 	}
 
 	/*CHaR 2 String*/
-	AnsiString __fastcall CoreButl::chr2s (char bInput, int iRepetitions) {
+	AnsiString __fastcall CoreButl::chr2s (unsigned char bInput, int iRepetitions) {
 			AnsiString sVreturn;
 
 			sVreturn = "";

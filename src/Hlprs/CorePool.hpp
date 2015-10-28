@@ -1,7 +1,7 @@
 #ifndef COREPOOL
 #define COREPOOL
 #include <glog/logging.h>
-#include <thrift/protocol/TBinaryProtocol.h>
+#include <protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
 #include "CoreSmph.hpp"
 

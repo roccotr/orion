@@ -1,13 +1,13 @@
 #include "CoreThth.hpp" 
 #include "CoreThsv.hpp"
 #include "CoreFsys.hpp"
-#include <thrift/protocol/TBinaryProtocol.h>
-#include <thrift/server/TSimpleServer.h>
-#include <thrift/transport/TServerSocket.h>
-#include <thrift/transport/TBufferTransports.h>
-#include <thrift/transport/TSocket.h>
-#include <thrift/transport/TBufferTransports.h>
-#include <thrift/protocol/TBinaryProtocol.h>
+#include <protocol/TBinaryProtocol.h>
+#include <server/TSimpleServer.h>
+#include <transport/TServerSocket.h>
+#include <transport/TBufferTransports.h>
+#include <transport/TSocket.h>
+#include <transport/TBufferTransports.h> 
+#include <protocol/TBinaryProtocol.h>
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;

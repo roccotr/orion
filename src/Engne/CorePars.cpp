@@ -325,6 +325,7 @@ using namespace orion;
 			cVcondition->set_svcolumn (sVopleft.to_string ());				
 			cVcolumnvalue = cVcondition->mutable_cvvalue ();
 			if (!bVisoprightastring && sVopright.Pos (sCquerycondvardelimiter) > 0) {		
+				if (iVcurrentbinding >= cInputbindings->size ()) return false;
 				cVcolumnvalue->CopyFrom (cInputbindings->Get (iVcurrentbinding++));		
 			} else {
 				cVcolumnloc = cVtableloc->cVcolumnpool.bnget (sVopleft);

@@ -3,6 +3,7 @@
 #include "CoreOrn_.hpp"
 #include "CorePlan.hpp"
 #include "CoreAutl.hpp"
+#include <stdarg.h>
 
 using namespace std;
 
@@ -133,6 +134,33 @@ namespace orion {
 		}
 	};
 
+	struct OsqlOptions {
+		PrtoL2os osql_L2;
+
+		OsqlOptions () {
+			osql_L2.set_svnamespace (CoreOrn_::sCdefault.to_string ());
+			osql_L2.set_bvonlysecondary (false);
+		}
+	};
+
+	class SnapshotIterator {
+		private:
+			int seek;
+			PrtoL2mr* snapshot_L2;
+
+		public:
+			SnapshotIterator (PrtoL2mr* iSnapshot_L2) : snapshot_L2 (iSnapshot_L2) {};
+
+			void SeekToFirst ();
+			bool Valid ();
+			void Next ();
+			string* key ();
+			string* valueString (int column = 0);
+			int valueInt (int column = 0);
+			double valueDouble (int column = 0);
+			bool valueBool (int column = 0);
+	};
+
 	struct Status {
 		bool result;
 		PrtoL2mr snapshot_L2;
@@ -147,8 +175,31 @@ namespace orion {
 			return result;
 		}
 
+		SnapshotIterator* NewSnapshotIterator () {
+			return new SnapshotIterator (&snapshot_L2);
+		}
+
 	};
 
+	class Iterator {
+		const static string next;
+
+		private:
+			bool valid;
+			string current;
+			ReadOptions readOptions;
+			void* db;
+
+		public:
+			Iterator (ReadOptions& readOptions, void* db) : readOptions (readOptions), db (db), valid (false) {};
+
+			inline void SeekToFirst () {Seek ("");}
+			void Seek (string start);
+			inline bool Valid () {return valid;}
+			inline string* value () {return &current;}
+			void Next ();
+			string* key ();
+	};
 
 
 	class DB {
@@ -159,13 +210,21 @@ namespace orion {
 
 		public:
 
+			static const int VaEOF;
+
 			DB (Options& cOptions, string sPath);
 			~DB ();
 
 			Status Put (WriteOptions& writeOptions, string key, string value); 
 			Status Delete(WriteOptions& writeOptions, string key);
 			Status Get(ReadOptions& readOptions, string key, string* value);
+			Status Get(ReadOptions& readOptions, string* value);
 			Status Create (StorageOptions& storageOptions);
+			Status CreateTableConfig (StorageOptions& storageOptions, string table, ...);
+			Status Osql (OsqlOptions& osqlOptions, string osql);
+			Status Osql (OsqlOptions& osqlOptions);
+			Status OsqlBind (OsqlOptions& osqlOption, bool full_scan, ...);
+			Iterator* NewIterator (ReadOptions& readOptions);
 
 			static boost::shared_ptr<DB> Open (Options& options, string path);
 			static Status DestroyDB(const Options& options, string sPath);
@@ -173,6 +232,7 @@ namespace orion {
 
 			static void setVolatile (StorageOptions& storageOptions);
 	};
+
 
 	
 	typedef boost::shared_ptr<DB> Instance;
