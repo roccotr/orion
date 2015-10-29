@@ -1,5 +1,6 @@
 .svn/
 .idea/
+.DS_Store
 debug/
 Release/
 tmp/
