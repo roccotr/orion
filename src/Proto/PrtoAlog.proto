@@ -78,6 +78,7 @@ enum iCquerytype {
 	RANGEQUERY = 1;
 	TOKENQUERY = 2;
 	TKSLWQUERY = 4;
+	NRNGEQUERY = 5;
 }
 
 message PrtoLqry {
@@ -165,6 +166,11 @@ enum iCindextype {
 	LOCALINDEX = 1;
 }
 
+message PrtoL2ix {
+	required bytes sVindex = 1;
+	repeated PrtoL2or cVcolumn= 2;
+}
+
 message PrtoL2ct {
 	required PrtoLmtb cVmutable = 1;
 	repeated PrtoL2cl cVcolumns = 2;
@@ -174,6 +180,7 @@ message PrtoL2ct {
 	optional iCtabletype iVtabletype = 6 [default = VOLATILETABLE];
 	optional iCpartitiontype iVpartitiontype = 7 [default = NOPARTITION];
 	optional iCindextype iVindextype = 8 [default = DISTRINDEX];
+	repeated PrtoL2ix cVindexes = 9;
 }
 
 message PrtoL2ao {

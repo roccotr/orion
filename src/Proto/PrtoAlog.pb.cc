@@ -61,6 +61,9 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* PrtoL2ag_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   PrtoL2ag_reflection_ = NULL;
+const ::google::protobuf::Descriptor* PrtoL2ix_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  PrtoL2ix_reflection_ = NULL;
 const ::google::protobuf::Descriptor* PrtoL2ct_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   PrtoL2ct_reflection_ = NULL;
@@ -398,8 +401,24 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoL2ag));
-  PrtoL2ct_descriptor_ = file->message_type(13);
-  static const int PrtoL2ct_offsets_[8] = {
+  PrtoL2ix_descriptor_ = file->message_type(13);
+  static const int PrtoL2ix_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ix, svindex_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ix, cvcolumn_),
+  };
+  PrtoL2ix_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      PrtoL2ix_descriptor_,
+      PrtoL2ix::default_instance_,
+      PrtoL2ix_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ix, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ix, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(PrtoL2ix));
+  PrtoL2ct_descriptor_ = file->message_type(14);
+  static const int PrtoL2ct_offsets_[9] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ct, cvmutable_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ct, cvcolumns_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ct, cvaccessgroups_),
@@ -408,6 +427,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ct, ivtabletype_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ct, ivpartitiontype_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ct, ivindextype_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ct, cvindexes_),
   };
   PrtoL2ct_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -420,7 +440,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoL2ct));
-  PrtoL2ao_descriptor_ = file->message_type(14);
+  PrtoL2ao_descriptor_ = file->message_type(15);
   static const int PrtoL2ao_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ao, cvcolumns_),
   };
@@ -435,7 +455,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoL2ao));
-  PrtoL2vo_descriptor_ = file->message_type(15);
+  PrtoL2vo_descriptor_ = file->message_type(16);
   static const int PrtoL2vo_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2vo, cvaccessobject_),
   };
@@ -450,7 +470,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoL2vo));
-  PrtoL2ks_descriptor_ = file->message_type(16);
+  PrtoL2ks_descriptor_ = file->message_type(17);
   static const int PrtoL2ks_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ks, cvkey_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2ks, cvcolumns_),
@@ -466,7 +486,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoL2ks));
-  PrtoL2or_descriptor_ = file->message_type(17);
+  PrtoL2or_descriptor_ = file->message_type(18);
   static const int PrtoL2or_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2or, svcolumn_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2or, ivordertype_),
@@ -482,7 +502,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoL2or));
-  PrtoL2wh_descriptor_ = file->message_type(18);
+  PrtoL2wh_descriptor_ = file->message_type(19);
   static const int PrtoL2wh_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2wh, cvcondition_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2wh, cvorderby_),
@@ -498,7 +518,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoL2wh));
-  PrtoL2qr_descriptor_ = file->message_type(19);
+  PrtoL2qr_descriptor_ = file->message_type(20);
   static const int PrtoL2qr_offsets_[10] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2qr, cvselect_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2qr, cvmutable_),
@@ -522,7 +542,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoL2qr));
-  PrtoL2os_descriptor_ = file->message_type(20);
+  PrtoL2os_descriptor_ = file->message_type(21);
   static const int PrtoL2os_offsets_[7] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2os, svnamespace_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2os, svosqlstring_),
@@ -543,7 +563,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoL2os));
-  PrtoL2mr_descriptor_ = file->message_type(21);
+  PrtoL2mr_descriptor_ = file->message_type(22);
   static const int PrtoL2mr_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2mr, cvkeyslice_),
   };
@@ -558,7 +578,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoL2mr));
-  PrtoL2iv_descriptor_ = file->message_type(22);
+  PrtoL2iv_descriptor_ = file->message_type(23);
   static const int PrtoL2iv_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2iv, ivkeydelimiters_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoL2iv, svoriginalkey_),
@@ -574,7 +594,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoL2iv));
-  PrtoGoel_descriptor_ = file->message_type(23);
+  PrtoGoel_descriptor_ = file->message_type(24);
   static const int PrtoGoel_offsets_[11] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoGoel, svtoken_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoGoel, svnodeid_),
@@ -599,7 +619,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoGoel));
-  PrtoGoss_descriptor_ = file->message_type(24);
+  PrtoGoss_descriptor_ = file->message_type(25);
   static const int PrtoGoss_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoGoss, cvgossipelement_),
   };
@@ -614,7 +634,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoGoss));
-  PrtoGosr_descriptor_ = file->message_type(25);
+  PrtoGosr_descriptor_ = file->message_type(26);
   static const int PrtoGosr_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoGosr, cvgossipelement_),
   };
@@ -629,7 +649,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoGosr));
-  PrtoHiha_descriptor_ = file->message_type(26);
+  PrtoHiha_descriptor_ = file->message_type(27);
   static const int PrtoHiha_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoHiha, svnode_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoHiha, cvstatements_),
@@ -645,7 +665,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoHiha));
-  PrtoPtel_descriptor_ = file->message_type(27);
+  PrtoPtel_descriptor_ = file->message_type(28);
   static const int PrtoPtel_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoPtel, svnodeid_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoPtel, svbound_),
@@ -661,7 +681,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoPtel));
-  PrtoStel_descriptor_ = file->message_type(28);
+  PrtoStel_descriptor_ = file->message_type(29);
   static const int PrtoStel_offsets_[5] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoStel, ivcount_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoStel, ivmeandelay_),
@@ -680,7 +700,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoStel));
-  PrtoTlel_descriptor_ = file->message_type(29);
+  PrtoTlel_descriptor_ = file->message_type(30);
   static const int PrtoTlel_offsets_[13] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoTlel, ivtablettype_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoTlel, svname_),
@@ -707,7 +727,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoTlel));
-  PrtoTabl_descriptor_ = file->message_type(30);
+  PrtoTabl_descriptor_ = file->message_type(31);
   static const int PrtoTabl_offsets_[8] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoTabl, svxml_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoTabl, cvpartitionedelements_),
@@ -729,7 +749,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoTabl));
-  PrtoAenp_descriptor_ = file->message_type(31);
+  PrtoAenp_descriptor_ = file->message_type(32);
   static const int PrtoAenp_offsets_[5] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoAenp, svopaquedata_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoAenp, svnodeid_),
@@ -748,7 +768,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoAenp));
-  PrtoTope_descriptor_ = file->message_type(32);
+  PrtoTope_descriptor_ = file->message_type(33);
   static const int PrtoTope_offsets_[7] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoTope, svtablet_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoTope, ivreadtime_),
@@ -769,7 +789,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoTope));
-  PrtoTop__descriptor_ = file->message_type(33);
+  PrtoTop__descriptor_ = file->message_type(34);
   static const int PrtoTop__offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoTop_, ivtimestamp_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoTop_, cvtopelement_),
@@ -785,7 +805,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoTop_));
-  PrtoSrvc_descriptor_ = file->message_type(34);
+  PrtoSrvc_descriptor_ = file->message_type(35);
   static const int PrtoSrvc_offsets_[4] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoSrvc, ivservicetype_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoSrvc, cvquery_),
@@ -803,7 +823,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoSrvc));
-  PrtoSrvr_descriptor_ = file->message_type(35);
+  PrtoSrvr_descriptor_ = file->message_type(36);
   static const int PrtoSrvr_offsets_[2] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoSrvr, bvreturn_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoSrvr, cvdmlresult_),
@@ -819,7 +839,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoSrvr));
-  PrtoBsrc_descriptor_ = file->message_type(36);
+  PrtoBsrc_descriptor_ = file->message_type(37);
   static const int PrtoBsrc_offsets_[4] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoBsrc, ivbulkservicetype_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoBsrc, cvbulkproto_),
@@ -837,7 +857,7 @@ void protobuf_AssignDesc_PrtoAlog_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PrtoBsrc));
-  PrtoBsrr_descriptor_ = file->message_type(37);
+  PrtoBsrr_descriptor_ = file->message_type(38);
   static const int PrtoBsrr_offsets_[3] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoBsrr, cvbulkproto_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(PrtoBsrr, cvbulkstring_),
@@ -907,6 +927,8 @@ void protobuf_RegisterTypes(const ::std::string&) {
     PrtoL2st_descriptor_, &PrtoL2st::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     PrtoL2ag_descriptor_, &PrtoL2ag::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    PrtoL2ix_descriptor_, &PrtoL2ix::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     PrtoL2ct_descriptor_, &PrtoL2ct::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
@@ -988,6 +1010,8 @@ void protobuf_ShutdownFile_PrtoAlog_2eproto() {
   delete PrtoL2st_reflection_;
   delete PrtoL2ag::default_instance_;
   delete PrtoL2ag_reflection_;
+  delete PrtoL2ix::default_instance_;
+  delete PrtoL2ix_reflection_;
   delete PrtoL2ct::default_instance_;
   delete PrtoL2ct_reflection_;
   delete PrtoL2ao::default_instance_;
@@ -1097,131 +1121,135 @@ void protobuf_AddDesc_PrtoAlog_2eproto() {
     "tomting.orion.PrtoLkey\022.\n\tcVcolumns\030\004 \003("
     "\0132\033.com.tomting.orion.PrtoL2cl\022\026\n\013iVtime"
     "stamp\030\005 \001(\003:\0010\"-\n\010PrtoL2ag\022\016\n\006sVname\030\001 \002"
-    "(\014\022\021\n\tsVcolumns\030\002 \003(\014\"\250\003\n\010PrtoL2ct\022.\n\tcV"
-    "mutable\030\001 \002(\0132\033.com.tomting.orion.PrtoLm"
-    "tb\022.\n\tcVcolumns\030\002 \003(\0132\033.com.tomting.orio"
-    "n.PrtoL2cl\0223\n\016cVaccessgroups\030\003 \003(\0132\033.com"
-    ".tomting.orion.PrtoL2ag\022\030\n\riVmemtabledim"
-    "\030\004 \001(\005:\0010\022\036\n\023iVreplicationfactor\030\005 \001(\005:\001"
-    "1\022B\n\013iVtabletype\030\006 \001(\0162\036.com.tomting.ori"
-    "on.iCtabletype:\rVOLATILETABLE\022H\n\017iVparti"
-    "tiontype\030\007 \001(\0162\".com.tomting.orion.iCpar"
-    "titiontype:\013NOPARTITION\022\?\n\013iVindextype\030\010"
-    " \001(\0162\036.com.tomting.orion.iCindextype:\nDI"
-    "STRINDEX\":\n\010PrtoL2ao\022.\n\tcVcolumns\030\001 \003(\0132"
-    "\033.com.tomting.orion.PrtoL2cl\"\?\n\010PrtoL2vo"
-    "\0223\n\016cVaccessobject\030\001 \003(\0132\033.com.tomting.o"
-    "rion.PrtoL2ao\"f\n\010PrtoL2ks\022*\n\005cVkey\030\001 \002(\013"
-    "2\033.com.tomting.orion.PrtoLkey\022.\n\tcVcolum"
-    "ns\030\002 \003(\0132\033.com.tomting.orion.PrtoL2cl\"Q\n"
-    "\010PrtoL2or\022\020\n\010sVcolumn\030\001 \002(\014\0223\n\013iVorderty"
-    "pe\030\002 \002(\0162\036.com.tomting.orion.iCordertype"
-    "\"l\n\010PrtoL2wh\0220\n\013cVcondition\030\001 \003(\0132\033.com."
-    "tomting.orion.PrtoL2cl\022.\n\tcVorderby\030\002 \003("
-    "\0132\033.com.tomting.orion.PrtoL2or\"\242\003\n\010PrtoL"
-    "2qr\022-\n\010cVselect\030\001 \003(\0132\033.com.tomting.orio"
-    "n.PrtoL2cl\022.\n\tcVmutable\030\002 \002(\0132\033.com.tomt"
-    "ing.orion.PrtoLmtb\022/\n\007iVquery\030\003 \001(\0162\036.co"
-    "m.tomting.orion.iCquerytype\0220\n\013cVkey_sta"
-    "rt\030\004 \001(\0132\033.com.tomting.orion.PrtoLkey\022.\n"
-    "\tcVkey_end\030\005 \001(\0132\033.com.tomting.orion.Prt"
-    "oLkey\022,\n\007cVwhere\030\006 \001(\0132\033.com.tomting.ori"
-    "on.PrtoL2wh\022\024\n\007iVcount\030\007 \001(\005:\003100\022\036\n\017bVo"
-    "nlysecondary\030\010 \001(\010:\005false\022 \n\021bVdisablete"
-    "leport\030\t \001(\010:\005false\022\036\n\017bVfulltablescan\030\n"
-    " \001(\010:\005false\"\345\001\n\010PrtoL2os\022\023\n\013sVnamespace\030"
-    "\001 \002(\014\022\024\n\014sVosqlstring\030\002 \002(\014\0224\n\017cVinputbi"
-    "ndings\030\003 \003(\0132\033.com.tomting.orion.PrtoL2c"
-    "v\022\036\n\017bVonlysecondary\030\004 \001(\010:\005false\022 \n\021bVd"
-    "isableteleport\030\005 \001(\010:\005false\022\026\n\013iVtimesta"
-    "mp\030\006 \001(\003:\0010\022\036\n\017bVfulltablescan\030\007 \001(\010:\005fa"
-    "lse\";\n\010PrtoL2mr\022/\n\ncVkeyslice\030\001 \003(\0132\033.co"
-    "m.tomting.orion.PrtoL2ks\":\n\010PrtoL2iv\022\027\n\017"
-    "iVkeydelimiters\030\001 \003(\005\022\025\n\rsVoriginalkey\030\002"
-    " \002(\014\"\376\001\n\010PrtoGoel\022\017\n\007sVtoken\030\001 \002(\014\022\020\n\010sV"
-    "nodeid\030\002 \002(\014\022\026\n\016sVdatacenterid\030\003 \002(\014\022\024\n\014"
-    "dVphiaccrual\030\004 \001(\001\022\021\n\tsVaddress\030\005 \001(\014\022\016\n"
-    "\006iVport\030\006 \001(\005\022\020\n\010sVreader\030\007 \001(\014\022\020\n\010sVwri"
-    "ter\030\010 \001(\014\0225\n\007iVstate\030\t \001(\0162$.com.tomting"
-    ".orion.iCstategossipnode\022\023\n\013iVtimestamp\030"
-    "\n \001(\003\022\016\n\006iVsize\030\013 \001(\003\"@\n\010PrtoGoss\0224\n\017cVg"
-    "ossipelement\030\001 \003(\0132\033.com.tomting.orion.P"
-    "rtoGoel\"@\n\010PrtoGosr\0224\n\017cVgossipelement\030\001"
-    " \002(\0132\033.com.tomting.orion.PrtoGoel\"M\n\010Prt"
-    "oHiha\022\016\n\006sVnode\030\001 \002(\014\0221\n\014cVstatements\030\002 "
-    "\002(\0132\033.com.tomting.orion.PrtoLsts\"-\n\010Prto"
-    "Ptel\022\020\n\010sVnodeid\030\001 \002(\014\022\017\n\007sVbound\030\002 \002(\014\""
-    "i\n\010PrtoStel\022\017\n\007iVcount\030\001 \002(\003\022\023\n\013iVmeande"
-    "lay\030\002 \002(\005\022\024\n\014iVworstdelay\030\003 \002(\005\022\016\n\006iVsiz"
-    "e\030\004 \002(\003\022\021\n\tiVelapsed\030\005 \001(\003\"\276\002\n\010PrtoTlel\022"
-    "5\n\014iVtablettype\030\001 \002(\0162\037.com.tomting.orio"
-    "n.iCtablettype\022\016\n\006sVname\030\002 \002(\014\022\017\n\007bVvali"
-    "d\030\003 \002(\010\022\030\n\020bVneedcompaction\030\004 \002(\010\022\034\n\024bVv"
-    "alidasmemorytable\030\005 \002(\010\022\031\n\021iVcompactionl"
-    "evel\030\006 \002(\005\022\025\n\rsVmemorytable\030\007 \002(\014\022\r\n\005iVr"
-    "es\030\010 \002(\003\022\020\n\010iVmapped\030\t \002(\003\022\016\n\006iVsize\030\n \002"
-    "(\003\022\017\n\007iVcount\030\013 \002(\003\022\027\n\017sVredotimestamp\030\014"
-    " \002(\014\022\025\n\riVsstabletype\030\r \002(\005\"\343\002\n\010PrtoTabl"
-    "\022\r\n\005sVxml\030\001 \002(\014\022:\n\025cVpartitionedelements"
-    "\030\002 \003(\0132\033.com.tomting.orion.PrtoPtel\022\?\n\032c"
-    "Vpartitionedindexelements\030\003 \003(\0132\033.com.to"
-    "mting.orion.PrtoPtel\0224\n\017cVtabletelement\030"
-    "\004 \003(\0132\033.com.tomting.orion.PrtoTlel\0229\n\024cV"
-    "indextabletelement\030\005 \003(\0132\033.com.tomting.o"
-    "rion.PrtoTlel\022\035\n\025sVjoincustompartition\030\006"
-    " \001(\014\022\"\n\032sVjoincustompartitionindex\030\007 \001(\014"
-    "\022\027\n\017sVpartitiontype\030\010 \001(\014\"\213\001\n\010PrtoAenp\022\024"
-    "\n\014sVopaquedata\030\001 \002(\014\022\020\n\010sVnodeid\030\002 \001(\014\022."
-    "\n\tcVmutable\030\003 \001(\0132\033.com.tomting.orion.Pr"
-    "toLmtb\022\022\n\nsVkeystart\030\004 \001(\014\022\023\n\013iVlimitsiz"
-    "e\030\005 \001(\005\"\243\001\n\010PrtoTope\022\020\n\010sVtablet\030\001 \002(\014\022\022"
-    "\n\niVreadtime\030\002 \001(\003\022\023\n\013iVwritetime\030\003 \001(\003\022"
-    "\025\n\riVreadcountl2\030\004 \001(\003\022\026\n\016iVwritecountl2"
-    "\030\005 \001(\003\022\025\n\riVreadcountl1\030\006 \001(\003\022\026\n\016iVwrite"
-    "countl1\030\007 \001(\003\"R\n\010PrtoTop_\022\023\n\013iVtimestamp"
-    "\030\001 \001(\003\0221\n\014cVtopelement\030\002 \003(\0132\033.com.tomti"
-    "ng.orion.PrtoTope\"\320\001\n\010PrtoSrvc\0227\n\riVserv"
-    "icetype\030\001 \002(\0162 .com.tomting.orion.iCserv"
-    "icetype\022,\n\007cVquery\030\002 \001(\0132\033.com.tomting.o"
-    "rion.PrtoL2qr\0220\n\013cVstatement\030\003 \001(\0132\033.com"
-    ".tomting.orion.PrtoL2st\022+\n\006cVosql\030\004 \001(\0132"
-    "\033.com.tomting.orion.PrtoL2os\"N\n\010PrtoSrvr"
-    "\022\020\n\010bVreturn\030\001 \001(\010\0220\n\013cVdmlresult\030\002 \001(\0132"
-    "\033.com.tomting.orion.PrtoL2mr\"\307\001\n\010PrtoBsr"
-    "c\022\?\n\021iVbulkservicetype\030\001 \002(\0162$.com.tomti"
-    "ng.orion.iCbulkservicetype\0220\n\013cVbulkprot"
-    "o\030\002 \003(\0132\033.com.tomting.orion.PrtoSrvc\022\024\n\014"
-    "cVbulkstring\030\003 \003(\014\0222\n\rcVsingleproto\030\004 \001("
-    "\0132\033.com.tomting.orion.PrtoSrvc\"\206\001\n\010PrtoB"
-    "srr\0220\n\013cVbulkproto\030\001 \003(\0132\033.com.tomting.o"
-    "rion.PrtoSrvr\022\024\n\014cVbulkstring\030\002 \003(\014\0222\n\rc"
-    "Vsingleproto\030\003 \001(\0132\033.com.tomting.orion.P"
-    "rtoSrvr*\201\001\n\017iCpartitiontype\022\017\n\013NOPARTITI"
-    "ON\020\000\022\023\n\017RANDOMPARTITION\020\001\022\026\n\022BYTEORDERPA"
-    "RTITION\020\002\022\023\n\017CUSTOMPARTITION\020\003\022\033\n\027BALANC"
-    "EDCUSTOMPARTITION\020\004*%\n\013iCstatetype\022\n\n\006UP"
-    "SERT\020\000\022\n\n\006DELTMB\020\001*5\n\014iCopcodetype\022\013\n\007MU"
-    "TATOR\020\000\022\013\n\007STORAGE\020\001\022\013\n\007REPAIR_\020\002*M\n\013iCq"
-    "uerytype\022\016\n\nEXACTQUERY\020\000\022\016\n\nRANGEQUERY\020\001"
-    "\022\016\n\nTOKENQUERY\020\002\022\016\n\nTKSLWQUERY\020\004*K\n\014iCta"
-    "blettype\022\023\n\017MEMORYTABLETYPE\020\000\022\017\n\013SSTABLE"
-    "TYPE\020\001\022\025\n\021VOLATILETABLETYPE\020\002*\216\001\n\014iCcolu"
-    "mntype\022\016\n\nKEYTYPE___\020\000\022\016\n\nSTRINGTYPE\020\001\022\016"
-    "\n\nLSTRNGTYPE\020\002\022\016\n\nINTEGRTYPE\020\003\022\016\n\nLINTGR"
-    "TYPE\020\004\022\016\n\nDOUBLETYPE\020\005\022\016\n\nLDOUBLTYPE\020\006\022\016"
-    "\n\nBOOLN_TYPE\020\007*J\n\017iCconditiontype\022\t\n\005ECO"
-    "ND\020\000\022\t\n\005GCOND\020\001\022\t\n\005LCOND\020\002\022\n\n\006GECOND\020\003\022\n"
-    "\n\006LECOND\020\004*F\n\013iCtabletype\022\021\n\rSTANDARDTAB"
-    "LE\020\000\022\021\n\rMEMORYTABLE__\020\001\022\021\n\rVOLATILETABLE"
-    "\020\002*-\n\013iCindextype\022\016\n\nDISTRINDEX\020\000\022\016\n\nLOC"
-    "ALINDEX\020\001* \n\013iCordertype\022\007\n\003ASC\020\000\022\010\n\004DES"
-    "C\020\001*G\n\021iCstategossipnode\022\013\n\007RUNNING\020\000\022\013\n"
-    "\007JOINING\020\001\022\013\n\007LEAVING\020\002\022\013\n\007STOPPED\020\003*\"\n\013"
-    "iCstatstype\022\010\n\004READ\020\000\022\t\n\005WRITE\020\001*3\n\riCse"
-    "rvicetype\022\r\n\tSTATEMENT\020\000\022\t\n\005QUERY\020\001\022\010\n\004O"
-    "SQL\020\002*M\n\021iCbulkservicetype\022\r\n\tBULKPROTO\020"
-    "\000\022\016\n\nBULKSTRING\020\001\022\017\n\013SINGLEPROTO\020\002\022\010\n\004PI"
-    "NG\020\003*\037\n\riCdbleveltype\022\006\n\002L1\020\001\022\006\n\002L2\020\002", 6997);
+    "(\014\022\021\n\tsVcolumns\030\002 \003(\014\"J\n\010PrtoL2ix\022\017\n\007sVi"
+    "ndex\030\001 \002(\014\022-\n\010cVcolumn\030\002 \003(\0132\033.com.tomti"
+    "ng.orion.PrtoL2or\"\330\003\n\010PrtoL2ct\022.\n\tcVmuta"
+    "ble\030\001 \002(\0132\033.com.tomting.orion.PrtoLmtb\022."
+    "\n\tcVcolumns\030\002 \003(\0132\033.com.tomting.orion.Pr"
+    "toL2cl\0223\n\016cVaccessgroups\030\003 \003(\0132\033.com.tom"
+    "ting.orion.PrtoL2ag\022\030\n\riVmemtabledim\030\004 \001"
+    "(\005:\0010\022\036\n\023iVreplicationfactor\030\005 \001(\005:\0011\022B\n"
+    "\013iVtabletype\030\006 \001(\0162\036.com.tomting.orion.i"
+    "Ctabletype:\rVOLATILETABLE\022H\n\017iVpartition"
+    "type\030\007 \001(\0162\".com.tomting.orion.iCpartiti"
+    "ontype:\013NOPARTITION\022\?\n\013iVindextype\030\010 \001(\016"
+    "2\036.com.tomting.orion.iCindextype:\nDISTRI"
+    "NDEX\022.\n\tcVindexes\030\t \003(\0132\033.com.tomting.or"
+    "ion.PrtoL2ix\":\n\010PrtoL2ao\022.\n\tcVcolumns\030\001 "
+    "\003(\0132\033.com.tomting.orion.PrtoL2cl\"\?\n\010Prto"
+    "L2vo\0223\n\016cVaccessobject\030\001 \003(\0132\033.com.tomti"
+    "ng.orion.PrtoL2ao\"f\n\010PrtoL2ks\022*\n\005cVkey\030\001"
+    " \002(\0132\033.com.tomting.orion.PrtoLkey\022.\n\tcVc"
+    "olumns\030\002 \003(\0132\033.com.tomting.orion.PrtoL2c"
+    "l\"Q\n\010PrtoL2or\022\020\n\010sVcolumn\030\001 \002(\014\0223\n\013iVord"
+    "ertype\030\002 \002(\0162\036.com.tomting.orion.iCorder"
+    "type\"l\n\010PrtoL2wh\0220\n\013cVcondition\030\001 \003(\0132\033."
+    "com.tomting.orion.PrtoL2cl\022.\n\tcVorderby\030"
+    "\002 \003(\0132\033.com.tomting.orion.PrtoL2or\"\242\003\n\010P"
+    "rtoL2qr\022-\n\010cVselect\030\001 \003(\0132\033.com.tomting."
+    "orion.PrtoL2cl\022.\n\tcVmutable\030\002 \002(\0132\033.com."
+    "tomting.orion.PrtoLmtb\022/\n\007iVquery\030\003 \001(\0162"
+    "\036.com.tomting.orion.iCquerytype\0220\n\013cVkey"
+    "_start\030\004 \001(\0132\033.com.tomting.orion.PrtoLke"
+    "y\022.\n\tcVkey_end\030\005 \001(\0132\033.com.tomting.orion"
+    ".PrtoLkey\022,\n\007cVwhere\030\006 \001(\0132\033.com.tomting"
+    ".orion.PrtoL2wh\022\024\n\007iVcount\030\007 \001(\005:\003100\022\036\n"
+    "\017bVonlysecondary\030\010 \001(\010:\005false\022 \n\021bVdisab"
+    "leteleport\030\t \001(\010:\005false\022\036\n\017bVfulltablesc"
+    "an\030\n \001(\010:\005false\"\345\001\n\010PrtoL2os\022\023\n\013sVnamesp"
+    "ace\030\001 \002(\014\022\024\n\014sVosqlstring\030\002 \002(\014\0224\n\017cVinp"
+    "utbindings\030\003 \003(\0132\033.com.tomting.orion.Prt"
+    "oL2cv\022\036\n\017bVonlysecondary\030\004 \001(\010:\005false\022 \n"
+    "\021bVdisableteleport\030\005 \001(\010:\005false\022\026\n\013iVtim"
+    "estamp\030\006 \001(\003:\0010\022\036\n\017bVfulltablescan\030\007 \001(\010"
+    ":\005false\";\n\010PrtoL2mr\022/\n\ncVkeyslice\030\001 \003(\0132"
+    "\033.com.tomting.orion.PrtoL2ks\":\n\010PrtoL2iv"
+    "\022\027\n\017iVkeydelimiters\030\001 \003(\005\022\025\n\rsVoriginalk"
+    "ey\030\002 \002(\014\"\376\001\n\010PrtoGoel\022\017\n\007sVtoken\030\001 \002(\014\022\020"
+    "\n\010sVnodeid\030\002 \002(\014\022\026\n\016sVdatacenterid\030\003 \002(\014"
+    "\022\024\n\014dVphiaccrual\030\004 \001(\001\022\021\n\tsVaddress\030\005 \001("
+    "\014\022\016\n\006iVport\030\006 \001(\005\022\020\n\010sVreader\030\007 \001(\014\022\020\n\010s"
+    "Vwriter\030\010 \001(\014\0225\n\007iVstate\030\t \001(\0162$.com.tom"
+    "ting.orion.iCstategossipnode\022\023\n\013iVtimest"
+    "amp\030\n \001(\003\022\016\n\006iVsize\030\013 \001(\003\"@\n\010PrtoGoss\0224\n"
+    "\017cVgossipelement\030\001 \003(\0132\033.com.tomting.ori"
+    "on.PrtoGoel\"@\n\010PrtoGosr\0224\n\017cVgossipeleme"
+    "nt\030\001 \002(\0132\033.com.tomting.orion.PrtoGoel\"M\n"
+    "\010PrtoHiha\022\016\n\006sVnode\030\001 \002(\014\0221\n\014cVstatement"
+    "s\030\002 \002(\0132\033.com.tomting.orion.PrtoLsts\"-\n\010"
+    "PrtoPtel\022\020\n\010sVnodeid\030\001 \002(\014\022\017\n\007sVbound\030\002 "
+    "\002(\014\"i\n\010PrtoStel\022\017\n\007iVcount\030\001 \002(\003\022\023\n\013iVme"
+    "andelay\030\002 \002(\005\022\024\n\014iVworstdelay\030\003 \002(\005\022\016\n\006i"
+    "Vsize\030\004 \002(\003\022\021\n\tiVelapsed\030\005 \001(\003\"\276\002\n\010PrtoT"
+    "lel\0225\n\014iVtablettype\030\001 \002(\0162\037.com.tomting."
+    "orion.iCtablettype\022\016\n\006sVname\030\002 \002(\014\022\017\n\007bV"
+    "valid\030\003 \002(\010\022\030\n\020bVneedcompaction\030\004 \002(\010\022\034\n"
+    "\024bVvalidasmemorytable\030\005 \002(\010\022\031\n\021iVcompact"
+    "ionlevel\030\006 \002(\005\022\025\n\rsVmemorytable\030\007 \002(\014\022\r\n"
+    "\005iVres\030\010 \002(\003\022\020\n\010iVmapped\030\t \002(\003\022\016\n\006iVsize"
+    "\030\n \002(\003\022\017\n\007iVcount\030\013 \002(\003\022\027\n\017sVredotimesta"
+    "mp\030\014 \002(\014\022\025\n\riVsstabletype\030\r \002(\005\"\343\002\n\010Prto"
+    "Tabl\022\r\n\005sVxml\030\001 \002(\014\022:\n\025cVpartitionedelem"
+    "ents\030\002 \003(\0132\033.com.tomting.orion.PrtoPtel\022"
+    "\?\n\032cVpartitionedindexelements\030\003 \003(\0132\033.co"
+    "m.tomting.orion.PrtoPtel\0224\n\017cVtabletelem"
+    "ent\030\004 \003(\0132\033.com.tomting.orion.PrtoTlel\0229"
+    "\n\024cVindextabletelement\030\005 \003(\0132\033.com.tomti"
+    "ng.orion.PrtoTlel\022\035\n\025sVjoincustompartiti"
+    "on\030\006 \001(\014\022\"\n\032sVjoincustompartitionindex\030\007"
+    " \001(\014\022\027\n\017sVpartitiontype\030\010 \001(\014\"\213\001\n\010PrtoAe"
+    "np\022\024\n\014sVopaquedata\030\001 \002(\014\022\020\n\010sVnodeid\030\002 \001"
+    "(\014\022.\n\tcVmutable\030\003 \001(\0132\033.com.tomting.orio"
+    "n.PrtoLmtb\022\022\n\nsVkeystart\030\004 \001(\014\022\023\n\013iVlimi"
+    "tsize\030\005 \001(\005\"\243\001\n\010PrtoTope\022\020\n\010sVtablet\030\001 \002"
+    "(\014\022\022\n\niVreadtime\030\002 \001(\003\022\023\n\013iVwritetime\030\003 "
+    "\001(\003\022\025\n\riVreadcountl2\030\004 \001(\003\022\026\n\016iVwritecou"
+    "ntl2\030\005 \001(\003\022\025\n\riVreadcountl1\030\006 \001(\003\022\026\n\016iVw"
+    "ritecountl1\030\007 \001(\003\"R\n\010PrtoTop_\022\023\n\013iVtimes"
+    "tamp\030\001 \001(\003\0221\n\014cVtopelement\030\002 \003(\0132\033.com.t"
+    "omting.orion.PrtoTope\"\320\001\n\010PrtoSrvc\0227\n\riV"
+    "servicetype\030\001 \002(\0162 .com.tomting.orion.iC"
+    "servicetype\022,\n\007cVquery\030\002 \001(\0132\033.com.tomti"
+    "ng.orion.PrtoL2qr\0220\n\013cVstatement\030\003 \001(\0132\033"
+    ".com.tomting.orion.PrtoL2st\022+\n\006cVosql\030\004 "
+    "\001(\0132\033.com.tomting.orion.PrtoL2os\"N\n\010Prto"
+    "Srvr\022\020\n\010bVreturn\030\001 \001(\010\0220\n\013cVdmlresult\030\002 "
+    "\001(\0132\033.com.tomting.orion.PrtoL2mr\"\307\001\n\010Prt"
+    "oBsrc\022\?\n\021iVbulkservicetype\030\001 \002(\0162$.com.t"
+    "omting.orion.iCbulkservicetype\0220\n\013cVbulk"
+    "proto\030\002 \003(\0132\033.com.tomting.orion.PrtoSrvc"
+    "\022\024\n\014cVbulkstring\030\003 \003(\014\0222\n\rcVsingleproto\030"
+    "\004 \001(\0132\033.com.tomting.orion.PrtoSrvc\"\206\001\n\010P"
+    "rtoBsrr\0220\n\013cVbulkproto\030\001 \003(\0132\033.com.tomti"
+    "ng.orion.PrtoSrvr\022\024\n\014cVbulkstring\030\002 \003(\014\022"
+    "2\n\rcVsingleproto\030\003 \001(\0132\033.com.tomting.ori"
+    "on.PrtoSrvr*\201\001\n\017iCpartitiontype\022\017\n\013NOPAR"
+    "TITION\020\000\022\023\n\017RANDOMPARTITION\020\001\022\026\n\022BYTEORD"
+    "ERPARTITION\020\002\022\023\n\017CUSTOMPARTITION\020\003\022\033\n\027BA"
+    "LANCEDCUSTOMPARTITION\020\004*%\n\013iCstatetype\022\n"
+    "\n\006UPSERT\020\000\022\n\n\006DELTMB\020\001*5\n\014iCopcodetype\022\013"
+    "\n\007MUTATOR\020\000\022\013\n\007STORAGE\020\001\022\013\n\007REPAIR_\020\002*]\n"
+    "\013iCquerytype\022\016\n\nEXACTQUERY\020\000\022\016\n\nRANGEQUE"
+    "RY\020\001\022\016\n\nTOKENQUERY\020\002\022\016\n\nTKSLWQUERY\020\004\022\016\n\n"
+    "NRNGEQUERY\020\005*K\n\014iCtablettype\022\023\n\017MEMORYTA"
+    "BLETYPE\020\000\022\017\n\013SSTABLETYPE\020\001\022\025\n\021VOLATILETA"
+    "BLETYPE\020\002*\216\001\n\014iCcolumntype\022\016\n\nKEYTYPE___"
+    "\020\000\022\016\n\nSTRINGTYPE\020\001\022\016\n\nLSTRNGTYPE\020\002\022\016\n\nIN"
+    "TEGRTYPE\020\003\022\016\n\nLINTGRTYPE\020\004\022\016\n\nDOUBLETYPE"
+    "\020\005\022\016\n\nLDOUBLTYPE\020\006\022\016\n\nBOOLN_TYPE\020\007*J\n\017iC"
+    "conditiontype\022\t\n\005ECOND\020\000\022\t\n\005GCOND\020\001\022\t\n\005L"
+    "COND\020\002\022\n\n\006GECOND\020\003\022\n\n\006LECOND\020\004*F\n\013iCtabl"
+    "etype\022\021\n\rSTANDARDTABLE\020\000\022\021\n\rMEMORYTABLE_"
+    "_\020\001\022\021\n\rVOLATILETABLE\020\002*-\n\013iCindextype\022\016\n"
+    "\nDISTRINDEX\020\000\022\016\n\nLOCALINDEX\020\001* \n\013iCorder"
+    "type\022\007\n\003ASC\020\000\022\010\n\004DESC\020\001*G\n\021iCstategossip"
+    "node\022\013\n\007RUNNING\020\000\022\013\n\007JOINING\020\001\022\013\n\007LEAVIN"
+    "G\020\002\022\013\n\007STOPPED\020\003*\"\n\013iCstatstype\022\010\n\004READ\020"
+    "\000\022\t\n\005WRITE\020\001*3\n\riCservicetype\022\r\n\tSTATEME"
+    "NT\020\000\022\t\n\005QUERY\020\001\022\010\n\004OSQL\020\002*M\n\021iCbulkservi"
+    "cetype\022\r\n\tBULKPROTO\020\000\022\016\n\nBULKSTRING\020\001\022\017\n"
+    "\013SINGLEPROTO\020\002\022\010\n\004PING\020\003*\037\n\riCdbleveltyp"
+    "e\022\006\n\002L1\020\001\022\006\n\002L2\020\002", 7137);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "PrtoAlog.proto", &protobuf_RegisterTypes);
   PrtoSsls::default_instance_ = new PrtoSsls();
@@ -1237,6 +1265,7 @@ void protobuf_AddDesc_PrtoAlog_2eproto() {
   PrtoL2cl::default_instance_ = new PrtoL2cl();
   PrtoL2st::default_instance_ = new PrtoL2st();
   PrtoL2ag::default_instance_ = new PrtoL2ag();
+  PrtoL2ix::default_instance_ = new PrtoL2ix();
   PrtoL2ct::default_instance_ = new PrtoL2ct();
   PrtoL2ao::default_instance_ = new PrtoL2ao();
   PrtoL2vo::default_instance_ = new PrtoL2vo();
@@ -1275,6 +1304,7 @@ void protobuf_AddDesc_PrtoAlog_2eproto() {
   PrtoL2cl::default_instance_->InitAsDefaultInstance();
   PrtoL2st::default_instance_->InitAsDefaultInstance();
   PrtoL2ag::default_instance_->InitAsDefaultInstance();
+  PrtoL2ix::default_instance_->InitAsDefaultInstance();
   PrtoL2ct::default_instance_->InitAsDefaultInstance();
   PrtoL2ao::default_instance_->InitAsDefaultInstance();
   PrtoL2vo::default_instance_->InitAsDefaultInstance();
@@ -1365,6 +1395,7 @@ bool iCquerytype_IsValid(int value) {
     case 1:
     case 2:
     case 4:
+    case 5:
       return true;
     default:
       return false;
@@ -6376,6 +6407,278 @@ void PrtoL2ag::Swap(PrtoL2ag* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
+const int PrtoL2ix::kSVindexFieldNumber;
+const int PrtoL2ix::kCVcolumnFieldNumber;
+#endif  // !_MSC_VER
+
+PrtoL2ix::PrtoL2ix()
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:com.tomting.orion.PrtoL2ix)
+}
+
+void PrtoL2ix::InitAsDefaultInstance() {
+}
+
+PrtoL2ix::PrtoL2ix(const PrtoL2ix& from)
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:com.tomting.orion.PrtoL2ix)
+}
+
+void PrtoL2ix::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  svindex_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+PrtoL2ix::~PrtoL2ix() {
+  // @@protoc_insertion_point(destructor:com.tomting.orion.PrtoL2ix)
+  SharedDtor();
+}
+
+void PrtoL2ix::SharedDtor() {
+  if (svindex_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete svindex_;
+  }
+  if (this != default_instance_) {
+  }
+}
+
+void PrtoL2ix::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* PrtoL2ix::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return PrtoL2ix_descriptor_;
+}
+
+const PrtoL2ix& PrtoL2ix::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_PrtoAlog_2eproto();
+  return *default_instance_;
+}
+
+PrtoL2ix* PrtoL2ix::default_instance_ = NULL;
+
+PrtoL2ix* PrtoL2ix::New() const {
+  return new PrtoL2ix;
+}
+
+void PrtoL2ix::Clear() {
+  if (has_svindex()) {
+    if (svindex_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+      svindex_->clear();
+    }
+  }
+  cvcolumn_.Clear();
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool PrtoL2ix::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:com.tomting.orion.PrtoL2ix)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required bytes sVindex = 1;
+      case 1: {
+        if (tag == 10) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_svindex()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(18)) goto parse_cVcolumn;
+        break;
+      }
+
+      // repeated .com.tomting.orion.PrtoL2or cVcolumn = 2;
+      case 2: {
+        if (tag == 18) {
+         parse_cVcolumn:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_cvcolumn()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(18)) goto parse_cVcolumn;
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:com.tomting.orion.PrtoL2ix)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:com.tomting.orion.PrtoL2ix)
+  return false;
+#undef DO_
+}
+
+void PrtoL2ix::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:com.tomting.orion.PrtoL2ix)
+  // required bytes sVindex = 1;
+  if (has_svindex()) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      1, this->svindex(), output);
+  }
+
+  // repeated .com.tomting.orion.PrtoL2or cVcolumn = 2;
+  for (int i = 0; i < this->cvcolumn_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      2, this->cvcolumn(i), output);
+  }
+
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:com.tomting.orion.PrtoL2ix)
+}
+
+::google::protobuf::uint8* PrtoL2ix::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:com.tomting.orion.PrtoL2ix)
+  // required bytes sVindex = 1;
+  if (has_svindex()) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        1, this->svindex(), target);
+  }
+
+  // repeated .com.tomting.orion.PrtoL2or cVcolumn = 2;
+  for (int i = 0; i < this->cvcolumn_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        2, this->cvcolumn(i), target);
+  }
+
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:com.tomting.orion.PrtoL2ix)
+  return target;
+}
+
+int PrtoL2ix::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required bytes sVindex = 1;
+    if (has_svindex()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
+          this->svindex());
+    }
+
+  }
+  // repeated .com.tomting.orion.PrtoL2or cVcolumn = 2;
+  total_size += 1 * this->cvcolumn_size();
+  for (int i = 0; i < this->cvcolumn_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->cvcolumn(i));
+  }
+
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void PrtoL2ix::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const PrtoL2ix* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const PrtoL2ix*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void PrtoL2ix::MergeFrom(const PrtoL2ix& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  cvcolumn_.MergeFrom(from.cvcolumn_);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_svindex()) {
+      set_svindex(from.svindex());
+    }
+  }
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void PrtoL2ix::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void PrtoL2ix::CopyFrom(const PrtoL2ix& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PrtoL2ix::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+
+  if (!::google::protobuf::internal::AllAreInitialized(this->cvcolumn())) return false;
+  return true;
+}
+
+void PrtoL2ix::Swap(PrtoL2ix* other) {
+  if (other != this) {
+    std::swap(svindex_, other->svindex_);
+    cvcolumn_.Swap(&other->cvcolumn_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata PrtoL2ix::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = PrtoL2ix_descriptor_;
+  metadata.reflection = PrtoL2ix_reflection_;
+  return metadata;
+}
+
+
+// ===================================================================
+
+#ifndef _MSC_VER
 const int PrtoL2ct::kCVmutableFieldNumber;
 const int PrtoL2ct::kCVcolumnsFieldNumber;
 const int PrtoL2ct::kCVaccessgroupsFieldNumber;
@@ -6384,6 +6687,7 @@ const int PrtoL2ct::kIVreplicationfactorFieldNumber;
 const int PrtoL2ct::kIVtabletypeFieldNumber;
 const int PrtoL2ct::kIVpartitiontypeFieldNumber;
 const int PrtoL2ct::kIVindextypeFieldNumber;
+const int PrtoL2ct::kCVindexesFieldNumber;
 #endif  // !_MSC_VER
 
 PrtoL2ct::PrtoL2ct()
@@ -6447,31 +6751,19 @@ PrtoL2ct* PrtoL2ct::New() const {
 }
 
 void PrtoL2ct::Clear() {
-#define OFFSET_OF_FIELD_(f) (reinterpret_cast<char*>(      \
-  &reinterpret_cast<PrtoL2ct*>(16)->f) - \
-   reinterpret_cast<char*>(16))
-
-#define ZR_(first, last) do {                              \
-    size_t f = OFFSET_OF_FIELD_(first);                    \
-    size_t n = OFFSET_OF_FIELD_(last) - f + sizeof(last);  \
-    ::memset(&first, 0, n);                                \
-  } while (0)
-
   if (_has_bits_[0 / 32] & 249) {
-    ZR_(ivpartitiontype_, ivindextype_);
     if (has_cvmutable()) {
       if (cvmutable_ != NULL) cvmutable_->::com::tomting::orion::PrtoLmtb::Clear();
     }
     ivmemtabledim_ = 0;
     ivreplicationfactor_ = 1;
     ivtabletype_ = 2;
+    ivpartitiontype_ = 0;
+    ivindextype_ = 0;
   }
-
-#undef OFFSET_OF_FIELD_
-#undef ZR_
-
   cvcolumns_.Clear();
   cvaccessgroups_.Clear();
+  cvindexes_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
 }
@@ -6612,6 +6904,20 @@ bool PrtoL2ct::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
+        if (input->ExpectTag(74)) goto parse_cVindexes;
+        break;
+      }
+
+      // repeated .com.tomting.orion.PrtoL2ix cVindexes = 9;
+      case 9: {
+        if (tag == 74) {
+         parse_cVindexes:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_cvindexes()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(74)) goto parse_cVindexes;
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -6687,6 +6993,12 @@ void PrtoL2ct::SerializeWithCachedSizes(
       8, this->ivindextype(), output);
   }
 
+  // repeated .com.tomting.orion.PrtoL2ix cVindexes = 9;
+  for (int i = 0; i < this->cvindexes_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      9, this->cvindexes(i), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -6744,6 +7056,13 @@ void PrtoL2ct::SerializeWithCachedSizes(
   if (has_ivindextype()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       8, this->ivindextype(), target);
+  }
+
+  // repeated .com.tomting.orion.PrtoL2ix cVindexes = 9;
+  for (int i = 0; i < this->cvindexes_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        9, this->cvindexes(i), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -6814,6 +7133,14 @@ int PrtoL2ct::ByteSize() const {
         this->cvaccessgroups(i));
   }
 
+  // repeated .com.tomting.orion.PrtoL2ix cVindexes = 9;
+  total_size += 1 * this->cvindexes_size();
+  for (int i = 0; i < this->cvindexes_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->cvindexes(i));
+  }
+
   if (!unknown_fields().empty()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
@@ -6841,6 +7168,7 @@ void PrtoL2ct::MergeFrom(const PrtoL2ct& from) {
   GOOGLE_CHECK_NE(&from, this);
   cvcolumns_.MergeFrom(from.cvcolumns_);
   cvaccessgroups_.MergeFrom(from.cvaccessgroups_);
+  cvindexes_.MergeFrom(from.cvindexes_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_cvmutable()) {
       mutable_cvmutable()->::com::tomting::orion::PrtoLmtb::MergeFrom(from.cvmutable());
@@ -6884,6 +7212,7 @@ bool PrtoL2ct::IsInitialized() const {
   }
   if (!::google::protobuf::internal::AllAreInitialized(this->cvcolumns())) return false;
   if (!::google::protobuf::internal::AllAreInitialized(this->cvaccessgroups())) return false;
+  if (!::google::protobuf::internal::AllAreInitialized(this->cvindexes())) return false;
   return true;
 }
 
@@ -6897,6 +7226,7 @@ void PrtoL2ct::Swap(PrtoL2ct* other) {
     std::swap(ivtabletype_, other->ivtabletype_);
     std::swap(ivpartitiontype_, other->ivpartitiontype_);
     std::swap(ivindextype_, other->ivindextype_);
+    cvindexes_.Swap(&other->cvindexes_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

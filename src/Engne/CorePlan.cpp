@@ -1091,13 +1091,17 @@ using namespace google;
 	/*SAVE Table*/
 	bool __fastcall CorePlan::savet (PrtoL2ct* cCreatetable) {
 		AnsiString sVcolumnname;
+		AnsiString sVindexname;
 		CoreXml_ cVdocument;
 		CoreNode* cVnode;
 		PrtoL2cl* cVcolumn;
+		PrtoL2ix* cVindex;
 		PrtoLmtb* cVmutable;
 		CoreNode* cVtempcolumnname;
 		CoreNode* cVtempcolumntype;
 		CoreNode* cVtempcolumnnode;
+		CoreNode* cVtempindexnode;
+		CoreNode* cVtempindexname;
 		CoreNode* cVtempstorage;
 
 		cVnode = cVdocument.getft (DataXml_::sCtagtable_);	
@@ -1110,6 +1114,17 @@ using namespace google;
 			cVtempcolumnnode->addcd (cVtempcolumnname);
 			cVtempcolumnnode->addcd (cVtempcolumntype);
 			cVnode->addcd (cVtempcolumnnode);
+		}
+		for (int iV = 0; iV < cCreatetable->cvindexes_size (); iV++) {
+			cVindex = cCreatetable->mutable_cvindexes (iV);
+			sVindexname = cVindex->svindex ();
+			cVtempindexnode = new CoreNode (DataXml_::sCtagindex_);
+			cVtempindexname = CoreNode::newnd (new CoreNode (sVindexname .UpperCase ()), DataXml_::sCtagname__);
+			cVtempindexnode->addcd (cVtempindexname);
+			cVnode->addcd (cVtempindexnode);
+
+
+
 		}
 		cVtempstorage = new CoreNode (DataXml_::sCtagstorge);
 		if (cCreatetable->has_ivtabletype ()) 

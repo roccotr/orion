@@ -15,7 +15,8 @@ public:
 		iCexactquery = 0,
 		iCrangequery = 1,
 		iCtokenquery = 2,
-		iCtkslwquery = 4
+		iCtkslwquery = 4,
+		iCnrngequery = 5
   };
 
 	typedef boost::shared_ptr<CoreTble> PTR;

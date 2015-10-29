@@ -9,6 +9,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/lib)
 set(CMAKE_FILES_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/include)
+SET(BASEPATH "${CMAKE_SOURCE_DIR}")
+INCLUDE_DIRECTORIES("${BASEPATH}")
 
 include_directories(${CMAKE_SOURCE_DIR}/src/Hlprs)
 include_directories(${CMAKE_SOURCE_DIR}/src/Thrft)
@@ -87,9 +89,30 @@ list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/Thrft/ThrfOrn__server.skel
 # Create the Static Library
 add_definitions( -DiCdisableprintlog )
 
+set(LIB_PATH_DIRS /usr/lib /usr/lib64 /usr/local/lib /usr/local/lib64 )
+
+
+# Static Dependencies
+find_library( THRIFT_STATIC_PATH NAMES libthrift.a PATHS ${LIB_PATH_DIRS} REQUIRED)
+find_library( THRIFTNB_STATIC_PATH NAMES libthriftnb.a PATHS ${LIB_PATH_DIRS} REQUIRED)
+find_library( EVENT_STATIC_PATH NAMES libevent.a PATHS ${LIB_PATH_DIRS} REQUIRED)
+find_library( SNAPPY_STATIC_PATH NAMES libsnappy.a PATHS ${LIB_PATH_DIRS} REQUIRED)
+find_library( TCMALLOC_STATIC_PATH NAMES libtcmalloc.a PATHS ${LIB_PATH_DIRS} REQUIRED)
+find_library( RE2_STATIC_PATH NAMES libre2.a PATHS ${LIB_PATH_DIRS} REQUIRED)
+find_library( PROTOBUF_STATIC_PATH NAMES libprotobuf.a PATHS ${LIB_PATH_DIRS} REQUIRED)
+find_library( GFLAGS_STATIC_PATH NAMES libgflags.a PATHS ${LIB_PATH_DIRS} REQUIRED)
+find_library( GLOG_STATIC_PATH NAMES libglog.a PATHS ${LIB_PATH_DIRS} REQUIRED)
+find_library( BOOST_SYSTEM_STATIC_PATH NAMES libboost_system.a PATHS ${LIB_PATH_DIRS} REQUIRED)
+find_library( BOOST_FILESYSTEM_STATIC_PATH NAMES libboost_filesystem.a PATHS ${LIB_PATH_DIRS} REQUIRED)
+#find_library( PTHREAD_STATIC_PATH NAMES libpthread.a PATHS ${LIB_PATH_DIRS} REQUIRED)
+
+MESSAGE(STATUS "THRIFT ${THRIFT_STATIC_PATH}")
+MESSAGE(STATUS "TCMALLOC ${SNAPPY_STATIC_PATH}")
+MESSAGE(STATUS "PTHREAD ${PTHREAD_STATIC_PATH}")
+
 # Executable
 add_executable(orion ${SOURCE_FILES})
-target_link_libraries (orion thrift thriftnb event snappy re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
+target_link_libraries (orion ${THRIFT_STATIC_PATH} ${THRIFTNB_STATIC_PATH} ${EVENT_STATIC_PATH} ${SNAPPY_STATIC_PATH} ${RE2_STATIC_PATH} ${TCMALLOC_STATIC_PATH} ${PROTOBUF_STATIC_PATH} ${GFLAGS_STATIC_PATH} ${GLOG_STATIC_PATH} ${BOOST_SYSTEM_STATIC_PATH} ${BOOST_FILESYSTEM_STATIC_PATH})
 
 
 # Library
@@ -103,7 +126,10 @@ target_link_libraries (orione thrift thriftnb event snappy re2 tcmalloc pthread 
 target_link_libraries (orione_static thrift thriftnb event snappy re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
 #target_link_libraries (orione ${CMAKE_SOURCE_DIR}/lib//static/thrift.a ${CMAKE_SOURCE_DIR}/lib//static/thrift.a ./static_lib/event.a ./static_lib/snappy.a re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
 
-install(FILES ${CMAKE_SOURCE_DIR}/Engne/IfceOrn_.hpp DESTINATION build/include RENAME orion.h)
+#install(FILES ${BASEPATH}/src/Engne/IfceOrn_.hpp DESTINATION ${BASEPATH}/build/include RENAME orion.h)
+file(COPY
+    ${BASEPATH}/src/Engne/IfceOrn_.hpp
+   DESTINATION ${BASEPATH}/build/include)
 
 install(TARGETS orion RUNTIME DESTINATION .)
 install(TARGETS orione DESTINATION lib)

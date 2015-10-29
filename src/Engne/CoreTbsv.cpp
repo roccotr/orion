@@ -321,7 +321,48 @@ using namespace orion;
 					return true;
 				} else return false;
 				break;			
+			case CoreTble::iCnrngequery:	
+				sVbuiltkey = key__ ( cVreverse, cKey, iVdummy, false, true);
 
+				sVdiscardkey2 = "";
+				cVdbopmutex.locks ();
+
+				do {
+					sVreturnkey = NULL;
+					for (int iV = 0; iV < gettc (); iV++) {
+						if (!gette (iV, cVtable)) continue;
+						sViteratorkey = sVbuiltkey;
+
+						sVdiscardkey = "";
+						while (true) {
+							if (!cVtable->get__ (sViteratorkey, &cVcandidatevalue)) break;					
+							sVcompareiteratorkey = !bVfastkey ? getmj (sViteratorkey) : getfm (sViteratorkey);
+							sVcomparableiteratorkey = sViteratorkey;
+							bViteratorupsert = sViteratorkey.c_str () [sViteratorkey.Length () - 1] == (char) bCupsert;
+							sViteratorkey += sCchar1;
+							if (sVcompareiteratorkey == sVdiscardkey || sVcompareiteratorkey == sVdiscardkey2) continue;
+							if (sVcandidatekey == NULL || sVcandidatekey > sVcomparableiteratorkey) {
+								sVsavediteratorkey = sViteratorkey;
+								sVcandidatekey = sVcomparableiteratorkey;
+								sVreturnkey = sVcompareiteratorkey;
+								bVreturniteratorupsert = bViteratorupsert ;
+								cValue->CopyFrom (cVcandidatevalue);
+								cKey->set_ivtimestamp (cValue->ivtimestamp ());
+							}
+							break;
+						}
+					}
+					sVbuiltkey = sVsavediteratorkey;
+					sVdiscardkey2 = sVreturnkey;					
+					sVcandidatekey = NULL;
+				} while (sVreturnkey != NULL && !bVreturniteratorupsert);
+
+				cVdbopmutex.relse ();
+				if (sVreturnkey != NULL && bVreturniteratorupsert) {
+					cKey->set_svmain (getmn (sVreturnkey).to_string ());
+					return true;
+				} else return false;
+				break;		
 			case CoreTble::iCtokenquery:				
 				sVbuiltkey = key__ ( cVreverse, cKey, iVdummy, false);		
 				cVdbopmutex.locks ();
@@ -846,11 +887,12 @@ using namespace orion;
 																					AnsiString sQualifier, 
 																					bool bAttributes,
 																					iCstatetype iState, 
-																					int64vcl iTimestamp) {
+																					int64vcl iTimestamp,
+																					bool bIncrement) {
 		AnsiString sVreturn;
 		int64vcl iVtimestamp;
 
-		sVreturn = sMain;
+		sVreturn = !bIncrement || sMain.Length () == 0 ? sMain : sMain + sCchar255;
 		if (sAccessgroup != NULL) {
 			sVreturn += (AnsiString) bCmaindelimiter + sAccessgroup;
 			if (sQualifier != NULL) sVreturn += (AnsiString) bCqualifierdelimiter + sQualifier;
@@ -876,7 +918,7 @@ using namespace orion;
 	};
 
 	/*KEY*/
-	AnsiString __fastcall CoreTbsv::key__ (	PTR_REVERSE cReverse, PrtoLkey* cKey, int& iMainindexlength, bool bAttributes) {
+	AnsiString __fastcall CoreTbsv::key__ (	PTR_REVERSE cReverse, PrtoLkey* cKey, int& iMainindexlength, bool bAttributes, bool bIncrement) {
 
 		/*
 		printf ("1\n");
@@ -886,8 +928,11 @@ using namespace orion;
 		printf ("valeva %s - %s - %s \n", cKey->svmain ().c_str (), cKey->svaccessgroup ().c_str (), cKey->svqualifier ().c_str ());
 		*/
 
-		AnsiString sVreturn = key_i (	cReverse, cKey->svmain (), iMainindexlength, cKey->svaccessgroup (), cKey->svqualifier (), 
-										bAttributes, cKey->ivstate (), cKey->ivtimestamp ());	
+		AnsiString sVreturn = key_i (	cReverse, 
+										cKey->svmain (), 
+										iMainindexlength, cKey->svaccessgroup (), cKey->svqualifier (), 
+										bAttributes, cKey->ivstate (), cKey->ivtimestamp (),
+										bIncrement);	
 		
 		
 		//printf ("2 %s\n", sVreturn.c_str ());

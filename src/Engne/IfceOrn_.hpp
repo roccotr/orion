@@ -182,8 +182,6 @@ namespace orion {
 	};
 
 	class Iterator {
-		const static string next;
-
 		private:
 			bool valid;
 			string current;
@@ -221,6 +219,7 @@ namespace orion {
 			Status Get(ReadOptions& readOptions, string* value);
 			Status Create (StorageOptions& storageOptions);
 			Status CreateTableConfig (StorageOptions& storageOptions, string table, ...);
+			Status CreateIndexConfig (StorageOptions& storageOptions, string index, ...);
 			Status Osql (OsqlOptions& osqlOptions, string osql);
 			Status Osql (OsqlOptions& osqlOptions);
 			Status OsqlBind (OsqlOptions& osqlOption, bool full_scan, ...);

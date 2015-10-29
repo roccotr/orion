@@ -200,6 +200,31 @@ using namespace google::protobuf;
 		return result;
 	}
 
+	/*CREATE INDEX CONFIG*/
+	Status DB::CreateIndexConfig (StorageOptions& storageOptions, string index, ...) {
+		Status result (false);
+
+		switch (storageOptions.level) {
+				case L2:
+					PrtoL2ix* cVindex = storageOptions.dml_L2.add_cvindexes ();
+					cVindex->set_svindex (index);
+					va_list cVlist;
+					va_start (cVlist, index);
+					while (true) {
+						int iVcolorder = va_arg (cVlist, int);
+						if (iVcolorder == VaEOF) break;
+						PrtoL2or* cVcolumn = cVindex->add_cvcolumn ();
+						string sVcolumnname = va_arg (cVlist, char*);
+						cVcolumn->set_svcolumn (sVcolumnname);	
+						cVcolumn->set_ivordertype ((iCordertype) iVcolorder);
+						result.result = true;
+					}
+					va_end (cVlist);
+					break;
+		}
+		return result;
+	}
+
 	/*OSQL*/
 	Status DB::Osql (OsqlOptions& osqlOptions) {
 		Status result (false);
@@ -338,31 +363,19 @@ using namespace google::protobuf;
 
 		switch (readOptions.level) {
 			case L1:
-				readOptions.query_L1.set_ivquery (RANGEQUERY);
+				readOptions.query_L1.set_ivquery (NRNGEQUERY);
 				break;
 			case L2:
-				readOptions.query_L2.set_ivquery (RANGEQUERY);	
+				readOptions.query_L2.set_ivquery (NRNGEQUERY);	
 				readOptions.query_L2.set_ivcount (1);
 				break;
 		}
 		valid = ((DB*) db)->Get(readOptions, start, &current).ok ();
 	}
 
-	const string Iterator::next = CoreTbsv::sCchar255.to_string ();
-
 	/*NEXT*/
 	void Iterator::Next () {
 
-		switch (readOptions.level) {
-			case L1:
-				readOptions.query_L1.mutable_cvkey ()->set_svmain 
-						(readOptions.query_L1.mutable_cvkey ()->svmain () + next);
-				break;
-			case L2:
-				readOptions.query_L2.mutable_cvkey_start ()->set_svmain 
-						(readOptions.query_L2.mutable_cvkey_start ()->svmain () + next);
-				break;
-		}
 		valid = ((DB*) db)->Get(readOptions, &current).ok ();
 	}
 
@@ -375,4 +388,5 @@ using namespace google::protobuf;
 			case L2:
 				return readOptions.query_L2.mutable_cvkey_start ()->mutable_svmain ();
 		}		
+		return NULL;
 	}

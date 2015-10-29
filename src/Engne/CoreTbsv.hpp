@@ -156,9 +156,11 @@ public:
 	static AnsiString __fastcall key_i (	
 																PTR_REVERSE cReverse, AnsiString sMain, int& iMainindexlength, AnsiString sAccessgroup = NULL, 
 																AnsiString sQualifier = NULL, 
-																bool bAttributes = false, iCstatetype iState = UPSERT, int64vcl iTimestamp = 0);
+																bool bAttributes = false, iCstatetype iState = UPSERT, int64vcl iTimestamp = 0,
+																bool bIncrement = false);
 	static AnsiString __fastcall key__ (	
-																PTR_REVERSE cReverse, PrtoLkey* cKey, int& iMainindexlength, bool bAttributes = true);
+																PTR_REVERSE cReverse, PrtoLkey* cKey, int& iMainindexlength, bool bAttributes = true, 
+																bool bIncrement = false);
 	static AnsiString __fastcall fkey_ (PrtoLkey* cKey, int& iMainindexlength); 
 	static void __fastcall key__ (PTR_REVERSE cReverse, AnsiString sKey, PrtoLkey* cKey);
 	static bool __fastcall istmb (	PTR_REVERSE cReverse, AnsiString sKey);
