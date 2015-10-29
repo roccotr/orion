@@ -126,10 +126,11 @@ target_link_libraries (orione thrift thriftnb event snappy re2 tcmalloc pthread 
 target_link_libraries (orione_static thrift thriftnb event snappy re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
 #target_link_libraries (orione ${CMAKE_SOURCE_DIR}/lib//static/thrift.a ${CMAKE_SOURCE_DIR}/lib//static/thrift.a ./static_lib/event.a ./static_lib/snappy.a re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
 
-#install(FILES ${BASEPATH}/src/Engne/IfceOrn_.hpp DESTINATION ${BASEPATH}/build/include RENAME orion.h)
 file(COPY
     ${BASEPATH}/src/Engne/IfceOrn_.hpp
    DESTINATION ${BASEPATH}/build/include)
+
+file(RENAME ${BASEPATH}/build/include/IfceOrn_.hpp ${BASEPATH}/build/include/orion.h)
 
 install(TARGETS orion RUNTIME DESTINATION .)
 install(TARGETS orione DESTINATION lib)
