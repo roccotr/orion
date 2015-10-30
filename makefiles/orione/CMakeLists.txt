@@ -20,9 +20,28 @@ include_directories(${CMAKE_SOURCE_DIR}/src/Proto)
 include_directories(${CMAKE_SOURCE_DIR}/src/Extrn/md5)
 include_directories(${CMAKE_SOURCE_DIR}/src/Ordbc)
 include_directories(${CMAKE_SOURCE_DIR}/src/Mains)
+
+find_path(THRIFT_INCLUDE_DIR
+    NAMES
+        thrift/Thrift.h
+    HINTS
+        ${THRIFT_HOME}
+        ENV THRIFT_HOME
+        /usr/local
+        /opt/local
+    PATH_SUFFIXES
+        include
+)
+
+include_directories(${THRIFT_INCLUDE_DIR}/thrift)
+
+
+MESSAGE ( STATUS "THRIFT PATH ${THRIFT_INCLUDE_DIR}")
+
+
 #include_directories(/opt/gtest/include)
-include_directories(/usr/local/Cellar/thrift/0.9.2/include)
-include_directories(/usr/local/Cellar/thrift/0.9.2/include/thrift)
+#include_directories(/usr/local/Cellar/thrift/0.9.2/include)
+#include_directories(/usr/local/Cellar/thrift/0.9.2/include/thrift)
 #include_directories(/usr/local/Cellar/libevent/2.0.22/include)
 #include_directories(/opt/liblfds/include)
 #include_directories(/usr/local/include)
@@ -32,7 +51,7 @@ add_definitions(-DsCpipename='"ORIONPIPE_"' -DAPPLEOS  -DiCfastpool -DHAVE_NETIN
 
 set(CMAKE_CXX_COMPILER /usr/bin/g++)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -w -fmessage-length=0 -std=c++0x -static-libstdc++ -stdlib=libc++")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -w -fmessage-length=0 -std=c++0x -static-libstdc++ -stdlib=libc++")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -w -fmessage-length=0 -std=c++0x -static-libstdc++")
 set(CMAKE_INSTALL_PREFIX dist)
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/debug)
 add_definitions(-fPIC)
@@ -108,11 +127,14 @@ find_library( BOOST_FILESYSTEM_STATIC_PATH NAMES libboost_filesystem.a PATHS ${L
 
 MESSAGE(STATUS "THRIFT ${THRIFT_STATIC_PATH}")
 MESSAGE(STATUS "TCMALLOC ${SNAPPY_STATIC_PATH}")
-MESSAGE(STATUS "PTHREAD ${PTHREAD_STATIC_PATH}")
+#MESSAGE(STATUS "PTHREAD ${PTHREAD_STATIC_PATH}")
+
+
+set(STATIC_DEPENDENCIES ${THRIFT_STATIC_PATH} ${THRIFTNB_STATIC_PATH} ${EVENT_STATIC_PATH} ${SNAPPY_STATIC_PATH} ${RE2_STATIC_PATH} ${TCMALLOC_STATIC_PATH} pthread ${PROTOBUF_STATIC_PATH} ${GFLAGS_STATIC_PATH} ${GLOG_STATIC_PATH} ${BOOST_SYSTEM_STATIC_PATH} ${BOOST_FILESYSTEM_STATIC_PATH})
 
 # Executable
 add_executable(orion ${SOURCE_FILES})
-target_link_libraries (orion ${THRIFT_STATIC_PATH} ${THRIFTNB_STATIC_PATH} ${EVENT_STATIC_PATH} ${SNAPPY_STATIC_PATH} ${RE2_STATIC_PATH} ${TCMALLOC_STATIC_PATH} ${PROTOBUF_STATIC_PATH} ${GFLAGS_STATIC_PATH} ${GLOG_STATIC_PATH} ${BOOST_SYSTEM_STATIC_PATH} ${BOOST_FILESYSTEM_STATIC_PATH})
+target_link_libraries (orion ${STATIC_DEPENDENCIES})
 
 
 # Library
@@ -123,7 +145,7 @@ set_target_properties(orione_static PROPERTIES OUTPUT_NAME orion CLEAN_DIRECTORY
 
 
 target_link_libraries (orione thrift thriftnb event snappy re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
-target_link_libraries (orione_static thrift thriftnb event snappy re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
+target_link_libraries (orione_static ${STATIC_DEPENDENCIES})
 #target_link_libraries (orione ${CMAKE_SOURCE_DIR}/lib//static/thrift.a ${CMAKE_SOURCE_DIR}/lib//static/thrift.a ./static_lib/event.a ./static_lib/snappy.a re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
 
 file(COPY
