@@ -7,6 +7,8 @@ using namespace orion;
 using namespace google;
 using namespace google::protobuf;
 
+	CoreSmph cVglobalmutex;
+	int iVlibraryrefs = 0;
 
 	const int DB::VaEOF = -1;
 
@@ -14,7 +16,11 @@ using namespace google::protobuf;
 
 		cVpool = PTR_POOL (new CorePool ());
 		FLAGS_log_dir = cOptions.log_path;
-		InitGoogleLogging("");
+
+		cVglobalmutex.locks ();
+		if (iVlibraryrefs == 0) InitGoogleLogging("");
+		iVlibraryrefs++;
+		cVglobalmutex.relse ();
 		PTR_XML_ cVdocument = PTR_XML_ (new CoreXml_ ());
 		AnsiString sVmasterxml = sPath + cOptions.master_xml;
 		if (!CoreHutl::ispvl (sPath)) CoreHutl::crdir (sPath);
@@ -48,7 +54,11 @@ using namespace google::protobuf;
 		cVplanner.reset ();
 		cVorion.reset ();
 		cVpool.reset ();
-		ShutdownGoogleLogging();
+
+		cVglobalmutex.locks ();
+		iVlibraryrefs--;
+		if (iVlibraryrefs == 0) ShutdownGoogleLogging();
+		cVglobalmutex.relse ();
 		ShutdownProtobufLibrary();
 	}
 
@@ -67,23 +77,28 @@ using namespace google::protobuf;
 	/*PUT*/
 	Status DB::Put (WriteOptions& writeOptions, string key, string value) {
 		bool bVresult;
+		PrtoIwop* cVwriteoptions = &writeOptions.write_options;
 
-		switch (writeOptions.level) {
+		switch (cVwriteoptions->ivlevel ()) {
 			case L1:
-				writeOptions.statement_L1.mutable_cvkey ()->set_svmain (key);
-				writeOptions.statement_L1.mutable_cvkey ()->set_ivstate (UPSERT);
-				writeOptions.statement_L1.mutable_cvvalue ()->set_svopaquevalue (value);
-				if (writeOptions.enable_timestamp) writeOptions.statement_L1.mutable_cvkey ()->set_ivtimestamp (CoreButl::tmstf ());
-				bVresult = cVplanner->lcstm (&writeOptions.statement_L1, true, &writeOptions.cVinternaltabletloc);
+				cVwriteoptions->mutable_cvstatementl1 ()->
+					mutable_cvkey ()->set_svmain (key);
+				cVwriteoptions->mutable_cvstatementl1 ()->mutable_cvkey ()->set_ivstate (UPSERT);
+				cVwriteoptions->mutable_cvstatementl1 ()->mutable_cvvalue ()->set_svopaquevalue (value);
+				if (cVwriteoptions->bvenabletimestamp ()) 
+					cVwriteoptions->mutable_cvstatementl1 ()->mutable_cvkey ()->set_ivtimestamp (CoreButl::tmstf ());
+				bVresult = cVplanner->lcstm (cVwriteoptions->mutable_cvstatementl1 (), true, &writeOptions.cVinternaltabletloc);
 				break;
 			case L2:
-				writeOptions.statement_L2.mutable_cvkey ()->set_svmain (key);
-				writeOptions.statement_L2.mutable_cvkey ()->set_ivstate (UPSERT);
-				if (writeOptions.enable_timestamp) writeOptions.statement_L2.mutable_cvkey ()->set_ivtimestamp (CoreButl::tmstf ());
+				cVwriteoptions->mutable_cvstatementl2 ()->
+					mutable_cvkey ()->set_svmain (key);
+				cVwriteoptions->mutable_cvstatementl2 ()->mutable_cvkey ()->set_ivstate (UPSERT);
+				if (cVwriteoptions->bvenabletimestamp ()) 
+					cVwriteoptions->mutable_cvstatementl2 ()->mutable_cvkey ()->set_ivtimestamp (CoreButl::tmstf ());
 				writeOptions.first_column_L2->mutable_cvvalue ()->set_svvalue (value);
-				bVresult = cVplanner->statm (&writeOptions.statement_L2, 
-					writeOptions.optimize_write_index, writeOptions.update_only_index, writeOptions.local_filter,
-					writeOptions.cVinternaltableloc);
+				bVresult = cVplanner->statm (cVwriteoptions->mutable_cvstatementl2 (), 
+					cVwriteoptions->bvoptimizewriteindex (), cVwriteoptions->bvupdateonlyindex (),
+					cVwriteoptions->bvlocalfilter(), writeOptions.cVinternaltableloc);
 		}
 		return Status (bVresult);
 	}
@@ -91,21 +106,24 @@ using namespace google::protobuf;
 	/*DELETE*/
 	Status DB::Delete (WriteOptions& writeOptions, string key) {
 		bool bVresult;
+		PrtoIwop* cVwriteoptions = &writeOptions.write_options;
 
-		switch (writeOptions.level) {
+		switch (cVwriteoptions->ivlevel ()) {
 			case L1:
-				writeOptions.statement_L1.mutable_cvkey ()->set_svmain (key);
-				writeOptions.statement_L1.mutable_cvkey ()->set_ivstate (DELTMB);
-				if (writeOptions.enable_timestamp) writeOptions.statement_L1.mutable_cvkey ()->set_ivtimestamp (CoreButl::tmstf ());
-				bVresult = cVplanner->lcstm (&writeOptions.statement_L1, true, &writeOptions.cVinternaltabletloc);
+				cVwriteoptions->mutable_cvstatementl1 ()->mutable_cvkey ()->set_svmain (key);
+				cVwriteoptions->mutable_cvstatementl1 ()->mutable_cvkey ()->set_ivstate (DELTMB);
+				if (cVwriteoptions->bvenabletimestamp ()) 
+					cVwriteoptions->mutable_cvstatementl1 ()->mutable_cvkey ()->set_ivtimestamp (CoreButl::tmstf ());
+				bVresult = cVplanner->lcstm (cVwriteoptions->mutable_cvstatementl1 (), true, &writeOptions.cVinternaltabletloc);
 				break;
 			case L2:
-				writeOptions.statement_L2.mutable_cvkey ()->set_svmain (key);
-				writeOptions.statement_L2.mutable_cvkey ()->set_ivstate (DELTMB);
-				if (writeOptions.enable_timestamp) writeOptions.statement_L2.mutable_cvkey ()->set_ivtimestamp (CoreButl::tmstf ());
-				bVresult = cVplanner->statm (&writeOptions.statement_L2, 
-					writeOptions.optimize_write_index, writeOptions.update_only_index, writeOptions.local_filter,
-					writeOptions.cVinternaltableloc);
+				cVwriteoptions->mutable_cvstatementl2 ()->mutable_cvkey ()->set_svmain (key);
+				cVwriteoptions->mutable_cvstatementl2 ()->mutable_cvkey ()->set_ivstate (DELTMB);
+				if (cVwriteoptions->bvenabletimestamp ()) 
+					cVwriteoptions->mutable_cvstatementl2 ()->mutable_cvkey ()->set_ivtimestamp (CoreButl::tmstf ());
+				bVresult = cVplanner->statm (cVwriteoptions->mutable_cvstatementl2 (), 
+					cVwriteoptions->bvoptimizewriteindex (), cVwriteoptions->bvupdateonlyindex (),
+					cVwriteoptions->bvlocalfilter(), writeOptions.cVinternaltableloc);
 		}
 		return Status (bVresult);
 	}
@@ -113,20 +131,24 @@ using namespace google::protobuf;
 	/*GET*/
 	Status DB::Get(ReadOptions& readOptions, string key, string* value) {
 		Status result (false);
+		PrtoIsop* cVstatus = &result.status;
+		PrtoIrop* cVreadoptions = &readOptions.read_options;
 
-		switch (readOptions.level) {
+		switch (cVreadoptions->ivlevel ()) {
 			case L1:
-				readOptions.query_L1.mutable_cvkey ()->set_svmain (key);
-				if (cVplanner->lcqry (&readOptions.query_L1, &result.snapshot_L1, true)) {
-					*value = result.snapshot_L1.svopaquevalue ();
-					result.result = true;
+				cVreadoptions->mutable_cvqueryl1 ()->mutable_cvkey ()->set_svmain (key);
+				if (cVplanner->lcqry (
+						cVreadoptions->mutable_cvqueryl1 (), 
+						cVstatus->mutable_cvsnapshotl1 ()->mutable_cvvalue (), true)) {
+					*value = cVstatus->mutable_cvsnapshotl1 ()->mutable_cvvalue ()->svopaquevalue ();
+					cVstatus->set_bvresult (true);
 				}
 				break;
 			case L2:
-				readOptions.query_L2.mutable_cvkey_start ()->set_svmain (key);
-				if (cVplanner->query (&readOptions.query_L2, &result.snapshot_L2)) {
-					*value = result.snapshot_L2.mutable_cvkeyslice (0)->mutable_cvcolumns (0)->mutable_cvvalue ()->svvalue ();
-					result.result = true;
+				cVreadoptions->mutable_cvqueryl2 ()->mutable_cvkey_start ()->set_svmain (key);
+				if (cVplanner->query (cVreadoptions->mutable_cvqueryl2 (), cVstatus->mutable_cvsnapshotl2 ())) {
+					*value = cVstatus->mutable_cvsnapshotl2 ()->mutable_cvkeyslice (0)->mutable_cvcolumns (0)->mutable_cvvalue ()->svvalue ();
+					cVstatus->set_bvresult (true);
 				}
 				break;
 		}
@@ -137,18 +159,23 @@ using namespace google::protobuf;
 	/*GET*/
 	Status DB::Get(ReadOptions& readOptions, string* value) {
 		Status result (false);
+		PrtoIsop* cVstatus = &result.status;
+		PrtoIrop* cVreadoptions = &readOptions.read_options;
 
-		switch (readOptions.level) {
+		switch (cVreadoptions->ivlevel ()) {
 			case L1:
-				if (cVplanner->lcqry (&readOptions.query_L1, &result.snapshot_L1, true)) {
-					*value = result.snapshot_L1.svopaquevalue ();
-					result.result = true;
+				if (cVplanner->lcqry (
+						cVreadoptions->mutable_cvqueryl1 (), 
+						cVstatus->mutable_cvsnapshotl1 ()->mutable_cvvalue (), true)) {
+					*value = cVstatus->mutable_cvsnapshotl1 ()->mutable_cvvalue ()->svopaquevalue ();
+					cVstatus->set_bvresult (true);
 				}
 				break;
 			case L2:
-				if (cVplanner->query (&readOptions.query_L2, &result.snapshot_L2)) {
-					*value = result.snapshot_L2.mutable_cvkeyslice (0)->mutable_cvcolumns (0)->mutable_cvvalue ()->svvalue ();
-					result.result = true;
+				if (cVplanner->query (cVreadoptions->mutable_cvqueryl2 (), cVstatus->mutable_cvsnapshotl2 ())) {
+					*value = cVstatus->mutable_cvsnapshotl2 ()->mutable_cvkeyslice (0)->
+						mutable_cvcolumns (0)->mutable_cvvalue ()->svvalue ();
+					cVstatus->set_bvresult (true);
 				}
 				break;
 		}
@@ -159,13 +186,14 @@ using namespace google::protobuf;
 	/*CREATE*/
 	Status DB::Create (StorageOptions& storageOptions) {
 		Status result (false);
+		PrtoIsop* cVstatus = &result.status;
 
-		switch (storageOptions.level) {
+		switch (storageOptions.storage_options.ivlevel ()) {
 			case L1:
-				result.result = cVplanner->crttb (&storageOptions.dml_L1);
+				cVstatus->set_bvresult (cVplanner->crttb (storageOptions.storage_options.mutable_cvdmll1 ()));
 				break;
 			case L2:
-				result.result = cVplanner->crttb (&storageOptions.dml_L2);
+				cVstatus->set_bvresult (cVplanner->crttb (storageOptions.storage_options.mutable_cvdmll2 ()));
 				break;
 		}
 		return result;
@@ -174,25 +202,27 @@ using namespace google::protobuf;
 	/*CREATE TABLE CONFIG*/
 	Status DB::CreateTableConfig (StorageOptions& storageOptions, string table, ...) {
 		Status result (false);
+		PrtoIsop* cVstatus = &result.status;
 
-		switch (storageOptions.level) {
+		switch (storageOptions.storage_options.ivlevel ()) {
 				case L1:
-					storageOptions.dml_L1.set_svtable (table);	
-					result.result = true;
+					storageOptions.storage_options.mutable_cvdmll1 ()->set_svtable (table);	
+					cVstatus->set_bvresult (true);
 					break;
 				case L2:
-					storageOptions.dml_L2.mutable_cvmutable ()->set_svtable (table);
-					storageOptions.dml_L2.clear_cvcolumns ();
+					storageOptions.storage_options.mutable_cvdmll2 ()->mutable_cvmutable ()->set_svtable (table);
+					storageOptions.storage_options.mutable_cvdmll2 ()->clear_cvcolumns ();
 					va_list cVlist;
 					va_start (cVlist, table);
 					while (true) {
 						int iVcoltype = va_arg (cVlist, int);
 						if (iVcoltype == VaEOF) break;
-						PrtoL2cl* cVcolumn = storageOptions.dml_L2.mutable_cvcolumns ()->Add ();
+						PrtoL2cl* cVcolumn = 
+							storageOptions.storage_options.mutable_cvdmll2 ()->mutable_cvcolumns ()->Add ();
 						string sVcolumnname = va_arg (cVlist, char*);
 						cVcolumn->set_svcolumn (sVcolumnname);	
 						cVcolumn->set_ivtype ((iCcolumntype) iVcoltype);
-						result.result = true;
+						cVstatus->set_bvresult (true);
 					}
 					va_end (cVlist);
 					break;
@@ -203,10 +233,12 @@ using namespace google::protobuf;
 	/*CREATE INDEX CONFIG*/
 	Status DB::CreateIndexConfig (StorageOptions& storageOptions, string index, ...) {
 		Status result (false);
+		PrtoIsop* cVstatus = &result.status;
 
-		switch (storageOptions.level) {
+		switch (storageOptions.storage_options.ivlevel ()) {
 				case L2:
-					PrtoL2ix* cVindex = storageOptions.dml_L2.add_cvindexes ();
+					PrtoL2ix* cVindex = 
+						storageOptions.storage_options.mutable_cvdmll2 ()->add_cvindexes ();
 					cVindex->set_svindex (index);
 					va_list cVlist;
 					va_start (cVlist, index);
@@ -217,7 +249,7 @@ using namespace google::protobuf;
 						string sVcolumnname = va_arg (cVlist, char*);
 						cVcolumn->set_svcolumn (sVcolumnname);	
 						cVcolumn->set_ivordertype ((iCordertype) iVcolorder);
-						result.result = true;
+						cVstatus->set_bvresult (true);
 					}
 					va_end (cVlist);
 					break;
@@ -228,35 +260,40 @@ using namespace google::protobuf;
 	/*OSQL*/
 	Status DB::Osql (OsqlOptions& osqlOptions) {
 		Status result (false);
+		PrtoIsop* cVstatus = &result.status;
 
-		result.result = cVplanner->osql_ (&osqlOptions.osql_L2, &result.snapshot_L2);
+		if (osqlOptions.osql_options.bvenabletimestamp ())
+			osqlOptions.osql_options.mutable_cvosqll2 ()->set_ivtimestamp (CoreButl::tmstf ());
+		cVstatus->set_bvresult (cVplanner->osql_ (
+			osqlOptions.osql_options.mutable_cvosqll2 (), cVstatus->mutable_cvsnapshotl2 ()));
 		return result;
 	}
 
 	/*OSQL*/
 	Status DB::Osql (OsqlOptions& osqlOptions, string osql) {
 		
-		osqlOptions.osql_L2.set_svosqlstring (osql);
+		osqlOptions.osql_options.mutable_cvosqll2 ()->set_svosqlstring (osql);
 		return Osql (osqlOptions);
 	}
 
 	/*OSQL BIND*/
 	Status DB::OsqlBind (OsqlOptions& osqlOption, bool full_scan, ...) {
 		Status result (false);
+		PrtoIsop* cVstatus = &result.status;
 		string sVstringvalue;
 		int iVintvalue;
 		double dVdoublevalue;
 		bool bVboolvalue;
 
-		osqlOption.osql_L2.set_bvfulltablescan (full_scan);
-		osqlOption.osql_L2.clear_cvinputbindings ();
+		osqlOption.osql_options.mutable_cvosqll2 ()->set_bvfulltablescan (full_scan);
+		osqlOption.osql_options.mutable_cvosqll2 ()->clear_cvinputbindings ();
 		va_list cVlist;
 		va_start (cVlist, full_scan);
 		while (true) {
 			int iVcoltype = va_arg (cVlist, int);
 			if (iVcoltype == VaEOF) break;
-			result.result = true;
-			PrtoL2cv* cVcolumnvalue = osqlOption.osql_L2.add_cvinputbindings ();
+			cVstatus->set_bvresult (true);
+			PrtoL2cv* cVcolumnvalue = osqlOption.osql_options.mutable_cvosqll2 ()->add_cvinputbindings ();
 			cVcolumnvalue->set_ivtype ((iCcolumntype) iVcoltype);
 			switch (iVcoltype) {
 				case STRINGTYPE:
@@ -276,7 +313,7 @@ using namespace google::protobuf;
 					cVcolumnvalue->set_bvvalue (bVboolvalue);
 					break;
 				default:
-					result.result = false;
+					cVstatus->set_bvresult (false);
 			}
 		}
 		va_end (cVlist);
@@ -292,13 +329,17 @@ using namespace google::protobuf;
 	/*SET VOLATILE*/
 	void DB::setVolatile (StorageOptions& storageOptions) {
 
-		switch (storageOptions.level) {
+		switch (storageOptions.storage_options.ivlevel ()) {
 			case L1: 
-				storageOptions.dml_L1.mutable_cvstorage ()->set_bvmemorytable (true);
-				storageOptions.dml_L1.mutable_cvstorage ()->set_bvvolatiletable (true);
-				storageOptions.dml_L1.mutable_cvstorage ()->set_bvfastkey (true);
+				storageOptions.storage_options.mutable_cvdmll1 ()->
+					mutable_cvstorage ()->set_bvmemorytable (true);
+				storageOptions.storage_options.mutable_cvdmll1 ()->
+					mutable_cvstorage ()->set_bvvolatiletable (true);
+				storageOptions.storage_options.mutable_cvdmll1 ()->
+					mutable_cvstorage ()->set_bvfastkey (true);
 				break;
-			case L2: storageOptions.dml_L2.set_ivtabletype (VOLATILETABLE); break;
+			case L2: storageOptions.storage_options.mutable_cvdmll2 ()->
+					set_ivtabletype (VOLATILETABLE); break;
 				break;
 		}
 	}
@@ -361,13 +402,13 @@ using namespace google::protobuf;
 	/*SEEK*/
 	void Iterator::Seek (string start) {
 
-		switch (readOptions.level) {
+		switch (readOptions.read_options.ivlevel ()) {
 			case L1:
-				readOptions.query_L1.set_ivquery (NRNGEQUERY);
+				readOptions.read_options.mutable_cvqueryl1 ()->set_ivquery (NRNGEQUERY);
 				break;
 			case L2:
-				readOptions.query_L2.set_ivquery (NRNGEQUERY);	
-				readOptions.query_L2.set_ivcount (1);
+				readOptions.read_options.mutable_cvqueryl2 ()->set_ivquery (NRNGEQUERY);	
+				readOptions.read_options.mutable_cvqueryl2 ()->set_ivcount (1);
 				break;
 		}
 		valid = ((DB*) db)->Get(readOptions, start, &current).ok ();
@@ -382,11 +423,42 @@ using namespace google::protobuf;
 	/*KEY*/
 	string* Iterator::key () {
 
-		switch (readOptions.level) {
+		switch (readOptions.read_options.ivlevel ()) {
 			case L1:
-				return readOptions.query_L1.mutable_cvkey ()->mutable_svmain ();
+				return readOptions.read_options.mutable_cvqueryl1 ()->mutable_cvkey ()->mutable_svmain ();
 			case L2:
-				return readOptions.query_L2.mutable_cvkey_start ()->mutable_svmain ();
+				return readOptions.read_options.mutable_cvqueryl2 ()->mutable_cvkey_start ()->mutable_svmain ();
 		}		
 		return NULL;
+	}
+
+
+	AriesDB::AriesDB (Options& cOptions, string sPath) : DB (cOptions, sPath) {
+	};
+	
+	AriesDB::~AriesDB () {
+	}
+
+  /*Open*/
+	AriesInstance AriesDB::Open (Options& options, string path) {
+
+		return AriesInstance (new AriesDB (options, path));
+	}
+
+	/*CREATE*/
+	Status AriesDB::Create (StorageOptions& storageOptions) {
+		Status result (false);
+		
+		/*
+		PrtoIsop* cVstatus = &result.status;
+
+		switch (storageOptions.storage_options.ivlevel ()) {
+			case L1:
+				cVstatus->set_bvresult (cVplanner->crttb (storageOptions.storage_options.mutable_cvdmll1 ()));
+				break;
+			case L2:
+				cVstatus->set_bvresult (cVplanner->crttb (storageOptions.storage_options.mutable_cvdmll2 ()));
+				break;
+		}*/
+		return result;
 	}

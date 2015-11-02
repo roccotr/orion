@@ -9,27 +9,67 @@ extern "C" {
 #endif
 /*
  * Class:     com_tomting_orion_ordbc_Ordbc
- * Method:    initializeOrdbc
- * Signature: (Ljava/lang/String;III)Z
+ * Method:    nativeNewAries
+ * Signature: (Ljava/lang/String;III)J
  */
-JNIEXPORT jboolean JNICALL Java_com_tomting_orion_ordbc_Ordbc_initializeOrdbc
+JNIEXPORT jlong JNICALL Java_com_tomting_orion_ordbc_Ordbc_nativeNewAries
   (JNIEnv *, jobject, jstring, jint, jint, jint);
 
 /*
  * Class:     com_tomting_orion_ordbc_Ordbc
- * Method:    destroyOrdbc
- * Signature: ()Z
+ * Method:    nativeDeleteAries
+ * Signature: (J)Z
  */
-JNIEXPORT jboolean JNICALL Java_com_tomting_orion_ordbc_Ordbc_destroyOrdbc
-  (JNIEnv *, jobject);
+JNIEXPORT jboolean JNICALL Java_com_tomting_orion_ordbc_Ordbc_nativeDeleteAries
+  (JNIEnv *, jobject, jlong);
 
 /*
  * Class:     com_tomting_orion_ordbc_Ordbc
- * Method:    run
- * Signature: ([BZ)[B
+ * Method:    nativeRunAries
+ * Signature: (J[BZ)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_com_tomting_orion_ordbc_Ordbc_run
-  (JNIEnv *, jobject, jbyteArray, jboolean);
+JNIEXPORT jbyteArray JNICALL Java_com_tomting_orion_ordbc_Ordbc_nativeRunAries
+  (JNIEnv *, jobject, jlong, jbyteArray, jboolean);
+
+/*
+ * Class:     com_tomting_orion_ordbc_Ordbc
+ * Method:    ping
+ * Signature: (Ljava/lang/String;)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_com_tomting_orion_ordbc_Ordbc_ping
+  (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     com_tomting_orion_ordbc_Ordbc
+ * Method:    nativeNewEmbedded
+ * Signature: ([BLjava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_com_tomting_orion_ordbc_Ordbc_nativeNewEmbedded
+  (JNIEnv *, jobject, jbyteArray, jstring);
+
+/*
+ * Class:     com_tomting_orion_ordbc_Ordbc
+ * Method:    nativeDestroyEmbedded
+ * Signature: ([BLjava/lang/String;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_tomting_orion_ordbc_Ordbc_nativeDestroyEmbedded
+  (JNIEnv *, jobject, jbyteArray, jstring);
+
+/*
+ * Class:     com_tomting_orion_ordbc_Ordbc
+ * Method:    nativeDeleteEmbedded
+ * Signature: (J)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_tomting_orion_ordbc_Ordbc_nativeDeleteEmbedded
+  (JNIEnv *, jobject, jlong);
+
+/*
+ * Class:     com_tomting_orion_ordbc_Ordbc
+ * Method:    nativeRunEmbedded
+ * Signature: (JI[B)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_com_tomting_orion_ordbc_Ordbc_nativeRunEmbedded
+  (JNIEnv *, jobject, jlong, jint, jbyteArray);
 
 #ifdef __cplusplus
 }

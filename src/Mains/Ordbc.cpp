@@ -1,170 +1,221 @@
-#include "CoreTutl.hpp"
-#include "CoreCacp.hpp"
+#include "IfceOrn_.hpp"
+#include "IfceArs_.hpp"
 #include <cstdlib>
 #include <time.h>
 #include <glog/logging.h>
 #include <gflags/gflags.h>
 #include "com_tomting_orion_ordbc_Ordbc.h"
 
-using namespace google;
 
-static PTR_POOL cVpool;
-static PTR_ORIONCONNECTIONFACTORY cVorionconnectionfactory;
-static PTR_ARIESCONNECTION cVariesconnectionfactory;
-static PTR_ARIESPIPELINE cVariespipeline;
-static CoreSmph cVbuildmutex;
-static int iVreferences = 0;
-
-
-JNIEXPORT jboolean JNICALL Java_com_tomting_orion_ordbc_Ordbc_initializeOrdbc (	JNIEnv* cEnv, jobject cObject, jstring sAddress, 
-																																								jint iPort, jint iWorkers, jint iBulksize) {
+	/*NATIVE NEW ARIES*/
+	JNIEXPORT jlong JNICALL Java_com_tomting_orion_ordbc_Ordbc_nativeNewAries (	JNIEnv* cEnv, jobject, jstring sAddress, 
+																																									jint iPort, jint iWorkers, jint iBulksize) {
 	
-	bool bVreturn;
-	AnsiString sVaddress;
-	const char* bVaddress;
+		AnsiString sVaddress;
+		const char* bVaddress;
 		
-	bVaddress = cEnv->GetStringUTFChars (sAddress, NULL);
-	sVaddress = bVaddress;
-	cEnv->ReleaseStringUTFChars (sAddress, bVaddress);
-	cVbuildmutex.locks ();
-	if (iVreferences == 0) {
+		bVaddress = cEnv->GetStringUTFChars (sAddress, NULL);
+		sVaddress = bVaddress;
+		cEnv->ReleaseStringUTFChars (sAddress, bVaddress);
 
-
-		FLAGS_log_dir = "c:/templog/ordbc";
-		google::InitGoogleLogging("Ordbc");
-
-		LOG(WARNING) << "references " << iVreferences << " " << cVariespipeline;
-		FlushLogFiles(GLOG_WARNING);
-
-		cVpool = boost::shared_ptr<CorePool> (new CorePool ());
-		cVorionconnectionfactory = boost::shared_ptr<CoreCocf>  (new CoreCocf ());
-		cVorionconnectionfactory->init_ (cVpool, sVaddress, iPort, CoreCocf::bCprotobuf);
-		cVariesconnectionfactory = boost::shared_ptr<CoreCaco> (new CoreCaco (cVorionconnectionfactory, iWorkers, iBulksize));
-		cVariesconnectionfactory->addrf ();
-		bVreturn = cVariesconnectionfactory->valid ();
-		if (bVreturn) cVariespipeline = boost::shared_ptr<CoreCacp> (new CoreCacp (cVariesconnectionfactory));
-
-		LOG(WARNING) << "allocation " << iVreferences << " " << cVariespipeline << " " << GetCurrentThreadId();
-		FlushLogFiles(GLOG_WARNING);
-
-	}
-	iVreferences++;
-	cVbuildmutex.relse ();
-	return bVreturn;
-																																						
-}
-
-JNIEXPORT jboolean JNICALL Java_com_tomting_orion_ordbc_Ordbc_destroyOrdbc (JNIEnv *, jobject) {
-
-	cVbuildmutex.locks ();
-	iVreferences--;
-	if (iVreferences == 0) {
-
-		LOG(WARNING) << "deallocation" << iVreferences << " " << cVariespipeline << " " << GetCurrentThreadId();
-		FlushLogFiles(GLOG_WARNING);
-
-		cVariespipeline.reset ();
-		cVariesconnectionfactory->subrf ();
-		cVariesconnectionfactory.reset ();
-		cVorionconnectionfactory.reset ();
-		cVpool.reset ();
-
-		LOG(WARNING) << "close " << iVreferences << " " << cVariespipeline;
-		FlushLogFiles(GLOG_WARNING);
-	}
-	cVbuildmutex.relse ();
-	return true;
-}
-
-
-JNIEXPORT jbyteArray JNICALL Java_com_tomting_orion_ordbc_Ordbc_run (JNIEnv* cEnv, jobject, jbyteArray cArray, jboolean bOptimistic) {
-	jbyteArray cVresult;
-	char* cVdirect;
-	jboolean bVcopy;
-	int iVlength;
-	ThrfSrvc cVservice;
-	PrtoSrvc cVprotoservice;
-	PrtoSrvr cVprotoserviceresult;
-
-	iVlength = cEnv->GetArrayLength (cArray);
-	cVdirect = (char*) cEnv->GetPrimitiveArrayCritical (cArray, &bVcopy);
-	boost::shared_ptr<TMemoryBuffer> cVtransport (new TMemoryBuffer ((uint8_t*) cVdirect, iVlength));
-	boost::shared_ptr<TProtocol> cVprotocol (new TBinaryProtocol (cVtransport));
-	cVservice.read (cVprotocol.get ());
-	cEnv->ReleasePrimitiveArrayCritical (cArray, cVdirect, NULL);
-	cVprotoservice.set_ivservicetype ((iCservicetype) cVservice.iVservicetype);
-
-	switch (cVservice.iVservicetype) {
-		case iEservicetype::STATEMENT:
-			CoreTutl::statm (cVservice.cVstatement, *cVprotoservice.mutable_cvstatement ());
-			break;
-		case iEservicetype::QUERY:
-			CoreTutl::query (cVservice.cVquery, *cVprotoservice.mutable_cvquery ());
-			break;
-		case iEservicetype::OSQL:
-			CoreTutl::osql_ (cVservice.cVosql, *cVprotoservice.mutable_cvosql ());
-			break;
+		bool bVvalid;
+		IfceArs_* cVinstance = new IfceArs_ (sVaddress, iPort, iWorkers, iBulksize, bVvalid);
+		if (bVvalid) return (long) cVinstance;		
+		delete cVinstance;
+		return 0;
 	}
 
-	if (cVariespipeline->run__ (cVprotoserviceresult, cVprotoservice, bOptimistic == JNI_TRUE) && bOptimistic == JNI_FALSE) {
+	/*NATIVE DELETE ARIES*/
+	JNIEXPORT jboolean JNICALL JNICALL Java_com_tomting_orion_ordbc_Ordbc_nativeDeleteAries (JNIEnv* cEnv, jobject, jlong cOpaquehandle) {
 
-		ThrfSrvr cVserviceresult;
-		uint8_t* bVserviceresult;
-		uint32_t iVlengthresult;
+		IfceArs_* cVinstance = (IfceArs_*) cOpaquehandle;
+		if (cVinstance != NULL) delete cVinstance;
+		return true;
+	}
 
-		switch (cVservice.iVservicetype) {
-			case iEservicetype::STATEMENT:
-				cVserviceresult.bVreturn = cVprotoserviceresult.bvreturn ();
+	/*NATIVE RUN ARIES*/
+	JNIEXPORT jbyteArray JNICALL Java_com_tomting_orion_ordbc_Ordbc_nativeRunAries (JNIEnv* cEnv, jobject, 
+		jlong cOpaquehandle, jbyteArray cArray, jboolean bOptimistic) {
+		jboolean bVcopy;
+		ThrfSrvc cVservice;
+		ThrfSrvc cVserviceresult;
+
+		int iVarray = cEnv->GetArrayLength (cArray);
+		char* cVarray = (char*) cEnv->GetPrimitiveArrayCritical (cArray, &bVcopy);
+		boost::shared_ptr<TMemoryBuffer> cVtransportinput (new TMemoryBuffer ((uint8_t*) cVarray, iVarray));
+		boost::shared_ptr<TProtocol> cVprotocolinput (new TBinaryProtocol (cVtransportinput));
+		cVservice.read (cVprotocolinput.get ());
+		cEnv->ReleasePrimitiveArrayCritical (cArray, cVarray, NULL);
+
+		bool bVoptimistic = bOptimistic == JNI_TRUE;
+		if (
+				((IfceArs_*) cOpaquehandle)->run__ (cVservice, cVserviceresult, bVoptimistic) 
+				&& !bOptimistic) {
+
+			uint8_t* bVserviceresult;
+			uint32_t iVserviceresult;
+			boost::shared_ptr<TMemoryBuffer> cVtransportresult (new TMemoryBuffer ());
+			boost::shared_ptr<TProtocol> cVprotocolresult (new TBinaryProtocol (cVtransportresult));
+			cVserviceresult.write (cVprotocolresult.get ());
+			cVtransportresult->getBuffer (&bVserviceresult, &iVserviceresult);
+
+			jbyteArray cVresult = cEnv->NewByteArray (iVserviceresult);	
+			cVarray = (char*) cEnv->GetPrimitiveArrayCritical (cVresult, &bVcopy);
+			memcpy (cVarray, bVserviceresult, iVserviceresult);
+			cEnv->ReleasePrimitiveArrayCritical (cVresult, cVarray, NULL);
+			return cVresult;
+		} else return cEnv->NewByteArray (0);
+	}
+
+	/*PING*/
+	JNIEXPORT jstring JNICALL Java_com_tomting_orion_ordbc_Ordbc_ping (JNIEnv* cEnv, jobject, jstring sPinged) {
+		const char* bVtorelease = cEnv->GetStringUTFChars(sPinged, NULL);
+		AnsiString sVping = bVtorelease;
+		cEnv->ReleaseStringUTFChars(sPinged, bVtorelease);
+		printf ("ping: %s\n", sVping.c_str ());
+		fflush (stdout);
+		return cEnv->NewStringUTF (sVping.UpperCase ().c_str ());
+	}
+
+	/*NATIVE NEW EMBEDDED*/
+	JNIEXPORT jlong JNICALL Java_com_tomting_orion_ordbc_Ordbc_nativeNewEmbedded
+		(JNIEnv* cEnv, jobject, jbyteArray cOptions, jstring sPath) {
+		jboolean bVcopy;
+		PrtoIoop cVoptions;
+
+		const char* bVpath = cEnv->GetStringUTFChars(sPath, NULL);
+		AnsiString sVpath = bVpath;
+		cEnv->ReleaseStringUTFChars(sPath, bVpath);
+		int iVoptions = cEnv->GetArrayLength (cOptions);
+		char* bVoptions = (char*) cEnv->GetPrimitiveArrayCritical (cOptions, &bVcopy);
+		cVoptions.ParseFromArray (bVoptions, iVoptions);
+		cEnv->ReleasePrimitiveArrayCritical (cOptions, bVoptions, NULL);
+
+		struct Options options (cVoptions);
+		DB* cVinstance = new DB (options, sVpath.to_string ());
+		return (long) cVinstance;
+	}
+
+	/*NATIVE DESTROY EMBEDDED*/
+	JNIEXPORT jboolean JNICALL Java_com_tomting_orion_ordbc_Ordbc_nativeDestroyEmbedded
+		(JNIEnv* cEnv, jobject, jbyteArray cOptions, jstring sPath) {
+		jboolean bVcopy;
+		PrtoIoop cVoptions;
+
+		const char* bVpath = cEnv->GetStringUTFChars(sPath, NULL);
+		AnsiString sVpath = bVpath;
+		cEnv->ReleaseStringUTFChars(sPath, bVpath);
+		int iVoptions = cEnv->GetArrayLength (cOptions);
+		char* bVoptions = (char*) cEnv->GetPrimitiveArrayCritical (cOptions, &bVcopy);
+		cVoptions.ParseFromArray (bVoptions, iVoptions);
+		cEnv->ReleasePrimitiveArrayCritical (cOptions, bVoptions, NULL);
+
+		struct Options options (cVoptions);
+		Status cVstatus = DB::DestroyDB (options, sVpath.to_string ());
+		return cVstatus.ok ();
+	}
+
+	/*NATIVE DELETE EMBEDDED*/
+	JNIEXPORT jboolean JNICALL Java_com_tomting_orion_ordbc_Ordbc_nativeDeleteEmbedded 
+		(JNIEnv* cEnv, jobject, jlong cOpaquehandle) {
+
+		DB* cVinstance = (DB*) cOpaquehandle;
+		delete cVinstance;
+		return true;
+	}
+
+	/*NATIVE RUN EMBEDDED*/
+	JNIEXPORT jbyteArray Java_com_tomting_orion_ordbc_Ordbc_nativeRunEmbedded
+		(JNIEnv* cEnv, jobject, jlong cOpaquehandle, jint iServicetype, jbyteArray cService) {
+		jbyteArray cVresult;
+		iCembeddedservicetype iVservicetype = (iCembeddedservicetype) iServicetype;
+		DB* cVinstance = (DB*) cOpaquehandle;
+		Status cVstatus;
+
+		jboolean bVcopy;
+		int iVservice = cEnv->GetArrayLength (cService);
+		char* bVservice = (char*) cEnv->GetPrimitiveArrayCritical (cService, &bVcopy);
+	
+		switch (iVservicetype) {
+			case EMBEDDEDWRITE:
+				{
+					PrtoIwop cVwriteoptions;
+					cVwriteoptions.ParseFromArray (bVservice, iVservice);
+					switch (cVwriteoptions.ivlevel ()) {
+						case L1:
+							cVstatus.status.set_bvresult (
+								cVinstance->cVplanner->lcstm (
+									cVwriteoptions.mutable_cvstatementl1 (), true));
+							break;
+						case L2:
+							cVstatus.status.set_bvresult (
+								cVinstance->cVplanner->statm (
+									cVwriteoptions.mutable_cvstatementl2 (), 
+									cVwriteoptions.bvoptimizewriteindex (),
+									cVwriteoptions.bvupdateonlyindex (),
+									cVwriteoptions.bvlocalfilter()));
+							break;
+					}
+				}
 				break;
-			case iEservicetype::QUERY:
-				cVserviceresult.cVdmlresult.clear ();
-				cVserviceresult.bVreturn = cVprotoserviceresult.bvreturn ();
-				if (cVprotoserviceresult.bvreturn ()) 
-					CoreTutl::wrtrs (cVprotoserviceresult.mutable_cvdmlresult (), cVserviceresult.cVdmlresult);
+			case EMBEDDEDSTORAGE:
+				{
+					PrtoIgop cVstorageoptions;
+					cVstorageoptions.ParseFromArray (bVservice, iVservice);
+					switch (cVstorageoptions.ivlevel ()) {
+						case L1:
+							cVstatus.status.set_bvresult (
+								cVinstance->cVplanner->crttb (cVstorageoptions.mutable_cvdmll1 ()));
+							break;
+						case L2:
+							cVstatus.status.set_bvresult (
+								cVinstance->cVplanner->crttb (cVstorageoptions.mutable_cvdmll2 ()));
+							break;
+					}
+				}
 				break;
-			case iEservicetype::OSQL:
-				cVserviceresult.bVreturn = cVprotoserviceresult.bvreturn ();
-				cVserviceresult.cVdmlresult.clear ();
-				if (cVprotoserviceresult.bvreturn ()) 
-					CoreTutl::wrtrs (cVprotoserviceresult.mutable_cvdmlresult (), cVserviceresult.cVdmlresult);
+			case EMBEDDEDREAD:
+				{
+					PrtoIrop cVreadoptions;
+					cVreadoptions.ParseFromArray (bVservice, iVservice);
+					switch (cVreadoptions.ivlevel ()) {
+						case L1:
+							cVstatus.status.set_bvresult (
+								cVinstance->cVplanner->lcqry (
+									cVreadoptions.mutable_cvqueryl1 (), 
+									cVstatus.status.mutable_cvsnapshotl1 ()->mutable_cvvalue (), true));
+							if (!cVstatus.status.bvresult ()) cVstatus.status.clear_cvsnapshotl1 ();
+							else 
+								cVstatus.status.mutable_cvsnapshotl1 ()->mutable_cvkey ()->set_svmain (
+									cVreadoptions.mutable_cvqueryl1 ()->cvkey ().svmain ());
+							break;
+						case L2:
+							cVstatus.status.set_bvresult (
+								cVinstance->cVplanner->query (
+									cVreadoptions.mutable_cvqueryl2 (),
+									cVstatus.status.mutable_cvsnapshotl2 ()));
+							break;
+					}
+				}
+				break;
+			case EMBEDDEDOSQL:
+				{
+					PrtoIqop cVosqloptions;
+					cVosqloptions.ParseFromArray (bVservice, iVservice);
+					cVstatus.status.set_bvresult (
+						cVinstance->cVplanner->osql_ (
+							cVosqloptions.mutable_cvosqll2 (), 
+							cVstatus.status.mutable_cvsnapshotl2 ()));
+				}
 				break;
 		}
-		boost::shared_ptr<TMemoryBuffer> cVtransport (new TMemoryBuffer ());
-		boost::shared_ptr<TProtocol> cVprotocol (new TBinaryProtocol (cVtransport));
-		cVserviceresult.write (cVprotocol.get ());
-		cVtransport->getBuffer (&bVserviceresult, &iVlengthresult);
-		cVresult = cEnv->NewByteArray (iVlengthresult);	
-		cVdirect = (char*) cEnv->GetPrimitiveArrayCritical (cVresult, &bVcopy);
-		memcpy (cVdirect, bVserviceresult, iVlengthresult);
-		cEnv->ReleasePrimitiveArrayCritical (cVresult, cVdirect, NULL);
-	} else cVresult = cEnv->NewByteArray (0);
-
-	return cVresult;
-
-		/*
-		ThrfSrvr cVserviceresult;
-		uint8_t* bVserviceresult;
-		uint32_t iVlengthresult;
-
-		boost::shared_ptr<TMemoryBuffer> cVtransport (new TMemoryBuffer ());
-		boost::shared_ptr<TProtocol> cVprotocol (new TBinaryProtocol (cVtransport));
-		cVserviceresult.write (cVprotocol.get ());
-		cVtransport->getBuffer (&bVserviceresult, &iVlengthresult);
-		cVresult = cEnv->NewByteArray (iVlengthresult);	
-		cVdirect = (char*) cEnv->GetPrimitiveArrayCritical (cVresult, &bVcopy);
-		memcpy (cVdirect, bVserviceresult, iVlengthresult);
-		cEnv->ReleasePrimitiveArrayCritical (cVresult, cVdirect, NULL);*/
-
-	/*
-	LOG(WARNING) << "ANCORA " << iVreferences << " " << cVariespipeline;
-	FlushLogFiles(GLOG_WARNING);
-
-
-	return cEnv->NewByteArray (0);*/
-
-
-}
-
-
+		cEnv->ReleasePrimitiveArrayCritical (cService, bVservice, NULL);
+		string sVstatusserialized = cVstatus.status.SerializeAsString ();
+		cVresult = cEnv->NewByteArray (sVstatusserialized.size ());	
+		char*	bVresult = (char*) cEnv->GetPrimitiveArrayCritical (cVresult, &bVcopy);
+		memcpy (bVresult, sVstatusserialized.data (), sVstatusserialized.size ());
+		cEnv->ReleasePrimitiveArrayCritical (cVresult, bVresult, NULL);
+		return cVresult;
+	}
 
 

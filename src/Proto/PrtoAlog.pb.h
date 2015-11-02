@@ -58,6 +58,7 @@ class PrtoL2or;
 class PrtoL2wh;
 class PrtoL2qr;
 class PrtoL2os;
+class PrtoL1mr;
 class PrtoL2mr;
 class PrtoL2iv;
 class PrtoGoel;
@@ -75,6 +76,12 @@ class PrtoSrvc;
 class PrtoSrvr;
 class PrtoBsrc;
 class PrtoBsrr;
+class PrtoIoop;
+class PrtoIwop;
+class PrtoIrop;
+class PrtoIgop;
+class PrtoIsop;
+class PrtoIqop;
 
 enum iCpartitiontype {
   NOPARTITION = 0,
@@ -327,11 +334,15 @@ inline bool iCstatstype_Parse(
 enum iCservicetype {
   STATEMENT = 0,
   QUERY = 1,
-  OSQL = 2
+  OSQL = 2,
+  STORAGEL2 = 3,
+  STATEMENTL1 = 4,
+  QUERYL1 = 5,
+  STORAGEL1 = 6
 };
 bool iCservicetype_IsValid(int value);
 const iCservicetype iCservicetype_MIN = STATEMENT;
-const iCservicetype iCservicetype_MAX = OSQL;
+const iCservicetype iCservicetype_MAX = STORAGEL1;
 const int iCservicetype_ARRAYSIZE = iCservicetype_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* iCservicetype_descriptor();
@@ -383,6 +394,27 @@ inline bool iCdbleveltype_Parse(
     const ::std::string& name, iCdbleveltype* value) {
   return ::google::protobuf::internal::ParseNamedEnum<iCdbleveltype>(
     iCdbleveltype_descriptor(), name, value);
+}
+enum iCembeddedservicetype {
+  EMBEDDEDWRITE = 1,
+  EMBEDDEDSTORAGE = 2,
+  EMBEDDEDREAD = 3,
+  EMBEDDEDOSQL = 4
+};
+bool iCembeddedservicetype_IsValid(int value);
+const iCembeddedservicetype iCembeddedservicetype_MIN = EMBEDDEDWRITE;
+const iCembeddedservicetype iCembeddedservicetype_MAX = EMBEDDEDOSQL;
+const int iCembeddedservicetype_ARRAYSIZE = iCembeddedservicetype_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* iCembeddedservicetype_descriptor();
+inline const ::std::string& iCembeddedservicetype_Name(iCembeddedservicetype value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    iCembeddedservicetype_descriptor(), value);
+}
+inline bool iCembeddedservicetype_Parse(
+    const ::std::string& name, iCembeddedservicetype* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<iCembeddedservicetype>(
+    iCembeddedservicetype_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -3002,6 +3034,99 @@ class PrtoL2os : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
+class PrtoL1mr : public ::google::protobuf::Message {
+ public:
+  PrtoL1mr();
+  virtual ~PrtoL1mr();
+
+  PrtoL1mr(const PrtoL1mr& from);
+
+  inline PrtoL1mr& operator=(const PrtoL1mr& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PrtoL1mr& default_instance();
+
+  void Swap(PrtoL1mr* other);
+
+  // implements Message ----------------------------------------------
+
+  PrtoL1mr* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PrtoL1mr& from);
+  void MergeFrom(const PrtoL1mr& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .com.tomting.orion.PrtoLkey cVkey = 1;
+  inline bool has_cvkey() const;
+  inline void clear_cvkey();
+  static const int kCVkeyFieldNumber = 1;
+  inline const ::com::tomting::orion::PrtoLkey& cvkey() const;
+  inline ::com::tomting::orion::PrtoLkey* mutable_cvkey();
+  inline ::com::tomting::orion::PrtoLkey* release_cvkey();
+  inline void set_allocated_cvkey(::com::tomting::orion::PrtoLkey* cvkey);
+
+  // optional .com.tomting.orion.PrtoLval cVvalue = 2;
+  inline bool has_cvvalue() const;
+  inline void clear_cvvalue();
+  static const int kCVvalueFieldNumber = 2;
+  inline const ::com::tomting::orion::PrtoLval& cvvalue() const;
+  inline ::com::tomting::orion::PrtoLval* mutable_cvvalue();
+  inline ::com::tomting::orion::PrtoLval* release_cvvalue();
+  inline void set_allocated_cvvalue(::com::tomting::orion::PrtoLval* cvvalue);
+
+  // @@protoc_insertion_point(class_scope:com.tomting.orion.PrtoL1mr)
+ private:
+  inline void set_has_cvkey();
+  inline void clear_has_cvkey();
+  inline void set_has_cvvalue();
+  inline void clear_has_cvvalue();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::com::tomting::orion::PrtoLkey* cvkey_;
+  ::com::tomting::orion::PrtoLval* cvvalue_;
+  friend void  protobuf_AddDesc_PrtoAlog_2eproto();
+  friend void protobuf_AssignDesc_PrtoAlog_2eproto();
+  friend void protobuf_ShutdownFile_PrtoAlog_2eproto();
+
+  void InitAsDefaultInstance();
+  static PrtoL1mr* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class PrtoL2mr : public ::google::protobuf::Message {
  public:
   PrtoL2mr();
@@ -4721,6 +4846,70 @@ class PrtoSrvc : public ::google::protobuf::Message {
   inline ::com::tomting::orion::PrtoL2os* release_cvosql();
   inline void set_allocated_cvosql(::com::tomting::orion::PrtoL2os* cvosql);
 
+  // optional .com.tomting.orion.PrtoLstm cVstatementL1 = 5;
+  inline bool has_cvstatementl1() const;
+  inline void clear_cvstatementl1();
+  static const int kCVstatementL1FieldNumber = 5;
+  inline const ::com::tomting::orion::PrtoLstm& cvstatementl1() const;
+  inline ::com::tomting::orion::PrtoLstm* mutable_cvstatementl1();
+  inline ::com::tomting::orion::PrtoLstm* release_cvstatementl1();
+  inline void set_allocated_cvstatementl1(::com::tomting::orion::PrtoLstm* cvstatementl1);
+
+  // optional .com.tomting.orion.PrtoLqry cVqueryL1 = 6;
+  inline bool has_cvqueryl1() const;
+  inline void clear_cvqueryl1();
+  static const int kCVqueryL1FieldNumber = 6;
+  inline const ::com::tomting::orion::PrtoLqry& cvqueryl1() const;
+  inline ::com::tomting::orion::PrtoLqry* mutable_cvqueryl1();
+  inline ::com::tomting::orion::PrtoLqry* release_cvqueryl1();
+  inline void set_allocated_cvqueryl1(::com::tomting::orion::PrtoLqry* cvqueryl1);
+
+  // optional .com.tomting.orion.PrtoLmtb cVdmlL1 = 7;
+  inline bool has_cvdmll1() const;
+  inline void clear_cvdmll1();
+  static const int kCVdmlL1FieldNumber = 7;
+  inline const ::com::tomting::orion::PrtoLmtb& cvdmll1() const;
+  inline ::com::tomting::orion::PrtoLmtb* mutable_cvdmll1();
+  inline ::com::tomting::orion::PrtoLmtb* release_cvdmll1();
+  inline void set_allocated_cvdmll1(::com::tomting::orion::PrtoLmtb* cvdmll1);
+
+  // optional .com.tomting.orion.PrtoL2ct cVdmlL2 = 8;
+  inline bool has_cvdmll2() const;
+  inline void clear_cvdmll2();
+  static const int kCVdmlL2FieldNumber = 8;
+  inline const ::com::tomting::orion::PrtoL2ct& cvdmll2() const;
+  inline ::com::tomting::orion::PrtoL2ct* mutable_cvdmll2();
+  inline ::com::tomting::orion::PrtoL2ct* release_cvdmll2();
+  inline void set_allocated_cvdmll2(::com::tomting::orion::PrtoL2ct* cvdmll2);
+
+  // optional bool bVoptimizewriteindex = 9;
+  inline bool has_bvoptimizewriteindex() const;
+  inline void clear_bvoptimizewriteindex();
+  static const int kBVoptimizewriteindexFieldNumber = 9;
+  inline bool bvoptimizewriteindex() const;
+  inline void set_bvoptimizewriteindex(bool value);
+
+  // optional bool bVupdateonlyindex = 10;
+  inline bool has_bvupdateonlyindex() const;
+  inline void clear_bvupdateonlyindex();
+  static const int kBVupdateonlyindexFieldNumber = 10;
+  inline bool bvupdateonlyindex() const;
+  inline void set_bvupdateonlyindex(bool value);
+
+  // optional bool bVlocalfilter = 11;
+  inline bool has_bvlocalfilter() const;
+  inline void clear_bvlocalfilter();
+  static const int kBVlocalfilterFieldNumber = 11;
+  inline bool bvlocalfilter() const;
+  inline void set_bvlocalfilter(bool value);
+
+  // optional bool bVenabletimestamp = 12;
+  inline bool has_bvenabletimestamp() const;
+  inline void clear_bvenabletimestamp();
+  static const int kBVenabletimestampFieldNumber = 12;
+  inline bool bvenabletimestamp() const;
+  inline void set_bvenabletimestamp(bool value);
+
   // @@protoc_insertion_point(class_scope:com.tomting.orion.PrtoSrvc)
  private:
   inline void set_has_ivservicetype();
@@ -4731,6 +4920,22 @@ class PrtoSrvc : public ::google::protobuf::Message {
   inline void clear_has_cvstatement();
   inline void set_has_cvosql();
   inline void clear_has_cvosql();
+  inline void set_has_cvstatementl1();
+  inline void clear_has_cvstatementl1();
+  inline void set_has_cvqueryl1();
+  inline void clear_has_cvqueryl1();
+  inline void set_has_cvdmll1();
+  inline void clear_has_cvdmll1();
+  inline void set_has_cvdmll2();
+  inline void clear_has_cvdmll2();
+  inline void set_has_bvoptimizewriteindex();
+  inline void clear_has_bvoptimizewriteindex();
+  inline void set_has_bvupdateonlyindex();
+  inline void clear_has_bvupdateonlyindex();
+  inline void set_has_bvlocalfilter();
+  inline void clear_has_bvlocalfilter();
+  inline void set_has_bvenabletimestamp();
+  inline void clear_has_bvenabletimestamp();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -4739,7 +4944,15 @@ class PrtoSrvc : public ::google::protobuf::Message {
   ::com::tomting::orion::PrtoL2qr* cvquery_;
   ::com::tomting::orion::PrtoL2st* cvstatement_;
   ::com::tomting::orion::PrtoL2os* cvosql_;
+  ::com::tomting::orion::PrtoLstm* cvstatementl1_;
+  ::com::tomting::orion::PrtoLqry* cvqueryl1_;
+  ::com::tomting::orion::PrtoLmtb* cvdmll1_;
+  ::com::tomting::orion::PrtoL2ct* cvdmll2_;
   int ivservicetype_;
+  bool bvoptimizewriteindex_;
+  bool bvupdateonlyindex_;
+  bool bvlocalfilter_;
+  bool bvenabletimestamp_;
   friend void  protobuf_AddDesc_PrtoAlog_2eproto();
   friend void protobuf_AssignDesc_PrtoAlog_2eproto();
   friend void protobuf_ShutdownFile_PrtoAlog_2eproto();
@@ -4818,18 +5031,30 @@ class PrtoSrvr : public ::google::protobuf::Message {
   inline ::com::tomting::orion::PrtoL2mr* release_cvdmlresult();
   inline void set_allocated_cvdmlresult(::com::tomting::orion::PrtoL2mr* cvdmlresult);
 
+  // optional .com.tomting.orion.PrtoL1mr cVsnapshotL1 = 3;
+  inline bool has_cvsnapshotl1() const;
+  inline void clear_cvsnapshotl1();
+  static const int kCVsnapshotL1FieldNumber = 3;
+  inline const ::com::tomting::orion::PrtoL1mr& cvsnapshotl1() const;
+  inline ::com::tomting::orion::PrtoL1mr* mutable_cvsnapshotl1();
+  inline ::com::tomting::orion::PrtoL1mr* release_cvsnapshotl1();
+  inline void set_allocated_cvsnapshotl1(::com::tomting::orion::PrtoL1mr* cvsnapshotl1);
+
   // @@protoc_insertion_point(class_scope:com.tomting.orion.PrtoSrvr)
  private:
   inline void set_has_bvreturn();
   inline void clear_has_bvreturn();
   inline void set_has_cvdmlresult();
   inline void clear_has_cvdmlresult();
+  inline void set_has_cvsnapshotl1();
+  inline void clear_has_cvsnapshotl1();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
   ::com::tomting::orion::PrtoL2mr* cvdmlresult_;
+  ::com::tomting::orion::PrtoL1mr* cvsnapshotl1_;
   bool bvreturn_;
   friend void  protobuf_AddDesc_PrtoAlog_2eproto();
   friend void protobuf_AssignDesc_PrtoAlog_2eproto();
@@ -5069,6 +5294,808 @@ class PrtoBsrr : public ::google::protobuf::Message {
 
   void InitAsDefaultInstance();
   static PrtoBsrr* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PrtoIoop : public ::google::protobuf::Message {
+ public:
+  PrtoIoop();
+  virtual ~PrtoIoop();
+
+  PrtoIoop(const PrtoIoop& from);
+
+  inline PrtoIoop& operator=(const PrtoIoop& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PrtoIoop& default_instance();
+
+  void Swap(PrtoIoop* other);
+
+  // implements Message ----------------------------------------------
+
+  PrtoIoop* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PrtoIoop& from);
+  void MergeFrom(const PrtoIoop& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional bytes sVlogpath = 1;
+  inline bool has_svlogpath() const;
+  inline void clear_svlogpath();
+  static const int kSVlogpathFieldNumber = 1;
+  inline const ::std::string& svlogpath() const;
+  inline void set_svlogpath(const ::std::string& value);
+  inline void set_svlogpath(const char* value);
+  inline void set_svlogpath(const void* value, size_t size);
+  inline ::std::string* mutable_svlogpath();
+  inline ::std::string* release_svlogpath();
+  inline void set_allocated_svlogpath(::std::string* svlogpath);
+
+  // optional bytes sVmasterxml = 2;
+  inline bool has_svmasterxml() const;
+  inline void clear_svmasterxml();
+  static const int kSVmasterxmlFieldNumber = 2;
+  inline const ::std::string& svmasterxml() const;
+  inline void set_svmasterxml(const ::std::string& value);
+  inline void set_svmasterxml(const char* value);
+  inline void set_svmasterxml(const void* value, size_t size);
+  inline ::std::string* mutable_svmasterxml();
+  inline ::std::string* release_svmasterxml();
+  inline void set_allocated_svmasterxml(::std::string* svmasterxml);
+
+  // optional bytes sVnodeid = 3;
+  inline bool has_svnodeid() const;
+  inline void clear_svnodeid();
+  static const int kSVnodeidFieldNumber = 3;
+  inline const ::std::string& svnodeid() const;
+  inline void set_svnodeid(const ::std::string& value);
+  inline void set_svnodeid(const char* value);
+  inline void set_svnodeid(const void* value, size_t size);
+  inline ::std::string* mutable_svnodeid();
+  inline ::std::string* release_svnodeid();
+  inline void set_allocated_svnodeid(::std::string* svnodeid);
+
+  // optional bytes sVtabletsubpath = 4;
+  inline bool has_svtabletsubpath() const;
+  inline void clear_svtabletsubpath();
+  static const int kSVtabletsubpathFieldNumber = 4;
+  inline const ::std::string& svtabletsubpath() const;
+  inline void set_svtabletsubpath(const ::std::string& value);
+  inline void set_svtabletsubpath(const char* value);
+  inline void set_svtabletsubpath(const void* value, size_t size);
+  inline ::std::string* mutable_svtabletsubpath();
+  inline ::std::string* release_svtabletsubpath();
+  inline void set_allocated_svtabletsubpath(::std::string* svtabletsubpath);
+
+  // optional bytes sVredologsubpath = 5;
+  inline bool has_svredologsubpath() const;
+  inline void clear_svredologsubpath();
+  static const int kSVredologsubpathFieldNumber = 5;
+  inline const ::std::string& svredologsubpath() const;
+  inline void set_svredologsubpath(const ::std::string& value);
+  inline void set_svredologsubpath(const char* value);
+  inline void set_svredologsubpath(const void* value, size_t size);
+  inline ::std::string* mutable_svredologsubpath();
+  inline ::std::string* release_svredologsubpath();
+  inline void set_allocated_svredologsubpath(::std::string* svredologsubpath);
+
+  // optional bytes sVdatasubpath = 6;
+  inline bool has_svdatasubpath() const;
+  inline void clear_svdatasubpath();
+  static const int kSVdatasubpathFieldNumber = 6;
+  inline const ::std::string& svdatasubpath() const;
+  inline void set_svdatasubpath(const ::std::string& value);
+  inline void set_svdatasubpath(const char* value);
+  inline void set_svdatasubpath(const void* value, size_t size);
+  inline ::std::string* mutable_svdatasubpath();
+  inline ::std::string* release_svdatasubpath();
+  inline void set_allocated_svdatasubpath(::std::string* svdatasubpath);
+
+  // optional bytes sVthriftaddress = 7;
+  inline bool has_svthriftaddress() const;
+  inline void clear_svthriftaddress();
+  static const int kSVthriftaddressFieldNumber = 7;
+  inline const ::std::string& svthriftaddress() const;
+  inline void set_svthriftaddress(const ::std::string& value);
+  inline void set_svthriftaddress(const char* value);
+  inline void set_svthriftaddress(const void* value, size_t size);
+  inline ::std::string* mutable_svthriftaddress();
+  inline ::std::string* release_svthriftaddress();
+  inline void set_allocated_svthriftaddress(::std::string* svthriftaddress);
+
+  // optional bytes sVthriftgossiperaddress = 8;
+  inline bool has_svthriftgossiperaddress() const;
+  inline void clear_svthriftgossiperaddress();
+  static const int kSVthriftgossiperaddressFieldNumber = 8;
+  inline const ::std::string& svthriftgossiperaddress() const;
+  inline void set_svthriftgossiperaddress(const ::std::string& value);
+  inline void set_svthriftgossiperaddress(const char* value);
+  inline void set_svthriftgossiperaddress(const void* value, size_t size);
+  inline ::std::string* mutable_svthriftgossiperaddress();
+  inline ::std::string* release_svthriftgossiperaddress();
+  inline void set_allocated_svthriftgossiperaddress(::std::string* svthriftgossiperaddress);
+
+  // optional int32 iVthriftport = 9;
+  inline bool has_ivthriftport() const;
+  inline void clear_ivthriftport();
+  static const int kIVthriftportFieldNumber = 9;
+  inline ::google::protobuf::int32 ivthriftport() const;
+  inline void set_ivthriftport(::google::protobuf::int32 value);
+
+  // optional int32 iVthriftgossiperport = 10;
+  inline bool has_ivthriftgossiperport() const;
+  inline void clear_ivthriftgossiperport();
+  static const int kIVthriftgossiperportFieldNumber = 10;
+  inline ::google::protobuf::int32 ivthriftgossiperport() const;
+  inline void set_ivthriftgossiperport(::google::protobuf::int32 value);
+
+  // optional int32 iVredologdim = 11;
+  inline bool has_ivredologdim() const;
+  inline void clear_ivredologdim();
+  static const int kIVredologdimFieldNumber = 11;
+  inline ::google::protobuf::int32 ivredologdim() const;
+  inline void set_ivredologdim(::google::protobuf::int32 value);
+
+  // optional int32 iVthriftlisteners = 12;
+  inline bool has_ivthriftlisteners() const;
+  inline void clear_ivthriftlisteners();
+  static const int kIVthriftlistenersFieldNumber = 12;
+  inline ::google::protobuf::int32 ivthriftlisteners() const;
+  inline void set_ivthriftlisteners(::google::protobuf::int32 value);
+
+  // optional int32 iVmaxcompactionlevel = 13;
+  inline bool has_ivmaxcompactionlevel() const;
+  inline void clear_ivmaxcompactionlevel();
+  static const int kIVmaxcompactionlevelFieldNumber = 13;
+  inline ::google::protobuf::int32 ivmaxcompactionlevel() const;
+  inline void set_ivmaxcompactionlevel(::google::protobuf::int32 value);
+
+  // optional int32 iVreplicationfactor = 14;
+  inline bool has_ivreplicationfactor() const;
+  inline void clear_ivreplicationfactor();
+  static const int kIVreplicationfactorFieldNumber = 14;
+  inline ::google::protobuf::int32 ivreplicationfactor() const;
+  inline void set_ivreplicationfactor(::google::protobuf::int32 value);
+
+  // optional bool bVerrorifexists = 15;
+  inline bool has_bverrorifexists() const;
+  inline void clear_bverrorifexists();
+  static const int kBVerrorifexistsFieldNumber = 15;
+  inline bool bverrorifexists() const;
+  inline void set_bverrorifexists(bool value);
+
+  // @@protoc_insertion_point(class_scope:com.tomting.orion.PrtoIoop)
+ private:
+  inline void set_has_svlogpath();
+  inline void clear_has_svlogpath();
+  inline void set_has_svmasterxml();
+  inline void clear_has_svmasterxml();
+  inline void set_has_svnodeid();
+  inline void clear_has_svnodeid();
+  inline void set_has_svtabletsubpath();
+  inline void clear_has_svtabletsubpath();
+  inline void set_has_svredologsubpath();
+  inline void clear_has_svredologsubpath();
+  inline void set_has_svdatasubpath();
+  inline void clear_has_svdatasubpath();
+  inline void set_has_svthriftaddress();
+  inline void clear_has_svthriftaddress();
+  inline void set_has_svthriftgossiperaddress();
+  inline void clear_has_svthriftgossiperaddress();
+  inline void set_has_ivthriftport();
+  inline void clear_has_ivthriftport();
+  inline void set_has_ivthriftgossiperport();
+  inline void clear_has_ivthriftgossiperport();
+  inline void set_has_ivredologdim();
+  inline void clear_has_ivredologdim();
+  inline void set_has_ivthriftlisteners();
+  inline void clear_has_ivthriftlisteners();
+  inline void set_has_ivmaxcompactionlevel();
+  inline void clear_has_ivmaxcompactionlevel();
+  inline void set_has_ivreplicationfactor();
+  inline void clear_has_ivreplicationfactor();
+  inline void set_has_bverrorifexists();
+  inline void clear_has_bverrorifexists();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::std::string* svlogpath_;
+  ::std::string* svmasterxml_;
+  ::std::string* svnodeid_;
+  ::std::string* svtabletsubpath_;
+  ::std::string* svredologsubpath_;
+  ::std::string* svdatasubpath_;
+  ::std::string* svthriftaddress_;
+  ::std::string* svthriftgossiperaddress_;
+  ::google::protobuf::int32 ivthriftport_;
+  ::google::protobuf::int32 ivthriftgossiperport_;
+  ::google::protobuf::int32 ivredologdim_;
+  ::google::protobuf::int32 ivthriftlisteners_;
+  ::google::protobuf::int32 ivmaxcompactionlevel_;
+  ::google::protobuf::int32 ivreplicationfactor_;
+  bool bverrorifexists_;
+  friend void  protobuf_AddDesc_PrtoAlog_2eproto();
+  friend void protobuf_AssignDesc_PrtoAlog_2eproto();
+  friend void protobuf_ShutdownFile_PrtoAlog_2eproto();
+
+  void InitAsDefaultInstance();
+  static PrtoIoop* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PrtoIwop : public ::google::protobuf::Message {
+ public:
+  PrtoIwop();
+  virtual ~PrtoIwop();
+
+  PrtoIwop(const PrtoIwop& from);
+
+  inline PrtoIwop& operator=(const PrtoIwop& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PrtoIwop& default_instance();
+
+  void Swap(PrtoIwop* other);
+
+  // implements Message ----------------------------------------------
+
+  PrtoIwop* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PrtoIwop& from);
+  void MergeFrom(const PrtoIwop& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .com.tomting.orion.iCdbleveltype iVlevel = 1;
+  inline bool has_ivlevel() const;
+  inline void clear_ivlevel();
+  static const int kIVlevelFieldNumber = 1;
+  inline ::com::tomting::orion::iCdbleveltype ivlevel() const;
+  inline void set_ivlevel(::com::tomting::orion::iCdbleveltype value);
+
+  // optional .com.tomting.orion.PrtoLstm cVstatementL1 = 2;
+  inline bool has_cvstatementl1() const;
+  inline void clear_cvstatementl1();
+  static const int kCVstatementL1FieldNumber = 2;
+  inline const ::com::tomting::orion::PrtoLstm& cvstatementl1() const;
+  inline ::com::tomting::orion::PrtoLstm* mutable_cvstatementl1();
+  inline ::com::tomting::orion::PrtoLstm* release_cvstatementl1();
+  inline void set_allocated_cvstatementl1(::com::tomting::orion::PrtoLstm* cvstatementl1);
+
+  // optional .com.tomting.orion.PrtoL2st cVstatementL2 = 3;
+  inline bool has_cvstatementl2() const;
+  inline void clear_cvstatementl2();
+  static const int kCVstatementL2FieldNumber = 3;
+  inline const ::com::tomting::orion::PrtoL2st& cvstatementl2() const;
+  inline ::com::tomting::orion::PrtoL2st* mutable_cvstatementl2();
+  inline ::com::tomting::orion::PrtoL2st* release_cvstatementl2();
+  inline void set_allocated_cvstatementl2(::com::tomting::orion::PrtoL2st* cvstatementl2);
+
+  // optional bool bVoptimizewriteindex = 4;
+  inline bool has_bvoptimizewriteindex() const;
+  inline void clear_bvoptimizewriteindex();
+  static const int kBVoptimizewriteindexFieldNumber = 4;
+  inline bool bvoptimizewriteindex() const;
+  inline void set_bvoptimizewriteindex(bool value);
+
+  // optional bool bVupdateonlyindex = 5;
+  inline bool has_bvupdateonlyindex() const;
+  inline void clear_bvupdateonlyindex();
+  static const int kBVupdateonlyindexFieldNumber = 5;
+  inline bool bvupdateonlyindex() const;
+  inline void set_bvupdateonlyindex(bool value);
+
+  // optional bool bVlocalfilter = 6;
+  inline bool has_bvlocalfilter() const;
+  inline void clear_bvlocalfilter();
+  static const int kBVlocalfilterFieldNumber = 6;
+  inline bool bvlocalfilter() const;
+  inline void set_bvlocalfilter(bool value);
+
+  // optional bool bVenabletimestamp = 7;
+  inline bool has_bvenabletimestamp() const;
+  inline void clear_bvenabletimestamp();
+  static const int kBVenabletimestampFieldNumber = 7;
+  inline bool bvenabletimestamp() const;
+  inline void set_bvenabletimestamp(bool value);
+
+  // @@protoc_insertion_point(class_scope:com.tomting.orion.PrtoIwop)
+ private:
+  inline void set_has_ivlevel();
+  inline void clear_has_ivlevel();
+  inline void set_has_cvstatementl1();
+  inline void clear_has_cvstatementl1();
+  inline void set_has_cvstatementl2();
+  inline void clear_has_cvstatementl2();
+  inline void set_has_bvoptimizewriteindex();
+  inline void clear_has_bvoptimizewriteindex();
+  inline void set_has_bvupdateonlyindex();
+  inline void clear_has_bvupdateonlyindex();
+  inline void set_has_bvlocalfilter();
+  inline void clear_has_bvlocalfilter();
+  inline void set_has_bvenabletimestamp();
+  inline void clear_has_bvenabletimestamp();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::com::tomting::orion::PrtoLstm* cvstatementl1_;
+  ::com::tomting::orion::PrtoL2st* cvstatementl2_;
+  int ivlevel_;
+  bool bvoptimizewriteindex_;
+  bool bvupdateonlyindex_;
+  bool bvlocalfilter_;
+  bool bvenabletimestamp_;
+  friend void  protobuf_AddDesc_PrtoAlog_2eproto();
+  friend void protobuf_AssignDesc_PrtoAlog_2eproto();
+  friend void protobuf_ShutdownFile_PrtoAlog_2eproto();
+
+  void InitAsDefaultInstance();
+  static PrtoIwop* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PrtoIrop : public ::google::protobuf::Message {
+ public:
+  PrtoIrop();
+  virtual ~PrtoIrop();
+
+  PrtoIrop(const PrtoIrop& from);
+
+  inline PrtoIrop& operator=(const PrtoIrop& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PrtoIrop& default_instance();
+
+  void Swap(PrtoIrop* other);
+
+  // implements Message ----------------------------------------------
+
+  PrtoIrop* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PrtoIrop& from);
+  void MergeFrom(const PrtoIrop& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .com.tomting.orion.iCdbleveltype iVlevel = 1;
+  inline bool has_ivlevel() const;
+  inline void clear_ivlevel();
+  static const int kIVlevelFieldNumber = 1;
+  inline ::com::tomting::orion::iCdbleveltype ivlevel() const;
+  inline void set_ivlevel(::com::tomting::orion::iCdbleveltype value);
+
+  // optional .com.tomting.orion.PrtoLqry cVqueryL1 = 2;
+  inline bool has_cvqueryl1() const;
+  inline void clear_cvqueryl1();
+  static const int kCVqueryL1FieldNumber = 2;
+  inline const ::com::tomting::orion::PrtoLqry& cvqueryl1() const;
+  inline ::com::tomting::orion::PrtoLqry* mutable_cvqueryl1();
+  inline ::com::tomting::orion::PrtoLqry* release_cvqueryl1();
+  inline void set_allocated_cvqueryl1(::com::tomting::orion::PrtoLqry* cvqueryl1);
+
+  // optional .com.tomting.orion.PrtoL2qr cVqueryL2 = 3;
+  inline bool has_cvqueryl2() const;
+  inline void clear_cvqueryl2();
+  static const int kCVqueryL2FieldNumber = 3;
+  inline const ::com::tomting::orion::PrtoL2qr& cvqueryl2() const;
+  inline ::com::tomting::orion::PrtoL2qr* mutable_cvqueryl2();
+  inline ::com::tomting::orion::PrtoL2qr* release_cvqueryl2();
+  inline void set_allocated_cvqueryl2(::com::tomting::orion::PrtoL2qr* cvqueryl2);
+
+  // @@protoc_insertion_point(class_scope:com.tomting.orion.PrtoIrop)
+ private:
+  inline void set_has_ivlevel();
+  inline void clear_has_ivlevel();
+  inline void set_has_cvqueryl1();
+  inline void clear_has_cvqueryl1();
+  inline void set_has_cvqueryl2();
+  inline void clear_has_cvqueryl2();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::com::tomting::orion::PrtoLqry* cvqueryl1_;
+  ::com::tomting::orion::PrtoL2qr* cvqueryl2_;
+  int ivlevel_;
+  friend void  protobuf_AddDesc_PrtoAlog_2eproto();
+  friend void protobuf_AssignDesc_PrtoAlog_2eproto();
+  friend void protobuf_ShutdownFile_PrtoAlog_2eproto();
+
+  void InitAsDefaultInstance();
+  static PrtoIrop* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PrtoIgop : public ::google::protobuf::Message {
+ public:
+  PrtoIgop();
+  virtual ~PrtoIgop();
+
+  PrtoIgop(const PrtoIgop& from);
+
+  inline PrtoIgop& operator=(const PrtoIgop& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PrtoIgop& default_instance();
+
+  void Swap(PrtoIgop* other);
+
+  // implements Message ----------------------------------------------
+
+  PrtoIgop* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PrtoIgop& from);
+  void MergeFrom(const PrtoIgop& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .com.tomting.orion.iCdbleveltype iVlevel = 1;
+  inline bool has_ivlevel() const;
+  inline void clear_ivlevel();
+  static const int kIVlevelFieldNumber = 1;
+  inline ::com::tomting::orion::iCdbleveltype ivlevel() const;
+  inline void set_ivlevel(::com::tomting::orion::iCdbleveltype value);
+
+  // optional .com.tomting.orion.PrtoLmtb cVdmlL1 = 2;
+  inline bool has_cvdmll1() const;
+  inline void clear_cvdmll1();
+  static const int kCVdmlL1FieldNumber = 2;
+  inline const ::com::tomting::orion::PrtoLmtb& cvdmll1() const;
+  inline ::com::tomting::orion::PrtoLmtb* mutable_cvdmll1();
+  inline ::com::tomting::orion::PrtoLmtb* release_cvdmll1();
+  inline void set_allocated_cvdmll1(::com::tomting::orion::PrtoLmtb* cvdmll1);
+
+  // optional .com.tomting.orion.PrtoL2ct cVdmlL2 = 3;
+  inline bool has_cvdmll2() const;
+  inline void clear_cvdmll2();
+  static const int kCVdmlL2FieldNumber = 3;
+  inline const ::com::tomting::orion::PrtoL2ct& cvdmll2() const;
+  inline ::com::tomting::orion::PrtoL2ct* mutable_cvdmll2();
+  inline ::com::tomting::orion::PrtoL2ct* release_cvdmll2();
+  inline void set_allocated_cvdmll2(::com::tomting::orion::PrtoL2ct* cvdmll2);
+
+  // @@protoc_insertion_point(class_scope:com.tomting.orion.PrtoIgop)
+ private:
+  inline void set_has_ivlevel();
+  inline void clear_has_ivlevel();
+  inline void set_has_cvdmll1();
+  inline void clear_has_cvdmll1();
+  inline void set_has_cvdmll2();
+  inline void clear_has_cvdmll2();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::com::tomting::orion::PrtoLmtb* cvdmll1_;
+  ::com::tomting::orion::PrtoL2ct* cvdmll2_;
+  int ivlevel_;
+  friend void  protobuf_AddDesc_PrtoAlog_2eproto();
+  friend void protobuf_AssignDesc_PrtoAlog_2eproto();
+  friend void protobuf_ShutdownFile_PrtoAlog_2eproto();
+
+  void InitAsDefaultInstance();
+  static PrtoIgop* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PrtoIsop : public ::google::protobuf::Message {
+ public:
+  PrtoIsop();
+  virtual ~PrtoIsop();
+
+  PrtoIsop(const PrtoIsop& from);
+
+  inline PrtoIsop& operator=(const PrtoIsop& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PrtoIsop& default_instance();
+
+  void Swap(PrtoIsop* other);
+
+  // implements Message ----------------------------------------------
+
+  PrtoIsop* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PrtoIsop& from);
+  void MergeFrom(const PrtoIsop& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required bool bVresult = 1;
+  inline bool has_bvresult() const;
+  inline void clear_bvresult();
+  static const int kBVresultFieldNumber = 1;
+  inline bool bvresult() const;
+  inline void set_bvresult(bool value);
+
+  // optional .com.tomting.orion.PrtoL1mr cVsnapshotL1 = 2;
+  inline bool has_cvsnapshotl1() const;
+  inline void clear_cvsnapshotl1();
+  static const int kCVsnapshotL1FieldNumber = 2;
+  inline const ::com::tomting::orion::PrtoL1mr& cvsnapshotl1() const;
+  inline ::com::tomting::orion::PrtoL1mr* mutable_cvsnapshotl1();
+  inline ::com::tomting::orion::PrtoL1mr* release_cvsnapshotl1();
+  inline void set_allocated_cvsnapshotl1(::com::tomting::orion::PrtoL1mr* cvsnapshotl1);
+
+  // optional .com.tomting.orion.PrtoL2mr cVsnapshotL2 = 3;
+  inline bool has_cvsnapshotl2() const;
+  inline void clear_cvsnapshotl2();
+  static const int kCVsnapshotL2FieldNumber = 3;
+  inline const ::com::tomting::orion::PrtoL2mr& cvsnapshotl2() const;
+  inline ::com::tomting::orion::PrtoL2mr* mutable_cvsnapshotl2();
+  inline ::com::tomting::orion::PrtoL2mr* release_cvsnapshotl2();
+  inline void set_allocated_cvsnapshotl2(::com::tomting::orion::PrtoL2mr* cvsnapshotl2);
+
+  // @@protoc_insertion_point(class_scope:com.tomting.orion.PrtoIsop)
+ private:
+  inline void set_has_bvresult();
+  inline void clear_has_bvresult();
+  inline void set_has_cvsnapshotl1();
+  inline void clear_has_cvsnapshotl1();
+  inline void set_has_cvsnapshotl2();
+  inline void clear_has_cvsnapshotl2();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::com::tomting::orion::PrtoL1mr* cvsnapshotl1_;
+  ::com::tomting::orion::PrtoL2mr* cvsnapshotl2_;
+  bool bvresult_;
+  friend void  protobuf_AddDesc_PrtoAlog_2eproto();
+  friend void protobuf_AssignDesc_PrtoAlog_2eproto();
+  friend void protobuf_ShutdownFile_PrtoAlog_2eproto();
+
+  void InitAsDefaultInstance();
+  static PrtoIsop* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class PrtoIqop : public ::google::protobuf::Message {
+ public:
+  PrtoIqop();
+  virtual ~PrtoIqop();
+
+  PrtoIqop(const PrtoIqop& from);
+
+  inline PrtoIqop& operator=(const PrtoIqop& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const PrtoIqop& default_instance();
+
+  void Swap(PrtoIqop* other);
+
+  // implements Message ----------------------------------------------
+
+  PrtoIqop* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const PrtoIqop& from);
+  void MergeFrom(const PrtoIqop& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .com.tomting.orion.PrtoL2os cVosqlL2 = 1;
+  inline bool has_cvosqll2() const;
+  inline void clear_cvosqll2();
+  static const int kCVosqlL2FieldNumber = 1;
+  inline const ::com::tomting::orion::PrtoL2os& cvosqll2() const;
+  inline ::com::tomting::orion::PrtoL2os* mutable_cvosqll2();
+  inline ::com::tomting::orion::PrtoL2os* release_cvosqll2();
+  inline void set_allocated_cvosqll2(::com::tomting::orion::PrtoL2os* cvosqll2);
+
+  // optional bool bVenabletimestamp = 2;
+  inline bool has_bvenabletimestamp() const;
+  inline void clear_bvenabletimestamp();
+  static const int kBVenabletimestampFieldNumber = 2;
+  inline bool bvenabletimestamp() const;
+  inline void set_bvenabletimestamp(bool value);
+
+  // @@protoc_insertion_point(class_scope:com.tomting.orion.PrtoIqop)
+ private:
+  inline void set_has_cvosqll2();
+  inline void clear_has_cvosqll2();
+  inline void set_has_bvenabletimestamp();
+  inline void clear_has_bvenabletimestamp();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::uint32 _has_bits_[1];
+  mutable int _cached_size_;
+  ::com::tomting::orion::PrtoL2os* cvosqll2_;
+  bool bvenabletimestamp_;
+  friend void  protobuf_AddDesc_PrtoAlog_2eproto();
+  friend void protobuf_AssignDesc_PrtoAlog_2eproto();
+  friend void protobuf_ShutdownFile_PrtoAlog_2eproto();
+
+  void InitAsDefaultInstance();
+  static PrtoIqop* default_instance_;
 };
 // ===================================================================
 
@@ -8748,6 +9775,92 @@ inline void PrtoL2os::set_bvfulltablescan(bool value) {
 
 // -------------------------------------------------------------------
 
+// PrtoL1mr
+
+// optional .com.tomting.orion.PrtoLkey cVkey = 1;
+inline bool PrtoL1mr::has_cvkey() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PrtoL1mr::set_has_cvkey() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PrtoL1mr::clear_has_cvkey() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PrtoL1mr::clear_cvkey() {
+  if (cvkey_ != NULL) cvkey_->::com::tomting::orion::PrtoLkey::Clear();
+  clear_has_cvkey();
+}
+inline const ::com::tomting::orion::PrtoLkey& PrtoL1mr::cvkey() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoL1mr.cVkey)
+  return cvkey_ != NULL ? *cvkey_ : *default_instance_->cvkey_;
+}
+inline ::com::tomting::orion::PrtoLkey* PrtoL1mr::mutable_cvkey() {
+  set_has_cvkey();
+  if (cvkey_ == NULL) cvkey_ = new ::com::tomting::orion::PrtoLkey;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoL1mr.cVkey)
+  return cvkey_;
+}
+inline ::com::tomting::orion::PrtoLkey* PrtoL1mr::release_cvkey() {
+  clear_has_cvkey();
+  ::com::tomting::orion::PrtoLkey* temp = cvkey_;
+  cvkey_ = NULL;
+  return temp;
+}
+inline void PrtoL1mr::set_allocated_cvkey(::com::tomting::orion::PrtoLkey* cvkey) {
+  delete cvkey_;
+  cvkey_ = cvkey;
+  if (cvkey) {
+    set_has_cvkey();
+  } else {
+    clear_has_cvkey();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoL1mr.cVkey)
+}
+
+// optional .com.tomting.orion.PrtoLval cVvalue = 2;
+inline bool PrtoL1mr::has_cvvalue() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PrtoL1mr::set_has_cvvalue() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PrtoL1mr::clear_has_cvvalue() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PrtoL1mr::clear_cvvalue() {
+  if (cvvalue_ != NULL) cvvalue_->::com::tomting::orion::PrtoLval::Clear();
+  clear_has_cvvalue();
+}
+inline const ::com::tomting::orion::PrtoLval& PrtoL1mr::cvvalue() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoL1mr.cVvalue)
+  return cvvalue_ != NULL ? *cvvalue_ : *default_instance_->cvvalue_;
+}
+inline ::com::tomting::orion::PrtoLval* PrtoL1mr::mutable_cvvalue() {
+  set_has_cvvalue();
+  if (cvvalue_ == NULL) cvvalue_ = new ::com::tomting::orion::PrtoLval;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoL1mr.cVvalue)
+  return cvvalue_;
+}
+inline ::com::tomting::orion::PrtoLval* PrtoL1mr::release_cvvalue() {
+  clear_has_cvvalue();
+  ::com::tomting::orion::PrtoLval* temp = cvvalue_;
+  cvvalue_ = NULL;
+  return temp;
+}
+inline void PrtoL1mr::set_allocated_cvvalue(::com::tomting::orion::PrtoLval* cvvalue) {
+  delete cvvalue_;
+  cvvalue_ = cvvalue;
+  if (cvvalue) {
+    set_has_cvvalue();
+  } else {
+    clear_has_cvvalue();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoL1mr.cVvalue)
+}
+
+// -------------------------------------------------------------------
+
 // PrtoL2mr
 
 // repeated .com.tomting.orion.PrtoL2ks cVkeyslice = 1;
@@ -11583,6 +12696,266 @@ inline void PrtoSrvc::set_allocated_cvosql(::com::tomting::orion::PrtoL2os* cvos
   // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoSrvc.cVosql)
 }
 
+// optional .com.tomting.orion.PrtoLstm cVstatementL1 = 5;
+inline bool PrtoSrvc::has_cvstatementl1() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void PrtoSrvc::set_has_cvstatementl1() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void PrtoSrvc::clear_has_cvstatementl1() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void PrtoSrvc::clear_cvstatementl1() {
+  if (cvstatementl1_ != NULL) cvstatementl1_->::com::tomting::orion::PrtoLstm::Clear();
+  clear_has_cvstatementl1();
+}
+inline const ::com::tomting::orion::PrtoLstm& PrtoSrvc::cvstatementl1() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoSrvc.cVstatementL1)
+  return cvstatementl1_ != NULL ? *cvstatementl1_ : *default_instance_->cvstatementl1_;
+}
+inline ::com::tomting::orion::PrtoLstm* PrtoSrvc::mutable_cvstatementl1() {
+  set_has_cvstatementl1();
+  if (cvstatementl1_ == NULL) cvstatementl1_ = new ::com::tomting::orion::PrtoLstm;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoSrvc.cVstatementL1)
+  return cvstatementl1_;
+}
+inline ::com::tomting::orion::PrtoLstm* PrtoSrvc::release_cvstatementl1() {
+  clear_has_cvstatementl1();
+  ::com::tomting::orion::PrtoLstm* temp = cvstatementl1_;
+  cvstatementl1_ = NULL;
+  return temp;
+}
+inline void PrtoSrvc::set_allocated_cvstatementl1(::com::tomting::orion::PrtoLstm* cvstatementl1) {
+  delete cvstatementl1_;
+  cvstatementl1_ = cvstatementl1;
+  if (cvstatementl1) {
+    set_has_cvstatementl1();
+  } else {
+    clear_has_cvstatementl1();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoSrvc.cVstatementL1)
+}
+
+// optional .com.tomting.orion.PrtoLqry cVqueryL1 = 6;
+inline bool PrtoSrvc::has_cvqueryl1() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void PrtoSrvc::set_has_cvqueryl1() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void PrtoSrvc::clear_has_cvqueryl1() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void PrtoSrvc::clear_cvqueryl1() {
+  if (cvqueryl1_ != NULL) cvqueryl1_->::com::tomting::orion::PrtoLqry::Clear();
+  clear_has_cvqueryl1();
+}
+inline const ::com::tomting::orion::PrtoLqry& PrtoSrvc::cvqueryl1() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoSrvc.cVqueryL1)
+  return cvqueryl1_ != NULL ? *cvqueryl1_ : *default_instance_->cvqueryl1_;
+}
+inline ::com::tomting::orion::PrtoLqry* PrtoSrvc::mutable_cvqueryl1() {
+  set_has_cvqueryl1();
+  if (cvqueryl1_ == NULL) cvqueryl1_ = new ::com::tomting::orion::PrtoLqry;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoSrvc.cVqueryL1)
+  return cvqueryl1_;
+}
+inline ::com::tomting::orion::PrtoLqry* PrtoSrvc::release_cvqueryl1() {
+  clear_has_cvqueryl1();
+  ::com::tomting::orion::PrtoLqry* temp = cvqueryl1_;
+  cvqueryl1_ = NULL;
+  return temp;
+}
+inline void PrtoSrvc::set_allocated_cvqueryl1(::com::tomting::orion::PrtoLqry* cvqueryl1) {
+  delete cvqueryl1_;
+  cvqueryl1_ = cvqueryl1;
+  if (cvqueryl1) {
+    set_has_cvqueryl1();
+  } else {
+    clear_has_cvqueryl1();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoSrvc.cVqueryL1)
+}
+
+// optional .com.tomting.orion.PrtoLmtb cVdmlL1 = 7;
+inline bool PrtoSrvc::has_cvdmll1() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void PrtoSrvc::set_has_cvdmll1() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void PrtoSrvc::clear_has_cvdmll1() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void PrtoSrvc::clear_cvdmll1() {
+  if (cvdmll1_ != NULL) cvdmll1_->::com::tomting::orion::PrtoLmtb::Clear();
+  clear_has_cvdmll1();
+}
+inline const ::com::tomting::orion::PrtoLmtb& PrtoSrvc::cvdmll1() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoSrvc.cVdmlL1)
+  return cvdmll1_ != NULL ? *cvdmll1_ : *default_instance_->cvdmll1_;
+}
+inline ::com::tomting::orion::PrtoLmtb* PrtoSrvc::mutable_cvdmll1() {
+  set_has_cvdmll1();
+  if (cvdmll1_ == NULL) cvdmll1_ = new ::com::tomting::orion::PrtoLmtb;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoSrvc.cVdmlL1)
+  return cvdmll1_;
+}
+inline ::com::tomting::orion::PrtoLmtb* PrtoSrvc::release_cvdmll1() {
+  clear_has_cvdmll1();
+  ::com::tomting::orion::PrtoLmtb* temp = cvdmll1_;
+  cvdmll1_ = NULL;
+  return temp;
+}
+inline void PrtoSrvc::set_allocated_cvdmll1(::com::tomting::orion::PrtoLmtb* cvdmll1) {
+  delete cvdmll1_;
+  cvdmll1_ = cvdmll1;
+  if (cvdmll1) {
+    set_has_cvdmll1();
+  } else {
+    clear_has_cvdmll1();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoSrvc.cVdmlL1)
+}
+
+// optional .com.tomting.orion.PrtoL2ct cVdmlL2 = 8;
+inline bool PrtoSrvc::has_cvdmll2() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void PrtoSrvc::set_has_cvdmll2() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void PrtoSrvc::clear_has_cvdmll2() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void PrtoSrvc::clear_cvdmll2() {
+  if (cvdmll2_ != NULL) cvdmll2_->::com::tomting::orion::PrtoL2ct::Clear();
+  clear_has_cvdmll2();
+}
+inline const ::com::tomting::orion::PrtoL2ct& PrtoSrvc::cvdmll2() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoSrvc.cVdmlL2)
+  return cvdmll2_ != NULL ? *cvdmll2_ : *default_instance_->cvdmll2_;
+}
+inline ::com::tomting::orion::PrtoL2ct* PrtoSrvc::mutable_cvdmll2() {
+  set_has_cvdmll2();
+  if (cvdmll2_ == NULL) cvdmll2_ = new ::com::tomting::orion::PrtoL2ct;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoSrvc.cVdmlL2)
+  return cvdmll2_;
+}
+inline ::com::tomting::orion::PrtoL2ct* PrtoSrvc::release_cvdmll2() {
+  clear_has_cvdmll2();
+  ::com::tomting::orion::PrtoL2ct* temp = cvdmll2_;
+  cvdmll2_ = NULL;
+  return temp;
+}
+inline void PrtoSrvc::set_allocated_cvdmll2(::com::tomting::orion::PrtoL2ct* cvdmll2) {
+  delete cvdmll2_;
+  cvdmll2_ = cvdmll2;
+  if (cvdmll2) {
+    set_has_cvdmll2();
+  } else {
+    clear_has_cvdmll2();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoSrvc.cVdmlL2)
+}
+
+// optional bool bVoptimizewriteindex = 9;
+inline bool PrtoSrvc::has_bvoptimizewriteindex() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void PrtoSrvc::set_has_bvoptimizewriteindex() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void PrtoSrvc::clear_has_bvoptimizewriteindex() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void PrtoSrvc::clear_bvoptimizewriteindex() {
+  bvoptimizewriteindex_ = false;
+  clear_has_bvoptimizewriteindex();
+}
+inline bool PrtoSrvc::bvoptimizewriteindex() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoSrvc.bVoptimizewriteindex)
+  return bvoptimizewriteindex_;
+}
+inline void PrtoSrvc::set_bvoptimizewriteindex(bool value) {
+  set_has_bvoptimizewriteindex();
+  bvoptimizewriteindex_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoSrvc.bVoptimizewriteindex)
+}
+
+// optional bool bVupdateonlyindex = 10;
+inline bool PrtoSrvc::has_bvupdateonlyindex() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+inline void PrtoSrvc::set_has_bvupdateonlyindex() {
+  _has_bits_[0] |= 0x00000200u;
+}
+inline void PrtoSrvc::clear_has_bvupdateonlyindex() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+inline void PrtoSrvc::clear_bvupdateonlyindex() {
+  bvupdateonlyindex_ = false;
+  clear_has_bvupdateonlyindex();
+}
+inline bool PrtoSrvc::bvupdateonlyindex() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoSrvc.bVupdateonlyindex)
+  return bvupdateonlyindex_;
+}
+inline void PrtoSrvc::set_bvupdateonlyindex(bool value) {
+  set_has_bvupdateonlyindex();
+  bvupdateonlyindex_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoSrvc.bVupdateonlyindex)
+}
+
+// optional bool bVlocalfilter = 11;
+inline bool PrtoSrvc::has_bvlocalfilter() const {
+  return (_has_bits_[0] & 0x00000400u) != 0;
+}
+inline void PrtoSrvc::set_has_bvlocalfilter() {
+  _has_bits_[0] |= 0x00000400u;
+}
+inline void PrtoSrvc::clear_has_bvlocalfilter() {
+  _has_bits_[0] &= ~0x00000400u;
+}
+inline void PrtoSrvc::clear_bvlocalfilter() {
+  bvlocalfilter_ = false;
+  clear_has_bvlocalfilter();
+}
+inline bool PrtoSrvc::bvlocalfilter() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoSrvc.bVlocalfilter)
+  return bvlocalfilter_;
+}
+inline void PrtoSrvc::set_bvlocalfilter(bool value) {
+  set_has_bvlocalfilter();
+  bvlocalfilter_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoSrvc.bVlocalfilter)
+}
+
+// optional bool bVenabletimestamp = 12;
+inline bool PrtoSrvc::has_bvenabletimestamp() const {
+  return (_has_bits_[0] & 0x00000800u) != 0;
+}
+inline void PrtoSrvc::set_has_bvenabletimestamp() {
+  _has_bits_[0] |= 0x00000800u;
+}
+inline void PrtoSrvc::clear_has_bvenabletimestamp() {
+  _has_bits_[0] &= ~0x00000800u;
+}
+inline void PrtoSrvc::clear_bvenabletimestamp() {
+  bvenabletimestamp_ = false;
+  clear_has_bvenabletimestamp();
+}
+inline bool PrtoSrvc::bvenabletimestamp() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoSrvc.bVenabletimestamp)
+  return bvenabletimestamp_;
+}
+inline void PrtoSrvc::set_bvenabletimestamp(bool value) {
+  set_has_bvenabletimestamp();
+  bvenabletimestamp_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoSrvc.bVenabletimestamp)
+}
+
 // -------------------------------------------------------------------
 
 // PrtoSrvr
@@ -11650,6 +13023,47 @@ inline void PrtoSrvr::set_allocated_cvdmlresult(::com::tomting::orion::PrtoL2mr*
     clear_has_cvdmlresult();
   }
   // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoSrvr.cVdmlresult)
+}
+
+// optional .com.tomting.orion.PrtoL1mr cVsnapshotL1 = 3;
+inline bool PrtoSrvr::has_cvsnapshotl1() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void PrtoSrvr::set_has_cvsnapshotl1() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void PrtoSrvr::clear_has_cvsnapshotl1() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void PrtoSrvr::clear_cvsnapshotl1() {
+  if (cvsnapshotl1_ != NULL) cvsnapshotl1_->::com::tomting::orion::PrtoL1mr::Clear();
+  clear_has_cvsnapshotl1();
+}
+inline const ::com::tomting::orion::PrtoL1mr& PrtoSrvr::cvsnapshotl1() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoSrvr.cVsnapshotL1)
+  return cvsnapshotl1_ != NULL ? *cvsnapshotl1_ : *default_instance_->cvsnapshotl1_;
+}
+inline ::com::tomting::orion::PrtoL1mr* PrtoSrvr::mutable_cvsnapshotl1() {
+  set_has_cvsnapshotl1();
+  if (cvsnapshotl1_ == NULL) cvsnapshotl1_ = new ::com::tomting::orion::PrtoL1mr;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoSrvr.cVsnapshotL1)
+  return cvsnapshotl1_;
+}
+inline ::com::tomting::orion::PrtoL1mr* PrtoSrvr::release_cvsnapshotl1() {
+  clear_has_cvsnapshotl1();
+  ::com::tomting::orion::PrtoL1mr* temp = cvsnapshotl1_;
+  cvsnapshotl1_ = NULL;
+  return temp;
+}
+inline void PrtoSrvr::set_allocated_cvsnapshotl1(::com::tomting::orion::PrtoL1mr* cvsnapshotl1) {
+  delete cvsnapshotl1_;
+  cvsnapshotl1_ = cvsnapshotl1;
+  if (cvsnapshotl1) {
+    set_has_cvsnapshotl1();
+  } else {
+    clear_has_cvsnapshotl1();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoSrvr.cVsnapshotL1)
 }
 
 // -------------------------------------------------------------------
@@ -11935,6 +13349,1394 @@ inline void PrtoBsrr::set_allocated_cvsingleproto(::com::tomting::orion::PrtoSrv
   // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoBsrr.cVsingleproto)
 }
 
+// -------------------------------------------------------------------
+
+// PrtoIoop
+
+// optional bytes sVlogpath = 1;
+inline bool PrtoIoop::has_svlogpath() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PrtoIoop::set_has_svlogpath() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PrtoIoop::clear_has_svlogpath() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PrtoIoop::clear_svlogpath() {
+  if (svlogpath_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svlogpath_->clear();
+  }
+  clear_has_svlogpath();
+}
+inline const ::std::string& PrtoIoop::svlogpath() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.sVlogpath)
+  return *svlogpath_;
+}
+inline void PrtoIoop::set_svlogpath(const ::std::string& value) {
+  set_has_svlogpath();
+  if (svlogpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svlogpath_ = new ::std::string;
+  }
+  svlogpath_->assign(value);
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.sVlogpath)
+}
+inline void PrtoIoop::set_svlogpath(const char* value) {
+  set_has_svlogpath();
+  if (svlogpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svlogpath_ = new ::std::string;
+  }
+  svlogpath_->assign(value);
+  // @@protoc_insertion_point(field_set_char:com.tomting.orion.PrtoIoop.sVlogpath)
+}
+inline void PrtoIoop::set_svlogpath(const void* value, size_t size) {
+  set_has_svlogpath();
+  if (svlogpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svlogpath_ = new ::std::string;
+  }
+  svlogpath_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:com.tomting.orion.PrtoIoop.sVlogpath)
+}
+inline ::std::string* PrtoIoop::mutable_svlogpath() {
+  set_has_svlogpath();
+  if (svlogpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svlogpath_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIoop.sVlogpath)
+  return svlogpath_;
+}
+inline ::std::string* PrtoIoop::release_svlogpath() {
+  clear_has_svlogpath();
+  if (svlogpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = svlogpath_;
+    svlogpath_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void PrtoIoop::set_allocated_svlogpath(::std::string* svlogpath) {
+  if (svlogpath_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete svlogpath_;
+  }
+  if (svlogpath) {
+    set_has_svlogpath();
+    svlogpath_ = svlogpath;
+  } else {
+    clear_has_svlogpath();
+    svlogpath_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIoop.sVlogpath)
+}
+
+// optional bytes sVmasterxml = 2;
+inline bool PrtoIoop::has_svmasterxml() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PrtoIoop::set_has_svmasterxml() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PrtoIoop::clear_has_svmasterxml() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PrtoIoop::clear_svmasterxml() {
+  if (svmasterxml_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svmasterxml_->clear();
+  }
+  clear_has_svmasterxml();
+}
+inline const ::std::string& PrtoIoop::svmasterxml() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.sVmasterxml)
+  return *svmasterxml_;
+}
+inline void PrtoIoop::set_svmasterxml(const ::std::string& value) {
+  set_has_svmasterxml();
+  if (svmasterxml_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svmasterxml_ = new ::std::string;
+  }
+  svmasterxml_->assign(value);
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.sVmasterxml)
+}
+inline void PrtoIoop::set_svmasterxml(const char* value) {
+  set_has_svmasterxml();
+  if (svmasterxml_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svmasterxml_ = new ::std::string;
+  }
+  svmasterxml_->assign(value);
+  // @@protoc_insertion_point(field_set_char:com.tomting.orion.PrtoIoop.sVmasterxml)
+}
+inline void PrtoIoop::set_svmasterxml(const void* value, size_t size) {
+  set_has_svmasterxml();
+  if (svmasterxml_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svmasterxml_ = new ::std::string;
+  }
+  svmasterxml_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:com.tomting.orion.PrtoIoop.sVmasterxml)
+}
+inline ::std::string* PrtoIoop::mutable_svmasterxml() {
+  set_has_svmasterxml();
+  if (svmasterxml_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svmasterxml_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIoop.sVmasterxml)
+  return svmasterxml_;
+}
+inline ::std::string* PrtoIoop::release_svmasterxml() {
+  clear_has_svmasterxml();
+  if (svmasterxml_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = svmasterxml_;
+    svmasterxml_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void PrtoIoop::set_allocated_svmasterxml(::std::string* svmasterxml) {
+  if (svmasterxml_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete svmasterxml_;
+  }
+  if (svmasterxml) {
+    set_has_svmasterxml();
+    svmasterxml_ = svmasterxml;
+  } else {
+    clear_has_svmasterxml();
+    svmasterxml_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIoop.sVmasterxml)
+}
+
+// optional bytes sVnodeid = 3;
+inline bool PrtoIoop::has_svnodeid() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void PrtoIoop::set_has_svnodeid() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void PrtoIoop::clear_has_svnodeid() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void PrtoIoop::clear_svnodeid() {
+  if (svnodeid_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svnodeid_->clear();
+  }
+  clear_has_svnodeid();
+}
+inline const ::std::string& PrtoIoop::svnodeid() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.sVnodeid)
+  return *svnodeid_;
+}
+inline void PrtoIoop::set_svnodeid(const ::std::string& value) {
+  set_has_svnodeid();
+  if (svnodeid_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svnodeid_ = new ::std::string;
+  }
+  svnodeid_->assign(value);
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.sVnodeid)
+}
+inline void PrtoIoop::set_svnodeid(const char* value) {
+  set_has_svnodeid();
+  if (svnodeid_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svnodeid_ = new ::std::string;
+  }
+  svnodeid_->assign(value);
+  // @@protoc_insertion_point(field_set_char:com.tomting.orion.PrtoIoop.sVnodeid)
+}
+inline void PrtoIoop::set_svnodeid(const void* value, size_t size) {
+  set_has_svnodeid();
+  if (svnodeid_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svnodeid_ = new ::std::string;
+  }
+  svnodeid_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:com.tomting.orion.PrtoIoop.sVnodeid)
+}
+inline ::std::string* PrtoIoop::mutable_svnodeid() {
+  set_has_svnodeid();
+  if (svnodeid_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svnodeid_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIoop.sVnodeid)
+  return svnodeid_;
+}
+inline ::std::string* PrtoIoop::release_svnodeid() {
+  clear_has_svnodeid();
+  if (svnodeid_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = svnodeid_;
+    svnodeid_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void PrtoIoop::set_allocated_svnodeid(::std::string* svnodeid) {
+  if (svnodeid_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete svnodeid_;
+  }
+  if (svnodeid) {
+    set_has_svnodeid();
+    svnodeid_ = svnodeid;
+  } else {
+    clear_has_svnodeid();
+    svnodeid_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIoop.sVnodeid)
+}
+
+// optional bytes sVtabletsubpath = 4;
+inline bool PrtoIoop::has_svtabletsubpath() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void PrtoIoop::set_has_svtabletsubpath() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void PrtoIoop::clear_has_svtabletsubpath() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void PrtoIoop::clear_svtabletsubpath() {
+  if (svtabletsubpath_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svtabletsubpath_->clear();
+  }
+  clear_has_svtabletsubpath();
+}
+inline const ::std::string& PrtoIoop::svtabletsubpath() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.sVtabletsubpath)
+  return *svtabletsubpath_;
+}
+inline void PrtoIoop::set_svtabletsubpath(const ::std::string& value) {
+  set_has_svtabletsubpath();
+  if (svtabletsubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svtabletsubpath_ = new ::std::string;
+  }
+  svtabletsubpath_->assign(value);
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.sVtabletsubpath)
+}
+inline void PrtoIoop::set_svtabletsubpath(const char* value) {
+  set_has_svtabletsubpath();
+  if (svtabletsubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svtabletsubpath_ = new ::std::string;
+  }
+  svtabletsubpath_->assign(value);
+  // @@protoc_insertion_point(field_set_char:com.tomting.orion.PrtoIoop.sVtabletsubpath)
+}
+inline void PrtoIoop::set_svtabletsubpath(const void* value, size_t size) {
+  set_has_svtabletsubpath();
+  if (svtabletsubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svtabletsubpath_ = new ::std::string;
+  }
+  svtabletsubpath_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:com.tomting.orion.PrtoIoop.sVtabletsubpath)
+}
+inline ::std::string* PrtoIoop::mutable_svtabletsubpath() {
+  set_has_svtabletsubpath();
+  if (svtabletsubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svtabletsubpath_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIoop.sVtabletsubpath)
+  return svtabletsubpath_;
+}
+inline ::std::string* PrtoIoop::release_svtabletsubpath() {
+  clear_has_svtabletsubpath();
+  if (svtabletsubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = svtabletsubpath_;
+    svtabletsubpath_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void PrtoIoop::set_allocated_svtabletsubpath(::std::string* svtabletsubpath) {
+  if (svtabletsubpath_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete svtabletsubpath_;
+  }
+  if (svtabletsubpath) {
+    set_has_svtabletsubpath();
+    svtabletsubpath_ = svtabletsubpath;
+  } else {
+    clear_has_svtabletsubpath();
+    svtabletsubpath_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIoop.sVtabletsubpath)
+}
+
+// optional bytes sVredologsubpath = 5;
+inline bool PrtoIoop::has_svredologsubpath() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void PrtoIoop::set_has_svredologsubpath() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void PrtoIoop::clear_has_svredologsubpath() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void PrtoIoop::clear_svredologsubpath() {
+  if (svredologsubpath_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svredologsubpath_->clear();
+  }
+  clear_has_svredologsubpath();
+}
+inline const ::std::string& PrtoIoop::svredologsubpath() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.sVredologsubpath)
+  return *svredologsubpath_;
+}
+inline void PrtoIoop::set_svredologsubpath(const ::std::string& value) {
+  set_has_svredologsubpath();
+  if (svredologsubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svredologsubpath_ = new ::std::string;
+  }
+  svredologsubpath_->assign(value);
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.sVredologsubpath)
+}
+inline void PrtoIoop::set_svredologsubpath(const char* value) {
+  set_has_svredologsubpath();
+  if (svredologsubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svredologsubpath_ = new ::std::string;
+  }
+  svredologsubpath_->assign(value);
+  // @@protoc_insertion_point(field_set_char:com.tomting.orion.PrtoIoop.sVredologsubpath)
+}
+inline void PrtoIoop::set_svredologsubpath(const void* value, size_t size) {
+  set_has_svredologsubpath();
+  if (svredologsubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svredologsubpath_ = new ::std::string;
+  }
+  svredologsubpath_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:com.tomting.orion.PrtoIoop.sVredologsubpath)
+}
+inline ::std::string* PrtoIoop::mutable_svredologsubpath() {
+  set_has_svredologsubpath();
+  if (svredologsubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svredologsubpath_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIoop.sVredologsubpath)
+  return svredologsubpath_;
+}
+inline ::std::string* PrtoIoop::release_svredologsubpath() {
+  clear_has_svredologsubpath();
+  if (svredologsubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = svredologsubpath_;
+    svredologsubpath_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void PrtoIoop::set_allocated_svredologsubpath(::std::string* svredologsubpath) {
+  if (svredologsubpath_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete svredologsubpath_;
+  }
+  if (svredologsubpath) {
+    set_has_svredologsubpath();
+    svredologsubpath_ = svredologsubpath;
+  } else {
+    clear_has_svredologsubpath();
+    svredologsubpath_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIoop.sVredologsubpath)
+}
+
+// optional bytes sVdatasubpath = 6;
+inline bool PrtoIoop::has_svdatasubpath() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void PrtoIoop::set_has_svdatasubpath() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void PrtoIoop::clear_has_svdatasubpath() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void PrtoIoop::clear_svdatasubpath() {
+  if (svdatasubpath_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svdatasubpath_->clear();
+  }
+  clear_has_svdatasubpath();
+}
+inline const ::std::string& PrtoIoop::svdatasubpath() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.sVdatasubpath)
+  return *svdatasubpath_;
+}
+inline void PrtoIoop::set_svdatasubpath(const ::std::string& value) {
+  set_has_svdatasubpath();
+  if (svdatasubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svdatasubpath_ = new ::std::string;
+  }
+  svdatasubpath_->assign(value);
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.sVdatasubpath)
+}
+inline void PrtoIoop::set_svdatasubpath(const char* value) {
+  set_has_svdatasubpath();
+  if (svdatasubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svdatasubpath_ = new ::std::string;
+  }
+  svdatasubpath_->assign(value);
+  // @@protoc_insertion_point(field_set_char:com.tomting.orion.PrtoIoop.sVdatasubpath)
+}
+inline void PrtoIoop::set_svdatasubpath(const void* value, size_t size) {
+  set_has_svdatasubpath();
+  if (svdatasubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svdatasubpath_ = new ::std::string;
+  }
+  svdatasubpath_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:com.tomting.orion.PrtoIoop.sVdatasubpath)
+}
+inline ::std::string* PrtoIoop::mutable_svdatasubpath() {
+  set_has_svdatasubpath();
+  if (svdatasubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svdatasubpath_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIoop.sVdatasubpath)
+  return svdatasubpath_;
+}
+inline ::std::string* PrtoIoop::release_svdatasubpath() {
+  clear_has_svdatasubpath();
+  if (svdatasubpath_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = svdatasubpath_;
+    svdatasubpath_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void PrtoIoop::set_allocated_svdatasubpath(::std::string* svdatasubpath) {
+  if (svdatasubpath_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete svdatasubpath_;
+  }
+  if (svdatasubpath) {
+    set_has_svdatasubpath();
+    svdatasubpath_ = svdatasubpath;
+  } else {
+    clear_has_svdatasubpath();
+    svdatasubpath_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIoop.sVdatasubpath)
+}
+
+// optional bytes sVthriftaddress = 7;
+inline bool PrtoIoop::has_svthriftaddress() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void PrtoIoop::set_has_svthriftaddress() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void PrtoIoop::clear_has_svthriftaddress() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void PrtoIoop::clear_svthriftaddress() {
+  if (svthriftaddress_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svthriftaddress_->clear();
+  }
+  clear_has_svthriftaddress();
+}
+inline const ::std::string& PrtoIoop::svthriftaddress() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.sVthriftaddress)
+  return *svthriftaddress_;
+}
+inline void PrtoIoop::set_svthriftaddress(const ::std::string& value) {
+  set_has_svthriftaddress();
+  if (svthriftaddress_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svthriftaddress_ = new ::std::string;
+  }
+  svthriftaddress_->assign(value);
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.sVthriftaddress)
+}
+inline void PrtoIoop::set_svthriftaddress(const char* value) {
+  set_has_svthriftaddress();
+  if (svthriftaddress_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svthriftaddress_ = new ::std::string;
+  }
+  svthriftaddress_->assign(value);
+  // @@protoc_insertion_point(field_set_char:com.tomting.orion.PrtoIoop.sVthriftaddress)
+}
+inline void PrtoIoop::set_svthriftaddress(const void* value, size_t size) {
+  set_has_svthriftaddress();
+  if (svthriftaddress_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svthriftaddress_ = new ::std::string;
+  }
+  svthriftaddress_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:com.tomting.orion.PrtoIoop.sVthriftaddress)
+}
+inline ::std::string* PrtoIoop::mutable_svthriftaddress() {
+  set_has_svthriftaddress();
+  if (svthriftaddress_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svthriftaddress_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIoop.sVthriftaddress)
+  return svthriftaddress_;
+}
+inline ::std::string* PrtoIoop::release_svthriftaddress() {
+  clear_has_svthriftaddress();
+  if (svthriftaddress_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = svthriftaddress_;
+    svthriftaddress_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void PrtoIoop::set_allocated_svthriftaddress(::std::string* svthriftaddress) {
+  if (svthriftaddress_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete svthriftaddress_;
+  }
+  if (svthriftaddress) {
+    set_has_svthriftaddress();
+    svthriftaddress_ = svthriftaddress;
+  } else {
+    clear_has_svthriftaddress();
+    svthriftaddress_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIoop.sVthriftaddress)
+}
+
+// optional bytes sVthriftgossiperaddress = 8;
+inline bool PrtoIoop::has_svthriftgossiperaddress() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void PrtoIoop::set_has_svthriftgossiperaddress() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void PrtoIoop::clear_has_svthriftgossiperaddress() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void PrtoIoop::clear_svthriftgossiperaddress() {
+  if (svthriftgossiperaddress_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svthriftgossiperaddress_->clear();
+  }
+  clear_has_svthriftgossiperaddress();
+}
+inline const ::std::string& PrtoIoop::svthriftgossiperaddress() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.sVthriftgossiperaddress)
+  return *svthriftgossiperaddress_;
+}
+inline void PrtoIoop::set_svthriftgossiperaddress(const ::std::string& value) {
+  set_has_svthriftgossiperaddress();
+  if (svthriftgossiperaddress_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svthriftgossiperaddress_ = new ::std::string;
+  }
+  svthriftgossiperaddress_->assign(value);
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.sVthriftgossiperaddress)
+}
+inline void PrtoIoop::set_svthriftgossiperaddress(const char* value) {
+  set_has_svthriftgossiperaddress();
+  if (svthriftgossiperaddress_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svthriftgossiperaddress_ = new ::std::string;
+  }
+  svthriftgossiperaddress_->assign(value);
+  // @@protoc_insertion_point(field_set_char:com.tomting.orion.PrtoIoop.sVthriftgossiperaddress)
+}
+inline void PrtoIoop::set_svthriftgossiperaddress(const void* value, size_t size) {
+  set_has_svthriftgossiperaddress();
+  if (svthriftgossiperaddress_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svthriftgossiperaddress_ = new ::std::string;
+  }
+  svthriftgossiperaddress_->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:com.tomting.orion.PrtoIoop.sVthriftgossiperaddress)
+}
+inline ::std::string* PrtoIoop::mutable_svthriftgossiperaddress() {
+  set_has_svthriftgossiperaddress();
+  if (svthriftgossiperaddress_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    svthriftgossiperaddress_ = new ::std::string;
+  }
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIoop.sVthriftgossiperaddress)
+  return svthriftgossiperaddress_;
+}
+inline ::std::string* PrtoIoop::release_svthriftgossiperaddress() {
+  clear_has_svthriftgossiperaddress();
+  if (svthriftgossiperaddress_ == &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    return NULL;
+  } else {
+    ::std::string* temp = svthriftgossiperaddress_;
+    svthriftgossiperaddress_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+    return temp;
+  }
+}
+inline void PrtoIoop::set_allocated_svthriftgossiperaddress(::std::string* svthriftgossiperaddress) {
+  if (svthriftgossiperaddress_ != &::google::protobuf::internal::GetEmptyStringAlreadyInited()) {
+    delete svthriftgossiperaddress_;
+  }
+  if (svthriftgossiperaddress) {
+    set_has_svthriftgossiperaddress();
+    svthriftgossiperaddress_ = svthriftgossiperaddress;
+  } else {
+    clear_has_svthriftgossiperaddress();
+    svthriftgossiperaddress_ = const_cast< ::std::string*>(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIoop.sVthriftgossiperaddress)
+}
+
+// optional int32 iVthriftport = 9;
+inline bool PrtoIoop::has_ivthriftport() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void PrtoIoop::set_has_ivthriftport() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void PrtoIoop::clear_has_ivthriftport() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void PrtoIoop::clear_ivthriftport() {
+  ivthriftport_ = 0;
+  clear_has_ivthriftport();
+}
+inline ::google::protobuf::int32 PrtoIoop::ivthriftport() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.iVthriftport)
+  return ivthriftport_;
+}
+inline void PrtoIoop::set_ivthriftport(::google::protobuf::int32 value) {
+  set_has_ivthriftport();
+  ivthriftport_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.iVthriftport)
+}
+
+// optional int32 iVthriftgossiperport = 10;
+inline bool PrtoIoop::has_ivthriftgossiperport() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+inline void PrtoIoop::set_has_ivthriftgossiperport() {
+  _has_bits_[0] |= 0x00000200u;
+}
+inline void PrtoIoop::clear_has_ivthriftgossiperport() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+inline void PrtoIoop::clear_ivthriftgossiperport() {
+  ivthriftgossiperport_ = 0;
+  clear_has_ivthriftgossiperport();
+}
+inline ::google::protobuf::int32 PrtoIoop::ivthriftgossiperport() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.iVthriftgossiperport)
+  return ivthriftgossiperport_;
+}
+inline void PrtoIoop::set_ivthriftgossiperport(::google::protobuf::int32 value) {
+  set_has_ivthriftgossiperport();
+  ivthriftgossiperport_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.iVthriftgossiperport)
+}
+
+// optional int32 iVredologdim = 11;
+inline bool PrtoIoop::has_ivredologdim() const {
+  return (_has_bits_[0] & 0x00000400u) != 0;
+}
+inline void PrtoIoop::set_has_ivredologdim() {
+  _has_bits_[0] |= 0x00000400u;
+}
+inline void PrtoIoop::clear_has_ivredologdim() {
+  _has_bits_[0] &= ~0x00000400u;
+}
+inline void PrtoIoop::clear_ivredologdim() {
+  ivredologdim_ = 0;
+  clear_has_ivredologdim();
+}
+inline ::google::protobuf::int32 PrtoIoop::ivredologdim() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.iVredologdim)
+  return ivredologdim_;
+}
+inline void PrtoIoop::set_ivredologdim(::google::protobuf::int32 value) {
+  set_has_ivredologdim();
+  ivredologdim_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.iVredologdim)
+}
+
+// optional int32 iVthriftlisteners = 12;
+inline bool PrtoIoop::has_ivthriftlisteners() const {
+  return (_has_bits_[0] & 0x00000800u) != 0;
+}
+inline void PrtoIoop::set_has_ivthriftlisteners() {
+  _has_bits_[0] |= 0x00000800u;
+}
+inline void PrtoIoop::clear_has_ivthriftlisteners() {
+  _has_bits_[0] &= ~0x00000800u;
+}
+inline void PrtoIoop::clear_ivthriftlisteners() {
+  ivthriftlisteners_ = 0;
+  clear_has_ivthriftlisteners();
+}
+inline ::google::protobuf::int32 PrtoIoop::ivthriftlisteners() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.iVthriftlisteners)
+  return ivthriftlisteners_;
+}
+inline void PrtoIoop::set_ivthriftlisteners(::google::protobuf::int32 value) {
+  set_has_ivthriftlisteners();
+  ivthriftlisteners_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.iVthriftlisteners)
+}
+
+// optional int32 iVmaxcompactionlevel = 13;
+inline bool PrtoIoop::has_ivmaxcompactionlevel() const {
+  return (_has_bits_[0] & 0x00001000u) != 0;
+}
+inline void PrtoIoop::set_has_ivmaxcompactionlevel() {
+  _has_bits_[0] |= 0x00001000u;
+}
+inline void PrtoIoop::clear_has_ivmaxcompactionlevel() {
+  _has_bits_[0] &= ~0x00001000u;
+}
+inline void PrtoIoop::clear_ivmaxcompactionlevel() {
+  ivmaxcompactionlevel_ = 0;
+  clear_has_ivmaxcompactionlevel();
+}
+inline ::google::protobuf::int32 PrtoIoop::ivmaxcompactionlevel() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.iVmaxcompactionlevel)
+  return ivmaxcompactionlevel_;
+}
+inline void PrtoIoop::set_ivmaxcompactionlevel(::google::protobuf::int32 value) {
+  set_has_ivmaxcompactionlevel();
+  ivmaxcompactionlevel_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.iVmaxcompactionlevel)
+}
+
+// optional int32 iVreplicationfactor = 14;
+inline bool PrtoIoop::has_ivreplicationfactor() const {
+  return (_has_bits_[0] & 0x00002000u) != 0;
+}
+inline void PrtoIoop::set_has_ivreplicationfactor() {
+  _has_bits_[0] |= 0x00002000u;
+}
+inline void PrtoIoop::clear_has_ivreplicationfactor() {
+  _has_bits_[0] &= ~0x00002000u;
+}
+inline void PrtoIoop::clear_ivreplicationfactor() {
+  ivreplicationfactor_ = 0;
+  clear_has_ivreplicationfactor();
+}
+inline ::google::protobuf::int32 PrtoIoop::ivreplicationfactor() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.iVreplicationfactor)
+  return ivreplicationfactor_;
+}
+inline void PrtoIoop::set_ivreplicationfactor(::google::protobuf::int32 value) {
+  set_has_ivreplicationfactor();
+  ivreplicationfactor_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.iVreplicationfactor)
+}
+
+// optional bool bVerrorifexists = 15;
+inline bool PrtoIoop::has_bverrorifexists() const {
+  return (_has_bits_[0] & 0x00004000u) != 0;
+}
+inline void PrtoIoop::set_has_bverrorifexists() {
+  _has_bits_[0] |= 0x00004000u;
+}
+inline void PrtoIoop::clear_has_bverrorifexists() {
+  _has_bits_[0] &= ~0x00004000u;
+}
+inline void PrtoIoop::clear_bverrorifexists() {
+  bverrorifexists_ = false;
+  clear_has_bverrorifexists();
+}
+inline bool PrtoIoop::bverrorifexists() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIoop.bVerrorifexists)
+  return bverrorifexists_;
+}
+inline void PrtoIoop::set_bverrorifexists(bool value) {
+  set_has_bverrorifexists();
+  bverrorifexists_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIoop.bVerrorifexists)
+}
+
+// -------------------------------------------------------------------
+
+// PrtoIwop
+
+// required .com.tomting.orion.iCdbleveltype iVlevel = 1;
+inline bool PrtoIwop::has_ivlevel() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PrtoIwop::set_has_ivlevel() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PrtoIwop::clear_has_ivlevel() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PrtoIwop::clear_ivlevel() {
+  ivlevel_ = 1;
+  clear_has_ivlevel();
+}
+inline ::com::tomting::orion::iCdbleveltype PrtoIwop::ivlevel() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIwop.iVlevel)
+  return static_cast< ::com::tomting::orion::iCdbleveltype >(ivlevel_);
+}
+inline void PrtoIwop::set_ivlevel(::com::tomting::orion::iCdbleveltype value) {
+  assert(::com::tomting::orion::iCdbleveltype_IsValid(value));
+  set_has_ivlevel();
+  ivlevel_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIwop.iVlevel)
+}
+
+// optional .com.tomting.orion.PrtoLstm cVstatementL1 = 2;
+inline bool PrtoIwop::has_cvstatementl1() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PrtoIwop::set_has_cvstatementl1() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PrtoIwop::clear_has_cvstatementl1() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PrtoIwop::clear_cvstatementl1() {
+  if (cvstatementl1_ != NULL) cvstatementl1_->::com::tomting::orion::PrtoLstm::Clear();
+  clear_has_cvstatementl1();
+}
+inline const ::com::tomting::orion::PrtoLstm& PrtoIwop::cvstatementl1() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIwop.cVstatementL1)
+  return cvstatementl1_ != NULL ? *cvstatementl1_ : *default_instance_->cvstatementl1_;
+}
+inline ::com::tomting::orion::PrtoLstm* PrtoIwop::mutable_cvstatementl1() {
+  set_has_cvstatementl1();
+  if (cvstatementl1_ == NULL) cvstatementl1_ = new ::com::tomting::orion::PrtoLstm;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIwop.cVstatementL1)
+  return cvstatementl1_;
+}
+inline ::com::tomting::orion::PrtoLstm* PrtoIwop::release_cvstatementl1() {
+  clear_has_cvstatementl1();
+  ::com::tomting::orion::PrtoLstm* temp = cvstatementl1_;
+  cvstatementl1_ = NULL;
+  return temp;
+}
+inline void PrtoIwop::set_allocated_cvstatementl1(::com::tomting::orion::PrtoLstm* cvstatementl1) {
+  delete cvstatementl1_;
+  cvstatementl1_ = cvstatementl1;
+  if (cvstatementl1) {
+    set_has_cvstatementl1();
+  } else {
+    clear_has_cvstatementl1();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIwop.cVstatementL1)
+}
+
+// optional .com.tomting.orion.PrtoL2st cVstatementL2 = 3;
+inline bool PrtoIwop::has_cvstatementl2() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void PrtoIwop::set_has_cvstatementl2() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void PrtoIwop::clear_has_cvstatementl2() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void PrtoIwop::clear_cvstatementl2() {
+  if (cvstatementl2_ != NULL) cvstatementl2_->::com::tomting::orion::PrtoL2st::Clear();
+  clear_has_cvstatementl2();
+}
+inline const ::com::tomting::orion::PrtoL2st& PrtoIwop::cvstatementl2() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIwop.cVstatementL2)
+  return cvstatementl2_ != NULL ? *cvstatementl2_ : *default_instance_->cvstatementl2_;
+}
+inline ::com::tomting::orion::PrtoL2st* PrtoIwop::mutable_cvstatementl2() {
+  set_has_cvstatementl2();
+  if (cvstatementl2_ == NULL) cvstatementl2_ = new ::com::tomting::orion::PrtoL2st;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIwop.cVstatementL2)
+  return cvstatementl2_;
+}
+inline ::com::tomting::orion::PrtoL2st* PrtoIwop::release_cvstatementl2() {
+  clear_has_cvstatementl2();
+  ::com::tomting::orion::PrtoL2st* temp = cvstatementl2_;
+  cvstatementl2_ = NULL;
+  return temp;
+}
+inline void PrtoIwop::set_allocated_cvstatementl2(::com::tomting::orion::PrtoL2st* cvstatementl2) {
+  delete cvstatementl2_;
+  cvstatementl2_ = cvstatementl2;
+  if (cvstatementl2) {
+    set_has_cvstatementl2();
+  } else {
+    clear_has_cvstatementl2();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIwop.cVstatementL2)
+}
+
+// optional bool bVoptimizewriteindex = 4;
+inline bool PrtoIwop::has_bvoptimizewriteindex() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void PrtoIwop::set_has_bvoptimizewriteindex() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void PrtoIwop::clear_has_bvoptimizewriteindex() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void PrtoIwop::clear_bvoptimizewriteindex() {
+  bvoptimizewriteindex_ = false;
+  clear_has_bvoptimizewriteindex();
+}
+inline bool PrtoIwop::bvoptimizewriteindex() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIwop.bVoptimizewriteindex)
+  return bvoptimizewriteindex_;
+}
+inline void PrtoIwop::set_bvoptimizewriteindex(bool value) {
+  set_has_bvoptimizewriteindex();
+  bvoptimizewriteindex_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIwop.bVoptimizewriteindex)
+}
+
+// optional bool bVupdateonlyindex = 5;
+inline bool PrtoIwop::has_bvupdateonlyindex() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void PrtoIwop::set_has_bvupdateonlyindex() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void PrtoIwop::clear_has_bvupdateonlyindex() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void PrtoIwop::clear_bvupdateonlyindex() {
+  bvupdateonlyindex_ = false;
+  clear_has_bvupdateonlyindex();
+}
+inline bool PrtoIwop::bvupdateonlyindex() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIwop.bVupdateonlyindex)
+  return bvupdateonlyindex_;
+}
+inline void PrtoIwop::set_bvupdateonlyindex(bool value) {
+  set_has_bvupdateonlyindex();
+  bvupdateonlyindex_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIwop.bVupdateonlyindex)
+}
+
+// optional bool bVlocalfilter = 6;
+inline bool PrtoIwop::has_bvlocalfilter() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void PrtoIwop::set_has_bvlocalfilter() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void PrtoIwop::clear_has_bvlocalfilter() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void PrtoIwop::clear_bvlocalfilter() {
+  bvlocalfilter_ = false;
+  clear_has_bvlocalfilter();
+}
+inline bool PrtoIwop::bvlocalfilter() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIwop.bVlocalfilter)
+  return bvlocalfilter_;
+}
+inline void PrtoIwop::set_bvlocalfilter(bool value) {
+  set_has_bvlocalfilter();
+  bvlocalfilter_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIwop.bVlocalfilter)
+}
+
+// optional bool bVenabletimestamp = 7;
+inline bool PrtoIwop::has_bvenabletimestamp() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void PrtoIwop::set_has_bvenabletimestamp() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void PrtoIwop::clear_has_bvenabletimestamp() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void PrtoIwop::clear_bvenabletimestamp() {
+  bvenabletimestamp_ = false;
+  clear_has_bvenabletimestamp();
+}
+inline bool PrtoIwop::bvenabletimestamp() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIwop.bVenabletimestamp)
+  return bvenabletimestamp_;
+}
+inline void PrtoIwop::set_bvenabletimestamp(bool value) {
+  set_has_bvenabletimestamp();
+  bvenabletimestamp_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIwop.bVenabletimestamp)
+}
+
+// -------------------------------------------------------------------
+
+// PrtoIrop
+
+// required .com.tomting.orion.iCdbleveltype iVlevel = 1;
+inline bool PrtoIrop::has_ivlevel() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PrtoIrop::set_has_ivlevel() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PrtoIrop::clear_has_ivlevel() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PrtoIrop::clear_ivlevel() {
+  ivlevel_ = 1;
+  clear_has_ivlevel();
+}
+inline ::com::tomting::orion::iCdbleveltype PrtoIrop::ivlevel() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIrop.iVlevel)
+  return static_cast< ::com::tomting::orion::iCdbleveltype >(ivlevel_);
+}
+inline void PrtoIrop::set_ivlevel(::com::tomting::orion::iCdbleveltype value) {
+  assert(::com::tomting::orion::iCdbleveltype_IsValid(value));
+  set_has_ivlevel();
+  ivlevel_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIrop.iVlevel)
+}
+
+// optional .com.tomting.orion.PrtoLqry cVqueryL1 = 2;
+inline bool PrtoIrop::has_cvqueryl1() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PrtoIrop::set_has_cvqueryl1() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PrtoIrop::clear_has_cvqueryl1() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PrtoIrop::clear_cvqueryl1() {
+  if (cvqueryl1_ != NULL) cvqueryl1_->::com::tomting::orion::PrtoLqry::Clear();
+  clear_has_cvqueryl1();
+}
+inline const ::com::tomting::orion::PrtoLqry& PrtoIrop::cvqueryl1() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIrop.cVqueryL1)
+  return cvqueryl1_ != NULL ? *cvqueryl1_ : *default_instance_->cvqueryl1_;
+}
+inline ::com::tomting::orion::PrtoLqry* PrtoIrop::mutable_cvqueryl1() {
+  set_has_cvqueryl1();
+  if (cvqueryl1_ == NULL) cvqueryl1_ = new ::com::tomting::orion::PrtoLqry;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIrop.cVqueryL1)
+  return cvqueryl1_;
+}
+inline ::com::tomting::orion::PrtoLqry* PrtoIrop::release_cvqueryl1() {
+  clear_has_cvqueryl1();
+  ::com::tomting::orion::PrtoLqry* temp = cvqueryl1_;
+  cvqueryl1_ = NULL;
+  return temp;
+}
+inline void PrtoIrop::set_allocated_cvqueryl1(::com::tomting::orion::PrtoLqry* cvqueryl1) {
+  delete cvqueryl1_;
+  cvqueryl1_ = cvqueryl1;
+  if (cvqueryl1) {
+    set_has_cvqueryl1();
+  } else {
+    clear_has_cvqueryl1();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIrop.cVqueryL1)
+}
+
+// optional .com.tomting.orion.PrtoL2qr cVqueryL2 = 3;
+inline bool PrtoIrop::has_cvqueryl2() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void PrtoIrop::set_has_cvqueryl2() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void PrtoIrop::clear_has_cvqueryl2() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void PrtoIrop::clear_cvqueryl2() {
+  if (cvqueryl2_ != NULL) cvqueryl2_->::com::tomting::orion::PrtoL2qr::Clear();
+  clear_has_cvqueryl2();
+}
+inline const ::com::tomting::orion::PrtoL2qr& PrtoIrop::cvqueryl2() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIrop.cVqueryL2)
+  return cvqueryl2_ != NULL ? *cvqueryl2_ : *default_instance_->cvqueryl2_;
+}
+inline ::com::tomting::orion::PrtoL2qr* PrtoIrop::mutable_cvqueryl2() {
+  set_has_cvqueryl2();
+  if (cvqueryl2_ == NULL) cvqueryl2_ = new ::com::tomting::orion::PrtoL2qr;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIrop.cVqueryL2)
+  return cvqueryl2_;
+}
+inline ::com::tomting::orion::PrtoL2qr* PrtoIrop::release_cvqueryl2() {
+  clear_has_cvqueryl2();
+  ::com::tomting::orion::PrtoL2qr* temp = cvqueryl2_;
+  cvqueryl2_ = NULL;
+  return temp;
+}
+inline void PrtoIrop::set_allocated_cvqueryl2(::com::tomting::orion::PrtoL2qr* cvqueryl2) {
+  delete cvqueryl2_;
+  cvqueryl2_ = cvqueryl2;
+  if (cvqueryl2) {
+    set_has_cvqueryl2();
+  } else {
+    clear_has_cvqueryl2();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIrop.cVqueryL2)
+}
+
+// -------------------------------------------------------------------
+
+// PrtoIgop
+
+// required .com.tomting.orion.iCdbleveltype iVlevel = 1;
+inline bool PrtoIgop::has_ivlevel() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PrtoIgop::set_has_ivlevel() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PrtoIgop::clear_has_ivlevel() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PrtoIgop::clear_ivlevel() {
+  ivlevel_ = 1;
+  clear_has_ivlevel();
+}
+inline ::com::tomting::orion::iCdbleveltype PrtoIgop::ivlevel() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIgop.iVlevel)
+  return static_cast< ::com::tomting::orion::iCdbleveltype >(ivlevel_);
+}
+inline void PrtoIgop::set_ivlevel(::com::tomting::orion::iCdbleveltype value) {
+  assert(::com::tomting::orion::iCdbleveltype_IsValid(value));
+  set_has_ivlevel();
+  ivlevel_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIgop.iVlevel)
+}
+
+// optional .com.tomting.orion.PrtoLmtb cVdmlL1 = 2;
+inline bool PrtoIgop::has_cvdmll1() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PrtoIgop::set_has_cvdmll1() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PrtoIgop::clear_has_cvdmll1() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PrtoIgop::clear_cvdmll1() {
+  if (cvdmll1_ != NULL) cvdmll1_->::com::tomting::orion::PrtoLmtb::Clear();
+  clear_has_cvdmll1();
+}
+inline const ::com::tomting::orion::PrtoLmtb& PrtoIgop::cvdmll1() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIgop.cVdmlL1)
+  return cvdmll1_ != NULL ? *cvdmll1_ : *default_instance_->cvdmll1_;
+}
+inline ::com::tomting::orion::PrtoLmtb* PrtoIgop::mutable_cvdmll1() {
+  set_has_cvdmll1();
+  if (cvdmll1_ == NULL) cvdmll1_ = new ::com::tomting::orion::PrtoLmtb;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIgop.cVdmlL1)
+  return cvdmll1_;
+}
+inline ::com::tomting::orion::PrtoLmtb* PrtoIgop::release_cvdmll1() {
+  clear_has_cvdmll1();
+  ::com::tomting::orion::PrtoLmtb* temp = cvdmll1_;
+  cvdmll1_ = NULL;
+  return temp;
+}
+inline void PrtoIgop::set_allocated_cvdmll1(::com::tomting::orion::PrtoLmtb* cvdmll1) {
+  delete cvdmll1_;
+  cvdmll1_ = cvdmll1;
+  if (cvdmll1) {
+    set_has_cvdmll1();
+  } else {
+    clear_has_cvdmll1();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIgop.cVdmlL1)
+}
+
+// optional .com.tomting.orion.PrtoL2ct cVdmlL2 = 3;
+inline bool PrtoIgop::has_cvdmll2() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void PrtoIgop::set_has_cvdmll2() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void PrtoIgop::clear_has_cvdmll2() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void PrtoIgop::clear_cvdmll2() {
+  if (cvdmll2_ != NULL) cvdmll2_->::com::tomting::orion::PrtoL2ct::Clear();
+  clear_has_cvdmll2();
+}
+inline const ::com::tomting::orion::PrtoL2ct& PrtoIgop::cvdmll2() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIgop.cVdmlL2)
+  return cvdmll2_ != NULL ? *cvdmll2_ : *default_instance_->cvdmll2_;
+}
+inline ::com::tomting::orion::PrtoL2ct* PrtoIgop::mutable_cvdmll2() {
+  set_has_cvdmll2();
+  if (cvdmll2_ == NULL) cvdmll2_ = new ::com::tomting::orion::PrtoL2ct;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIgop.cVdmlL2)
+  return cvdmll2_;
+}
+inline ::com::tomting::orion::PrtoL2ct* PrtoIgop::release_cvdmll2() {
+  clear_has_cvdmll2();
+  ::com::tomting::orion::PrtoL2ct* temp = cvdmll2_;
+  cvdmll2_ = NULL;
+  return temp;
+}
+inline void PrtoIgop::set_allocated_cvdmll2(::com::tomting::orion::PrtoL2ct* cvdmll2) {
+  delete cvdmll2_;
+  cvdmll2_ = cvdmll2;
+  if (cvdmll2) {
+    set_has_cvdmll2();
+  } else {
+    clear_has_cvdmll2();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIgop.cVdmlL2)
+}
+
+// -------------------------------------------------------------------
+
+// PrtoIsop
+
+// required bool bVresult = 1;
+inline bool PrtoIsop::has_bvresult() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PrtoIsop::set_has_bvresult() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PrtoIsop::clear_has_bvresult() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PrtoIsop::clear_bvresult() {
+  bvresult_ = false;
+  clear_has_bvresult();
+}
+inline bool PrtoIsop::bvresult() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIsop.bVresult)
+  return bvresult_;
+}
+inline void PrtoIsop::set_bvresult(bool value) {
+  set_has_bvresult();
+  bvresult_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIsop.bVresult)
+}
+
+// optional .com.tomting.orion.PrtoL1mr cVsnapshotL1 = 2;
+inline bool PrtoIsop::has_cvsnapshotl1() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PrtoIsop::set_has_cvsnapshotl1() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PrtoIsop::clear_has_cvsnapshotl1() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PrtoIsop::clear_cvsnapshotl1() {
+  if (cvsnapshotl1_ != NULL) cvsnapshotl1_->::com::tomting::orion::PrtoL1mr::Clear();
+  clear_has_cvsnapshotl1();
+}
+inline const ::com::tomting::orion::PrtoL1mr& PrtoIsop::cvsnapshotl1() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIsop.cVsnapshotL1)
+  return cvsnapshotl1_ != NULL ? *cvsnapshotl1_ : *default_instance_->cvsnapshotl1_;
+}
+inline ::com::tomting::orion::PrtoL1mr* PrtoIsop::mutable_cvsnapshotl1() {
+  set_has_cvsnapshotl1();
+  if (cvsnapshotl1_ == NULL) cvsnapshotl1_ = new ::com::tomting::orion::PrtoL1mr;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIsop.cVsnapshotL1)
+  return cvsnapshotl1_;
+}
+inline ::com::tomting::orion::PrtoL1mr* PrtoIsop::release_cvsnapshotl1() {
+  clear_has_cvsnapshotl1();
+  ::com::tomting::orion::PrtoL1mr* temp = cvsnapshotl1_;
+  cvsnapshotl1_ = NULL;
+  return temp;
+}
+inline void PrtoIsop::set_allocated_cvsnapshotl1(::com::tomting::orion::PrtoL1mr* cvsnapshotl1) {
+  delete cvsnapshotl1_;
+  cvsnapshotl1_ = cvsnapshotl1;
+  if (cvsnapshotl1) {
+    set_has_cvsnapshotl1();
+  } else {
+    clear_has_cvsnapshotl1();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIsop.cVsnapshotL1)
+}
+
+// optional .com.tomting.orion.PrtoL2mr cVsnapshotL2 = 3;
+inline bool PrtoIsop::has_cvsnapshotl2() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void PrtoIsop::set_has_cvsnapshotl2() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void PrtoIsop::clear_has_cvsnapshotl2() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void PrtoIsop::clear_cvsnapshotl2() {
+  if (cvsnapshotl2_ != NULL) cvsnapshotl2_->::com::tomting::orion::PrtoL2mr::Clear();
+  clear_has_cvsnapshotl2();
+}
+inline const ::com::tomting::orion::PrtoL2mr& PrtoIsop::cvsnapshotl2() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIsop.cVsnapshotL2)
+  return cvsnapshotl2_ != NULL ? *cvsnapshotl2_ : *default_instance_->cvsnapshotl2_;
+}
+inline ::com::tomting::orion::PrtoL2mr* PrtoIsop::mutable_cvsnapshotl2() {
+  set_has_cvsnapshotl2();
+  if (cvsnapshotl2_ == NULL) cvsnapshotl2_ = new ::com::tomting::orion::PrtoL2mr;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIsop.cVsnapshotL2)
+  return cvsnapshotl2_;
+}
+inline ::com::tomting::orion::PrtoL2mr* PrtoIsop::release_cvsnapshotl2() {
+  clear_has_cvsnapshotl2();
+  ::com::tomting::orion::PrtoL2mr* temp = cvsnapshotl2_;
+  cvsnapshotl2_ = NULL;
+  return temp;
+}
+inline void PrtoIsop::set_allocated_cvsnapshotl2(::com::tomting::orion::PrtoL2mr* cvsnapshotl2) {
+  delete cvsnapshotl2_;
+  cvsnapshotl2_ = cvsnapshotl2;
+  if (cvsnapshotl2) {
+    set_has_cvsnapshotl2();
+  } else {
+    clear_has_cvsnapshotl2();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIsop.cVsnapshotL2)
+}
+
+// -------------------------------------------------------------------
+
+// PrtoIqop
+
+// required .com.tomting.orion.PrtoL2os cVosqlL2 = 1;
+inline bool PrtoIqop::has_cvosqll2() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void PrtoIqop::set_has_cvosqll2() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void PrtoIqop::clear_has_cvosqll2() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void PrtoIqop::clear_cvosqll2() {
+  if (cvosqll2_ != NULL) cvosqll2_->::com::tomting::orion::PrtoL2os::Clear();
+  clear_has_cvosqll2();
+}
+inline const ::com::tomting::orion::PrtoL2os& PrtoIqop::cvosqll2() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIqop.cVosqlL2)
+  return cvosqll2_ != NULL ? *cvosqll2_ : *default_instance_->cvosqll2_;
+}
+inline ::com::tomting::orion::PrtoL2os* PrtoIqop::mutable_cvosqll2() {
+  set_has_cvosqll2();
+  if (cvosqll2_ == NULL) cvosqll2_ = new ::com::tomting::orion::PrtoL2os;
+  // @@protoc_insertion_point(field_mutable:com.tomting.orion.PrtoIqop.cVosqlL2)
+  return cvosqll2_;
+}
+inline ::com::tomting::orion::PrtoL2os* PrtoIqop::release_cvosqll2() {
+  clear_has_cvosqll2();
+  ::com::tomting::orion::PrtoL2os* temp = cvosqll2_;
+  cvosqll2_ = NULL;
+  return temp;
+}
+inline void PrtoIqop::set_allocated_cvosqll2(::com::tomting::orion::PrtoL2os* cvosqll2) {
+  delete cvosqll2_;
+  cvosqll2_ = cvosqll2;
+  if (cvosqll2) {
+    set_has_cvosqll2();
+  } else {
+    clear_has_cvosqll2();
+  }
+  // @@protoc_insertion_point(field_set_allocated:com.tomting.orion.PrtoIqop.cVosqlL2)
+}
+
+// optional bool bVenabletimestamp = 2;
+inline bool PrtoIqop::has_bvenabletimestamp() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void PrtoIqop::set_has_bvenabletimestamp() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void PrtoIqop::clear_has_bvenabletimestamp() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void PrtoIqop::clear_bvenabletimestamp() {
+  bvenabletimestamp_ = false;
+  clear_has_bvenabletimestamp();
+}
+inline bool PrtoIqop::bvenabletimestamp() const {
+  // @@protoc_insertion_point(field_get:com.tomting.orion.PrtoIqop.bVenabletimestamp)
+  return bvenabletimestamp_;
+}
+inline void PrtoIqop::set_bvenabletimestamp(bool value) {
+  set_has_bvenabletimestamp();
+  bvenabletimestamp_ = value;
+  // @@protoc_insertion_point(field_set:com.tomting.orion.PrtoIqop.bVenabletimestamp)
+}
+
 
 // @@protoc_insertion_point(namespace_scope)
 
@@ -12020,6 +14822,11 @@ template <> struct is_proto_enum< ::com::tomting::orion::iCdbleveltype> : ::goog
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::com::tomting::orion::iCdbleveltype>() {
   return ::com::tomting::orion::iCdbleveltype_descriptor();
+}
+template <> struct is_proto_enum< ::com::tomting::orion::iCembeddedservicetype> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::com::tomting::orion::iCembeddedservicetype>() {
+  return ::com::tomting::orion::iCembeddedservicetype_descriptor();
 }
 
 }  // namespace google

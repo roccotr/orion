@@ -47,6 +47,7 @@ using namespace orion;
 	const AnsiString DataXml_::sCtagtbtype = "TABLETYPE"; 
 
   const AnsiString DataXml_::sCvalascend = "ASC";
+	const AnsiString DataXml_::sCvaldescend = "DESC";
 	const AnsiString DataXml_::sCvalcoltps [] = {	"KEY", 
 																								"STRING", "LISTSTRING", 
 																								"INTEGER", "LISTINTEGER", 

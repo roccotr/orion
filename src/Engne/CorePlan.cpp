@@ -45,6 +45,8 @@ using namespace google;
 	const AnsiString CorePlan::sCindexseparator =  CoreButl::chr2s (0);
 	const double CorePlan::dCmovingaveragedimdelay = 20;
 	const AnsiString CorePlan::sCpromptupdates = "Updates: ";
+	const AnsiString CorePlan::sCresultkey = "RESULT";
+	const AnsiString CorePlan::sCresultcolumn = "ROWS";
 
 	const AnsiString CorePlan::sCflushwriter = "FlushWriter";
 	const AnsiString CorePlan::sCmemtablepostflusher = "MemtablePostFlusher";
@@ -1092,13 +1094,16 @@ using namespace google;
 	bool __fastcall CorePlan::savet (PrtoL2ct* cCreatetable) {
 		AnsiString sVcolumnname;
 		AnsiString sVindexname;
+		AnsiString sVcolumnorder;
 		CoreXml_ cVdocument;
 		CoreNode* cVnode;
 		PrtoL2cl* cVcolumn;
 		PrtoL2ix* cVindex;
 		PrtoLmtb* cVmutable;
+		PrtoL2or* cVindexcolumn;
 		CoreNode* cVtempcolumnname;
 		CoreNode* cVtempcolumntype;
+		CoreNode* cVtempordertype;
 		CoreNode* cVtempcolumnnode;
 		CoreNode* cVtempindexnode;
 		CoreNode* cVtempindexname;
@@ -1121,10 +1126,19 @@ using namespace google;
 			cVtempindexnode = new CoreNode (DataXml_::sCtagindex_);
 			cVtempindexname = CoreNode::newnd (new CoreNode (sVindexname .UpperCase ()), DataXml_::sCtagname__);
 			cVtempindexnode->addcd (cVtempindexname);
+			
+			for (int iVinner = 0; iVinner < cVindex->cvcolumn_size (); iVinner++) {
+				cVtempcolumnnode =  new CoreNode (DataXml_::sCtagcolumn); 
+				cVindexcolumn = cVindex->mutable_cvcolumn (iVinner);
+				sVcolumnname = cVindexcolumn->svcolumn ();
+				sVcolumnorder = cVindexcolumn->ivordertype () == ASC ? DataXml_::sCvalascend : DataXml_::sCvaldescend;
+				cVtempcolumnname = CoreNode::newnd (new CoreNode (sVcolumnname.UpperCase ()), DataXml_::sCtagname__);
+				cVtempordertype = CoreNode::newnd (new CoreNode (sVcolumnorder), DataXml_::sCtagcoltyp);
+				cVtempcolumnnode->addcd (cVtempcolumnname);
+				cVtempcolumnnode->addcd (cVtempordertype);
+				cVtempindexnode->addcd (cVtempcolumnnode);
+			}
 			cVnode->addcd (cVtempindexnode);
-
-
-
 		}
 		cVtempstorage = new CoreNode (DataXml_::sCtagstorge);
 		if (cCreatetable->has_ivtabletype ()) 
@@ -2234,7 +2248,10 @@ using namespace google;
 		PrtoL2cl* cVcolumn;
 		PrtoL2cv* cVvalue;
 
-		cVcolumn = cResult->add_cvkeyslice ()->add_cvcolumns ();
+		PrtoL2ks* cVkeyslice = cResult->add_cvkeyslice ();
+		cVkeyslice->mutable_cvkey ()->set_svmain (sCresultkey.to_string ());
+		cVcolumn = cVkeyslice->add_cvcolumns ();
+		cVcolumn->set_svcolumn (sCresultcolumn.to_string ());
 		cVcolumn->set_ivtype (INTEGRTYPE);
 		cVvalue = cVcolumn->mutable_cvvalue ();
 		cVvalue->set_ivtype (INTEGRTYPE);
@@ -2989,4 +3006,36 @@ using namespace google;
 			case iCbalancedcustompartition: return "BALANCED CUSTOM PARTITION";
 			default: return "NO PARTITION";
 		}	
+	}
+
+	/*PRoTTo BatCh*/
+	void __fastcall CorePlan::prtbc (PrtoSrvc& cVprotoservice, PrtoSrvr& cVresult) {
+
+		cVresult.Clear ();
+		switch (cVprotoservice.ivservicetype ()) {
+			case (STATEMENT):
+				cVresult.set_bvreturn ( statm (cVprotoservice.mutable_cvstatement (), 
+					cVprotoservice.has_bvoptimizewriteindex () ? cVprotoservice.bvoptimizewriteindex () : true,
+					cVprotoservice.has_bvupdateonlyindex () ? cVprotoservice.bvupdateonlyindex () : false,
+					cVprotoservice.has_bvlocalfilter () ? cVprotoservice.bvlocalfilter () : false));
+				break;
+			case (QUERY):
+				cVresult.set_bvreturn ( query (cVprotoservice.mutable_cvquery (), cVresult.mutable_cvdmlresult ()));
+				break;
+			case (OSQL):
+				cVresult.set_bvreturn ( osql_ (cVprotoservice.mutable_cvosql (), cVresult.mutable_cvdmlresult ()));
+				break;
+			case (STORAGEL2):
+				cVresult.set_bvreturn ( crttb (cVprotoservice.mutable_cvdmll2 ()));
+				break;
+			case (STATEMENTL1):
+				cVresult.set_bvreturn ( lcstm (cVprotoservice.mutable_cvstatementl1 (), true));
+				break;
+			case (QUERYL1):
+				cVresult.set_bvreturn ( lcqry (cVprotoservice.mutable_cvqueryl1 (), cVresult.mutable_cvsnapshotl1 ()->mutable_cvvalue (), true));
+				break;
+			case (STORAGEL1):
+				cVresult.set_bvreturn ( crttb (cVprotoservice.mutable_cvdmll1 ()));
+				break;
+		}
 	}

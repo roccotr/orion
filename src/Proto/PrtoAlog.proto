@@ -240,6 +240,12 @@ message PrtoL2os {
 }
 
 //dMl Result
+message PrtoL1mr {
+	optional PrtoLkey cVkey = 1;
+	optional PrtoLval cVvalue = 2;
+}
+
+//dMl Result
 message PrtoL2mr {
 	repeated PrtoL2ks cVkeyslice = 1;	
 }
@@ -365,6 +371,10 @@ enum iCservicetype {
 	STATEMENT = 0;
 	QUERY = 1;
 	OSQL = 2;
+	STORAGEL2 = 3;
+	STATEMENTL1 = 4;
+	QUERYL1 = 5;
+	STORAGEL1 = 6;
 }
 
 //SeRViCe
@@ -373,12 +383,21 @@ message PrtoSrvc {
 	optional PrtoL2qr cVquery = 2;
 	optional PrtoL2st cVstatement = 3;
 	optional PrtoL2os cVosql = 4;
+	optional PrtoLstm cVstatementL1 = 5;
+	optional PrtoLqry cVqueryL1 = 6; 
+	optional PrtoLmtb cVdmlL1 = 7; 
+	optional PrtoL2ct cVdmlL2 = 8;
+	optional bool bVoptimizewriteindex = 9;
+	optional bool bVupdateonlyindex = 10;
+	optional bool bVlocalfilter = 11;
+	optional bool bVenabletimestamp = 12;
 }
 
 //SeRVice Result
 message PrtoSrvr {
 	optional bool bVreturn = 1;
 	optional PrtoL2mr cVdmlresult = 2;
+	optional PrtoL1mr cVsnapshotL1 = 3;
 }
 
 enum iCbulkservicetype {
@@ -406,4 +425,69 @@ message PrtoBsrr {
 enum iCdbleveltype {
 	L1 = 1;
 	L2 = 2;
+}
+
+//Interface Orion OPtions
+message PrtoIoop {
+	optional bytes sVlogpath = 1;
+	optional bytes sVmasterxml= 2;
+	optional bytes sVnodeid = 3;
+	optional bytes sVtabletsubpath = 4;
+	optional bytes sVredologsubpath = 5;
+	optional bytes sVdatasubpath = 6;
+	optional bytes sVthriftaddress = 7;
+	optional bytes sVthriftgossiperaddress = 8;
+	optional int32 iVthriftport = 9;
+	optional int32 iVthriftgossiperport = 10;
+	optional int32 iVredologdim = 11;
+	optional int32 iVthriftlisteners = 12;
+	optional int32 iVmaxcompactionlevel = 13;
+	optional int32 iVreplicationfactor = 14;
+	optional bool bVerrorifexists = 15;
+}
+
+//Interface Write OPtions
+message PrtoIwop {
+	required iCdbleveltype iVlevel = 1;
+	optional PrtoLstm cVstatementL1 = 2; 
+	optional PrtoL2st cVstatementL2 = 3;
+	optional bool bVoptimizewriteindex = 4;
+	optional bool bVupdateonlyindex = 5;
+	optional bool bVlocalfilter = 6;
+	optional bool bVenabletimestamp = 7;
+}
+
+//Interface Read OPtions
+message PrtoIrop {
+	required iCdbleveltype iVlevel = 1;
+	optional PrtoLqry cVqueryL1 = 2; 
+	optional PrtoL2qr cVqueryL2 = 3;
+
+}
+
+//Interface storaGe OPtions
+message PrtoIgop {
+	required iCdbleveltype iVlevel = 1;
+	optional PrtoLmtb cVdmlL1 = 2; 
+	optional PrtoL2ct cVdmlL2 = 3;
+}
+
+//Interface Status OPtions
+message PrtoIsop {
+	required bool bVresult = 1;
+	optional PrtoL1mr cVsnapshotL1 = 2;
+	optional PrtoL2mr cVsnapshotL2 = 3; 
+}
+
+//Interface osQl Options
+message PrtoIqop {
+	required PrtoL2os cVosqlL2 = 1;
+	optional bool bVenabletimestamp = 2;
+}
+
+enum iCembeddedservicetype {
+	EMBEDDEDWRITE = 1;
+	EMBEDDEDSTORAGE = 2;
+	EMBEDDEDREAD = 3;
+	EMBEDDEDOSQL = 4;
 }

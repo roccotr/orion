@@ -38,16 +38,29 @@ namespace orion {
 			max_compaction_level = CoreOrn_::iCmaxcompactionlevel;
 			replication_factor = CoreOrn_::iCreplicationfactor;
 		}
+
+		Options (PrtoIoop& cProto) {
+			log_path = cProto.svlogpath ();
+			master_xml = cProto.has_svmasterxml () ? cProto.svmasterxml () : "Orion.xml";
+			node_id = cProto.has_svnodeid () ? cProto.svnodeid () : CoreOrn_::sCnodeid.to_string ();
+			tablet_sub_path = cProto.svtabletsubpath ();
+			redolog_sub_path = cProto.svredologsubpath ();
+			data_sub_path = cProto.svdatasubpath ();
+			thrift_address = cProto.has_svthriftaddress () ? cProto.svthriftaddress () : CoreOrn_::sClocaladdress.to_string ();
+			thrift_gossiper_address = cProto.svthriftgossiperaddress ();
+			thrift_port = cProto.has_ivthriftport () ? cProto.ivthriftport () : CoreOrn_::iCthriftport;
+			thrift_gossiper_port = cProto.has_ivthriftgossiperport () ? cProto.ivthriftgossiperport () : CoreOrn_::iCthriftport;
+			redolog_dim = cProto.has_ivredologdim () ? cProto.ivredologdim () : CoreOrn_::iCredologdim;
+			thrift_listeners = cProto.has_ivthriftlisteners () ? cProto.ivthriftlisteners () : CoreOrn_::iCthriftlisteners;
+			max_compaction_level = cProto.has_ivmaxcompactionlevel () ? cProto.ivmaxcompactionlevel () : 
+				CoreOrn_::iCmaxcompactionlevel;
+			replication_factor = cProto.has_ivreplicationfactor () ? cProto.ivreplicationfactor () : CoreOrn_::iCreplicationfactor;
+			error_if_exists = cProto.has_bverrorifexists () ? cProto.bverrorifexists () : false;
+		}
 	};
 
 	struct WriteOptions {
-		bool optimize_write_index;
-		bool update_only_index;
-		bool local_filter;
-		bool enable_timestamp;
-		iCdbleveltype level;
-		PrtoLstm statement_L1; 
-		PrtoL2st statement_L2;
+		PrtoIwop write_options;
 		PrtoL2cl* first_column_L2;
 		CorePlan::PTR_TABLELOC* cVinternaltableloc;
 		CoreAlog::TABLETLOC* cVinternaltabletloc;
@@ -55,91 +68,97 @@ namespace orion {
 		WriteOptions (iCdbleveltype iLevel = L2) {
 			cVinternaltableloc = NULL;
 			cVinternaltabletloc = NULL;
-			level = iLevel;
-			enable_timestamp = true;
+			write_options.set_ivlevel (iLevel);  
+			write_options.set_bvenabletimestamp (true);
 			
-			switch (level) {
+			switch (write_options.ivlevel ()) {
 				case L1:
-					statement_L1.mutable_cvmutable ()->set_svtable (CoreOrn_::sCdefault.to_string ());
-					statement_L1.mutable_cvmutable ()->set_svnamespace (CoreOrn_::sCdefault.to_string ());
-					statement_L1.mutable_cvkey ()->set_ivtimestamp (0);
-					statement_L1.mutable_cvvalue ()->set_ivtimestamp (0);
-					CoreAutl::zrkey (statement_L1.mutable_cvkey ());
+					write_options.mutable_cvstatementl1 ()->mutable_cvmutable ()->
+						set_svtable (CoreOrn_::sCdefault.to_string ());
+					write_options.mutable_cvstatementl1 ()->mutable_cvmutable ()->
+						set_svnamespace (CoreOrn_::sCdefault.to_string ());
+				
+					write_options.mutable_cvstatementl1 ()->mutable_cvkey ()->set_ivtimestamp (0);
+					write_options.mutable_cvstatementl1 ()->mutable_cvvalue ()->set_ivtimestamp (0);
+					CoreAutl::zrkey (write_options.mutable_cvstatementl1 ()->mutable_cvkey ());
 					break;
 				case L2:
-					statement_L2.mutable_cvmutable ()->set_svtable (CoreOrn_::sCdefault.to_string ());
-					statement_L2.mutable_cvmutable ()->set_svnamespace (CoreOrn_::sCdefault.to_string ());
-					statement_L2.mutable_cvkey ()->set_ivtimestamp (0);
-					first_column_L2 = statement_L2.mutable_cvcolumns ()->Add ();
+					write_options.mutable_cvstatementl2 ()->mutable_cvmutable ()->
+						set_svtable (CoreOrn_::sCdefault.to_string ());
+					write_options.mutable_cvstatementl2 ()->mutable_cvmutable ()->
+						set_svnamespace (CoreOrn_::sCdefault.to_string ());
+					write_options.mutable_cvstatementl2 ()->mutable_cvkey ()->set_ivtimestamp (0);
+					first_column_L2 = write_options.mutable_cvstatementl2 ()->mutable_cvcolumns ()->Add ();
 					first_column_L2->set_svcolumn (CoreOrn_::sCdefault.to_string ());	
-					CoreAutl::zrkey (statement_L2.mutable_cvkey ());
-					optimize_write_index = true;
-					update_only_index = false;
-					local_filter = false;
+					CoreAutl::zrkey (write_options.mutable_cvstatementl2 ()->mutable_cvkey ());
+					write_options.set_bvoptimizewriteindex (true);
+					write_options.set_bvupdateonlyindex ( false);
+					write_options.set_bvlocalfilter ( false);
 					break;
 			}
 		}
 	};
 
 	struct ReadOptions {
-		iCdbleveltype level;
-		PrtoLqry query_L1;
-		PrtoL2qr query_L2;
+		PrtoIrop read_options;
 		PrtoL2cl* first_column_L2;
 
 		ReadOptions (iCdbleveltype iLevel = L2) {
-			level = iLevel;
-			switch (level) {
+			read_options.set_ivlevel (iLevel);
+			switch (read_options.ivlevel ()) {
 				case L1:
-					query_L1.mutable_cvmutable ()->set_svtable (CoreOrn_::sCdefault.to_string ());
-					query_L1.mutable_cvmutable ()->set_svnamespace (CoreOrn_::sCdefault.to_string ());	
-					query_L1.set_ivquery (EXACTQUERY);
+					read_options.mutable_cvqueryl1 ()->
+						mutable_cvmutable ()->set_svtable (CoreOrn_::sCdefault.to_string ());
+					read_options.mutable_cvqueryl1 ()->
+						mutable_cvmutable ()->set_svnamespace (CoreOrn_::sCdefault.to_string ());	
+					read_options.mutable_cvqueryl1 ()->set_ivquery (EXACTQUERY);
 					break;
 				case L2:
-					query_L2.mutable_cvmutable ()->set_svtable (CoreOrn_::sCdefault.to_string ());
-					query_L2.mutable_cvmutable ()->set_svnamespace (CoreOrn_::sCdefault.to_string ());
-					first_column_L2 = query_L2.mutable_cvselect ()->Add ();
+					read_options.mutable_cvqueryl2 ()->
+						mutable_cvmutable ()->set_svtable (CoreOrn_::sCdefault.to_string ());
+					read_options.mutable_cvqueryl2 ()->
+						mutable_cvmutable ()->set_svnamespace (CoreOrn_::sCdefault.to_string ());
+					first_column_L2 = read_options.mutable_cvqueryl2 ()->mutable_cvselect ()->Add ();
 					first_column_L2->set_svcolumn (CoreOrn_::sCdefault.to_string ());
-					query_L2.set_ivquery (EXACTQUERY);	
+					read_options.mutable_cvqueryl2 ()->set_ivquery (EXACTQUERY);	
 					break;
 			}
 		}
 	};
 
 	struct StorageOptions {
-		PrtoLmtb dml_L1;
-		PrtoL2ct dml_L2;
-		iCdbleveltype level;
+		PrtoIgop storage_options;
 
 		StorageOptions (iCdbleveltype iLevel = L2) {
-			level = iLevel;
-			switch (level) {
+			storage_options.set_ivlevel (iLevel);
+			switch (storage_options.ivlevel ()) {
 				case L1:
-					dml_L1.set_svtable (CoreOrn_::sCdefault.to_string ());
-					dml_L1.set_svnamespace (CoreOrn_::sCdefault.to_string ());
-					dml_L1.mutable_cvstorage ()->set_bvmemorytable (true);
-					dml_L1.mutable_cvstorage ()->set_bvvolatiletable (false);					
+					storage_options.mutable_cvdmll1 ()->set_svtable (CoreOrn_::sCdefault.to_string ());
+					storage_options.mutable_cvdmll1 ()->set_svnamespace (CoreOrn_::sCdefault.to_string ());
+					storage_options.mutable_cvdmll1 ()->mutable_cvstorage ()->set_bvmemorytable (true);
+					storage_options.mutable_cvdmll1 ()->mutable_cvstorage ()->set_bvvolatiletable (false);					
 					break;
 				case L2:
-					dml_L2.mutable_cvmutable ()->set_svtable (CoreOrn_::sCdefault.to_string ());
-					dml_L2.mutable_cvmutable ()->set_svnamespace (CoreOrn_::sCdefault.to_string ());
-					PrtoL2cl* cVcolumn = dml_L2.mutable_cvcolumns ()->Add ();
+					storage_options.mutable_cvdmll2 ()->mutable_cvmutable ()->set_svtable (CoreOrn_::sCdefault.to_string ());
+					storage_options.mutable_cvdmll2 ()->mutable_cvmutable ()->set_svnamespace (CoreOrn_::sCdefault.to_string ());
+					PrtoL2cl* cVcolumn = storage_options.mutable_cvdmll2 ()->mutable_cvcolumns ()->Add ();
 					cVcolumn->set_svcolumn (CoreOrn_::sCdefault.to_string ());	
 					cVcolumn->set_ivtype (STRINGTYPE);
-					dml_L2.set_ivtabletype (MEMORYTABLE__);
-					dml_L2.set_ivindextype (DISTRINDEX);
-					dml_L2.set_ivpartitiontype (NOPARTITION);
+					storage_options.mutable_cvdmll2 ()->set_ivtabletype (MEMORYTABLE__);
+					storage_options.mutable_cvdmll2 ()->set_ivindextype (DISTRINDEX);
+					storage_options.mutable_cvdmll2 ()->set_ivpartitiontype (NOPARTITION);
 					break;
 			}
 		}
 	};
 
 	struct OsqlOptions {
-		PrtoL2os osql_L2;
+		PrtoIqop osql_options;
 
 		OsqlOptions () {
-			osql_L2.set_svnamespace (CoreOrn_::sCdefault.to_string ());
-			osql_L2.set_bvonlysecondary (false);
+			osql_options.mutable_cvosqll2 ()->set_svnamespace (CoreOrn_::sCdefault.to_string ());
+			osql_options.mutable_cvosqll2 ()->set_bvonlysecondary (false);
+			osql_options.set_bvenabletimestamp (false);
 		}
 	};
 
@@ -162,21 +181,19 @@ namespace orion {
 	};
 
 	struct Status {
-		bool result;
-		PrtoL2mr snapshot_L2;
-		PrtoLval snapshot_L1;
+		PrtoIsop status;
 		
 		Status (bool bResult = false) {
 
-			result = bResult;
+			status.set_bvresult (bResult);
 		}
 
 		bool ok () {
-			return result;
+			return status.bvresult ();
 		}
 
 		SnapshotIterator* NewSnapshotIterator () {
-			return new SnapshotIterator (&snapshot_L2);
+			return new SnapshotIterator (status.mutable_cvsnapshotl2 ());
 		}
 
 	};
@@ -203,11 +220,10 @@ namespace orion {
 	class DB {
 
 		PTR_POOL cVpool;
-		PTR_PLANNER cVplanner;
 		PTR_ORION cVorion;
 
 		public:
-
+			PTR_PLANNER cVplanner;
 			static const int VaEOF;
 
 			DB (Options& cOptions, string sPath);
@@ -233,8 +249,20 @@ namespace orion {
 	};
 
 
+	class AriesDB : public DB {
+
+	public:
+			AriesDB (Options& cOptions, string sPath);
+			~AriesDB ();
+
+			Status Create (StorageOptions& storageOptions);
+
+			static boost::shared_ptr<AriesDB> Open (Options& options, string path);
+	};
+
 	
 	typedef boost::shared_ptr<DB> Instance;
+	typedef boost::shared_ptr<AriesDB> AriesInstance;
 	
 }
 

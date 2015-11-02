@@ -73,6 +73,8 @@ private:
 	const static AnsiString sCindexseparator;
 	const static double dCmovingaveragedimdelay;
 	const static AnsiString sCpromptupdates;
+	const static AnsiString sCresultkey;
+	const static AnsiString sCresultcolumn;
 
 	typedef struct CoreGslc {
 		int64vcl iVstartuptime;
@@ -386,6 +388,8 @@ public:
 	bool __fastcall setsm (bool bActive);
 
 	bool __fastcall top__ (PrtoTop_& cVtop);
+
+	void __fastcall prtbc (PrtoSrvc& cVprotoservice, PrtoSrvr& cVresult); 
 
 };
 

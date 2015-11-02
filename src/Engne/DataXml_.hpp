@@ -44,6 +44,7 @@ public:
 	const static AnsiString sCtagmemsze;
 	const static AnsiString sCtagmemchk;
 	const static AnsiString sCvalascend;
+	const static AnsiString sCvaldescend;
 	const static AnsiString sCtagtbshfm;
 	const static AnsiString sCtagtbshto;
 	const static AnsiString sCtagtitype;
