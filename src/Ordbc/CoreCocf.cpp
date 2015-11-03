@@ -4,7 +4,7 @@
 #include "TmplObpl.cpp"
 #include "TmplList.cpp"
 
-  __fastcall CoreCocf::CoreCocf(int iExpirationtime)  : 
+  __fastcall CoreCocf::CoreCocf(int iExpirationtime)  :
 			CoreObpl<CoreCoco> (iExpirationtime) {
 	}
 
@@ -23,7 +23,7 @@
 
   /*SET*/
 	PTR_ORIONCONNECTION __fastcall CoreCocf::set__ () {
-		
+
 		PTR_ORIONCONNECTION cVconnectionloc = boost::shared_ptr<CoreCoco> (new CoreCoco ());
 		try {
 			cVconnectionloc->open_ (cVpool, sVaddress, iVport, CoreButl::chr2s (bVprotocoltype));
@@ -38,7 +38,7 @@
 		cObject.reset ();
 	}
 
-	
+
 	/*VALID*/
 	bool __fastcall CoreCocf::valid (PTR_ORIONCONNECTION cObject) {
 
@@ -51,7 +51,7 @@
 
 		return chout ();
 	}
-	
+
 	/*END*/
 	void __fastcall CoreCocf::end__ (PTR_ORIONCONNECTION cConnection) {
 

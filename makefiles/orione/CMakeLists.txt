@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8.11)
 project(orione)
 enable_testing()
 
+set(CMAKE_MACOSX_RPATH 1)
+
 message( STATUS "Orion Embeddable: " ${PROJECT_SRC_DIR} )
 
 
@@ -35,6 +37,18 @@ find_path(THRIFT_INCLUDE_DIR
 
 include_directories(${THRIFT_INCLUDE_DIR}/thrift)
 
+find_path(LIBLFDS_INCLUDE_DIR
+    NAMES
+        liblfds611.h
+    HINTS
+        /usr/local
+        /opt/liblfds
+    PATH_SUFFIXES
+        include
+)
+
+include_directories(${LIBLFDS_INCLUDE_DIR})
+
 
 MESSAGE ( STATUS "THRIFT PATH ${THRIFT_INCLUDE_DIR}")
 
@@ -63,7 +77,8 @@ FILE(GLOB SOURCE_FILES  "${CMAKE_SOURCE_DIR}/src/Engne/*.cpp"
                         "${CMAKE_SOURCE_DIR}/src/Hlprs/*.cpp"
 			"${CMAKE_SOURCE_DIR}/src/Thrft/*.cpp"
 			"${CMAKE_SOURCE_DIR}/src/Extrn/md5/*.cpp"
-			"${CMAKE_SOURCE_DIR}/src/Extrn/*.cpp"
+   "${CMAKE_SOURCE_DIR}/src/Extrn/*.cpp"
+			"${CMAKE_SOURCE_DIR}/src/Ordbc/*.cpp"
 			"${CMAKE_SOURCE_DIR}/src/Proto/*.cc"
 			#"${CMAKE_SOURCE_DIR}/src/Unitt/*.cpp"
 			"${CMAKE_SOURCE_DIR}/makefiles/orione/*.cpp"
@@ -108,7 +123,7 @@ list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/Thrft/ThrfOrn__server.skel
 # Create the Static Library
 add_definitions( -DiCdisableprintlog )
 
-set(LIB_PATH_DIRS /usr/lib /usr/lib64 /usr/local/lib /usr/local/lib64 )
+set(LIB_PATH_DIRS /usr/lib /usr/lib64 /usr/local/lib /usr/local/lib64 /opt/liblfds/lib )
 
 
 # Static Dependencies
@@ -123,6 +138,7 @@ find_library( GFLAGS_STATIC_PATH NAMES libgflags.a PATHS ${LIB_PATH_DIRS} REQUIR
 find_library( GLOG_STATIC_PATH NAMES libglog.a PATHS ${LIB_PATH_DIRS} REQUIRED)
 find_library( BOOST_SYSTEM_STATIC_PATH NAMES libboost_system.a PATHS ${LIB_PATH_DIRS} REQUIRED)
 find_library( BOOST_FILESYSTEM_STATIC_PATH NAMES libboost_filesystem.a PATHS ${LIB_PATH_DIRS} REQUIRED)
+find_library( LIBLFDS_STATIC_PATH NAMES liblfds611.a PATHS ${LIB_PATH_DIRS} REQUIRED)
 #find_library( PTHREAD_STATIC_PATH NAMES libpthread.a PATHS ${LIB_PATH_DIRS} REQUIRED)
 
 MESSAGE(STATUS "THRIFT ${THRIFT_STATIC_PATH}")
@@ -130,7 +146,7 @@ MESSAGE(STATUS "TCMALLOC ${SNAPPY_STATIC_PATH}")
 #MESSAGE(STATUS "PTHREAD ${PTHREAD_STATIC_PATH}")
 
 
-set(STATIC_DEPENDENCIES ${THRIFT_STATIC_PATH} ${THRIFTNB_STATIC_PATH} ${EVENT_STATIC_PATH} ${SNAPPY_STATIC_PATH} ${RE2_STATIC_PATH} ${TCMALLOC_STATIC_PATH} pthread ${PROTOBUF_STATIC_PATH} ${GFLAGS_STATIC_PATH} ${GLOG_STATIC_PATH} ${BOOST_SYSTEM_STATIC_PATH} ${BOOST_FILESYSTEM_STATIC_PATH})
+set(STATIC_DEPENDENCIES ${THRIFT_STATIC_PATH} ${THRIFTNB_STATIC_PATH} ${EVENT_STATIC_PATH} ${SNAPPY_STATIC_PATH} ${RE2_STATIC_PATH} ${TCMALLOC_STATIC_PATH} pthread ${PROTOBUF_STATIC_PATH} ${GFLAGS_STATIC_PATH} ${GLOG_STATIC_PATH} ${BOOST_SYSTEM_STATIC_PATH} ${BOOST_FILESYSTEM_STATIC_PATH} ${LIBLFDS_STATIC_PATH})
 
 # Executable
 add_executable(orion ${SOURCE_FILES})
@@ -144,7 +160,7 @@ set_target_properties(orione PROPERTIES OUTPUT_NAME orion CLEAN_DIRECTORY_OUTPUT
 set_target_properties(orione_static PROPERTIES OUTPUT_NAME orion CLEAN_DIRECTORY_OUTPUT 1)
 
 
-target_link_libraries (orione thrift thriftnb event snappy re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
+target_link_libraries (orione ${STATIC_DEPENDENCIES})
 target_link_libraries (orione_static ${STATIC_DEPENDENCIES})
 #target_link_libraries (orione ${CMAKE_SOURCE_DIR}/lib//static/thrift.a ${CMAKE_SOURCE_DIR}/lib//static/thrift.a ./static_lib/event.a ./static_lib/snappy.a re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
 
