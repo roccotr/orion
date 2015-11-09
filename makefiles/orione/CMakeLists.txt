@@ -23,6 +23,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src/Extrn/md5)
 include_directories(${CMAKE_SOURCE_DIR}/src/Ordbc)
 include_directories(${CMAKE_SOURCE_DIR}/src/Mains)
 
+
 find_path(THRIFT_INCLUDE_DIR
     NAMES
         thrift/Thrift.h
@@ -42,7 +43,7 @@ find_path(LIBLFDS_INCLUDE_DIR
         liblfds611.h
     HINTS
         /usr/local
-        /opt/liblfds
+        /opt/liblfds/include
     PATH_SUFFIXES
         include
 )
@@ -59,28 +60,33 @@ MESSAGE ( STATUS "THRIFT PATH ${THRIFT_INCLUDE_DIR}")
 #include_directories(/usr/local/Cellar/libevent/2.0.22/include)
 #include_directories(/opt/liblfds/include)
 #include_directories(/usr/local/include)
-#link_directories( /opt/gtest/lib/ )
+link_directories( /opt/liblfds/lib )
 
 add_definitions(-DsCpipename='"ORIONPIPE_"' -DAPPLEOS  -DiCfastpool -DHAVE_NETINET_IN_H -DHAVE_INTTYPES_H -DiCtcmalloc -DiCoo2sortedindex -DVERBOSE=1)
 
 set(CMAKE_CXX_COMPILER /usr/bin/g++)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -w -fmessage-length=0 -std=c++0x -static-libstdc++ -stdlib=libc++")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -w -fmessage-length=0 -std=c++0x -static-libstdc++")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -w -fmessage-length=0 -std=c++0x -static-libstdc++ -lstdc++")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -w -fmessage-length=0 -std=c++0x -static-libstdc++ -static")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g -w -fmessage-length=0 -std=c++11 -static-libstdc++")
 set(CMAKE_INSTALL_PREFIX dist)
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/debug)
-add_definitions(-fPIC)
+#add_definitions(-fPIC)
 
 
 set_target_properties( ${targetname} PROPERTIES LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/Debug )
 
-FILE(GLOB SOURCE_FILES  "${CMAKE_SOURCE_DIR}/src/Engne/*.cpp"
-                        "${CMAKE_SOURCE_DIR}/src/Hlprs/*.cpp"
+FILE(GLOB SOURCE_FILES
+
+   "${CMAKE_SOURCE_DIR}/src/Engne/*.cpp"
+   "${CMAKE_SOURCE_DIR}/src/Hlprs/*.cpp"
 			"${CMAKE_SOURCE_DIR}/src/Thrft/*.cpp"
 			"${CMAKE_SOURCE_DIR}/src/Extrn/md5/*.cpp"
    "${CMAKE_SOURCE_DIR}/src/Extrn/*.cpp"
 			"${CMAKE_SOURCE_DIR}/src/Ordbc/*.cpp"
-			"${CMAKE_SOURCE_DIR}/src/Proto/*.cc"
-			#"${CMAKE_SOURCE_DIR}/src/Unitt/*.cpp"
+   "${CMAKE_SOURCE_DIR}/src/Proto/*.cc"
+
+   #"${CMAKE_SOURCE_DIR}/src/Unitt/*.cpp"
 			"${CMAKE_SOURCE_DIR}/makefiles/orione/*.cpp"
                         )
 
@@ -113,10 +119,10 @@ list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/Hlprs/CoreHutv.cpp)
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/Hlprs/CoreSckw.cpp)
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/Hlprs/CoreScpw.cpp)
 #list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/Hlprs/CoreShme.cpp)
-list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/Mains/CoreOdbb.cpp)
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/Hlprs/CoreSmpq.cpp)
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/Hlprs/CoreXutv.cpp)
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/Hlprs/CoreTthv.cpp)
+list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/Mains/CoreOdbb.cpp)
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/Mains/Ordbc.cpp)
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/src/Thrft/ThrfOrn__server.skeleton.cpp)
 
@@ -143,26 +149,32 @@ find_library( LIBLFDS_STATIC_PATH NAMES liblfds611.a PATHS ${LIB_PATH_DIRS} REQU
 
 MESSAGE(STATUS "THRIFT ${THRIFT_STATIC_PATH}")
 MESSAGE(STATUS "TCMALLOC ${SNAPPY_STATIC_PATH}")
+MESSAGE(STATUS "LIBLFDS ${LIBLFDS_STATIC_PATH}")
 #MESSAGE(STATUS "PTHREAD ${PTHREAD_STATIC_PATH}")
 
 
-set(STATIC_DEPENDENCIES ${THRIFT_STATIC_PATH} ${THRIFTNB_STATIC_PATH} ${EVENT_STATIC_PATH} ${SNAPPY_STATIC_PATH} ${RE2_STATIC_PATH} ${TCMALLOC_STATIC_PATH} pthread ${PROTOBUF_STATIC_PATH} ${GFLAGS_STATIC_PATH} ${GLOG_STATIC_PATH} ${BOOST_SYSTEM_STATIC_PATH} ${BOOST_FILESYSTEM_STATIC_PATH} ${LIBLFDS_STATIC_PATH})
+set(STATIC_DEPENDENCIES  ${THRIFT_STATIC_PATH} ${THRIFTNB_STATIC_PATH} ${EVENT_STATIC_PATH} ${SNAPPY_STATIC_PATH} ${RE2_STATIC_PATH} ${TCMALLOC_STATIC_PATH} pthread ${PROTOBUF_STATIC_PATH} ${GFLAGS_STATIC_PATH} ${GLOG_STATIC_PATH} ${BOOST_SYSTEM_STATIC_PATH} ${BOOST_FILESYSTEM_STATIC_PATH} ${LIBLFDS_STATIC_PATH} )
+
+set(DYNAMIC_DEPENDENCIES thrift thriftnb event snappy re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem lfds611)
+
+#set(STATIC_DEPENDENCIES ${LIBLFDS_STATIC_PATH})
 
 # Executable
 add_executable(orion ${SOURCE_FILES})
+#target_link_libraries (orion ${STATIC_DEPENDENCIES})
 target_link_libraries (orion ${STATIC_DEPENDENCIES})
 
 
 # Library
-add_library(orione SHARED ${SOURCE_FILES})
-add_library(orione_static STATIC ${SOURCE_FILES})
-set_target_properties(orione PROPERTIES OUTPUT_NAME orion CLEAN_DIRECTORY_OUTPUT 1)
-set_target_properties(orione_static PROPERTIES OUTPUT_NAME orion CLEAN_DIRECTORY_OUTPUT 1)
+#add_library(orione SHARED ${SOURCE_FILES})
+#add_library(orione_static STATIC ${SOURCE_FILES})
+#set_target_properties(orione PROPERTIES OUTPUT_NAME orion CLEAN_DIRECTORY_OUTPUT 1)
+#set_target_properties(orione_static PROPERTIES OUTPUT_NAME orion CLEAN_DIRECTORY_OUTPUT 1)
 
 
-target_link_libraries (orione ${STATIC_DEPENDENCIES})
-target_link_libraries (orione_static ${STATIC_DEPENDENCIES})
-#target_link_libraries (orione ${CMAKE_SOURCE_DIR}/lib//static/thrift.a ${CMAKE_SOURCE_DIR}/lib//static/thrift.a ./static_lib/event.a ./static_lib/snappy.a re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem)
+#target_link_libraries (orione ${STATIC_DEPENDENCIES})
+#target_link_libraries (orione_static ${STATIC_DEPENDENCIES})
+#target_link_libraries (orione thrift thriftnb event snappy re2 tcmalloc pthread protobuf gflags glog boost_system boost_filesystem ${LIBLFDS_STATIC_PATH})
 
 file(COPY
     ${BASEPATH}/src/Engne/IfceOrn_.hpp
@@ -171,5 +183,5 @@ file(COPY
 file(RENAME ${BASEPATH}/build/include/IfceOrn_.hpp ${BASEPATH}/build/include/orion.h)
 
 install(TARGETS orion RUNTIME DESTINATION .)
-install(TARGETS orione DESTINATION lib)
-install(TARGETS orione_static DESTINATION lib)
+#install(TARGETS orione DESTINATION lib)
+#install(TARGETS orione_static DESTINATION lib)

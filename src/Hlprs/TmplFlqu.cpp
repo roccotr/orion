@@ -7,8 +7,8 @@
   __fastcall CoreFlqu<T, iVdim>::CoreFlqu () {
 
 		lfds611_queue_new (&cVqs, iVdim);
-		cVeventfull.ResetEvent ();		
-		cVeventempty.ResetEvent ();		
+		cVeventfull.ResetEvent ();
+		cVeventempty.ResetEvent ();
 		bVterminated = false;
 	}
 
@@ -22,7 +22,7 @@
 	template<typename T, int iVdim>
 	bool __fastcall CoreFlqu<T, iVdim>::push_ (T* cElement) {
 
-		while (lfds611_queue_enqueue (cVqs, cElement) == 0 || bVterminated) 
+		while (lfds611_queue_enqueue (cVqs, cElement) == 0 || bVterminated)
 			if (cVeventfull.WaitFor (iCwaitprecision) == wrSignaled) cVeventfull.ResetEvent ();
 		cVeventempty.SetEvent ();
 		return !bVterminated;

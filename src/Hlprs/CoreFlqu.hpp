@@ -1,9 +1,11 @@
 #ifndef COREFLQU
 #define COREFLQU
 #include <glog/logging.h>
-#include <protocol/TBinaryProtocol.h> 
+#include <protocol/TBinaryProtocol.h>
 #include "CoreVcl_.hpp"
-#include "liblfds611.h"
+extern "C" {
+ #include "liblfds611.h"
+}
 
 using namespace orion;
 

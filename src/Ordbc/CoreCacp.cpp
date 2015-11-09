@@ -1,12 +1,13 @@
 #include "CoreCacp.hpp"
 #include "CoreAlog.hpp"
+#include "TmplList.cpp"
 #include "TmplLstc.cpp"
 #include "TmplCche.cpp"
 
 using namespace orion;
 
   __fastcall CoreCacp::CoreCacp (PTR_ARIESCONNECTION cAriesconnection) {
-		
+
 		cVariesconnection = cAriesconnection;
 	}
 

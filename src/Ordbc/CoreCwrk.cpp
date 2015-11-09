@@ -7,7 +7,7 @@
 	const int CoreCwrk::iCqueuepollingtime = 100;
 
   __fastcall CoreCwrk::CoreCwrk () : TThread (true) {
-	
+
 	}
 
   __fastcall CoreCwrk::~CoreCwrk () {
@@ -30,7 +30,7 @@
 
 	/*EXECUTE*/
 	void CoreCwrk::Execute () {
-		int iVbulkdim; 
+		int iVbulkdim;
 		int iVbulkcount;
 
 		while (!Terminated) {
@@ -42,7 +42,7 @@
 
 			cVbulkservice.Clear ();
 			cVbulkserviceresult.Clear ();
-			
+
 			if (cVqueue.pop__ (&cVjobloc)) {
 				*cVbulk.set__ () =	cVjobloc;
 				cVbulkservice.add_cvbulkproto ()->CopyFrom (cVjobloc->cVservice);
@@ -73,7 +73,7 @@
 
 				/*
 				cVbulkserviceresult.Clear ();
-				for (int iVouter = 0; iVouter < cVbulkservice.cvbulkproto_size (); iVouter++) {	
+				for (int iVouter = 0; iVouter < cVbulkservice.cvbulkproto_size (); iVouter++) {
 					PrtoSrvr* cVres = cVbulkserviceresult.add_cvbulkproto ();
 					for (int iV = 0; iV < 700; iV++) cVres->set_bvreturn (iV != rand ());
 				}*/
@@ -95,6 +95,6 @@
 
 	/*ABORT*/
 	void __fastcall CoreCwrk::abort () {
-		
+
 		Terminate ();
 	}
