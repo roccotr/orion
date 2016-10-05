@@ -5,21 +5,6 @@ add_subdirectory(Trash/Tests)
 
 STRING(TOLOWER "${PLAYER}" PLAYER_LOWER)
 
-if(PLAYER_LOWER STREQUAL "peppemas")
-    include_directories(. Hlprs Thrft Engne Extrn Proto Extrn/md5 Ordbc)
-    include_directories(~/Documents/ORION/gtest-1.7.0/include)
-    include_directories(/usr/local/Cellar/thrift/0.9.2/include)
-    include_directories(/usr/local/Cellar/thrift/0.9.2/include/thrift)
-    include_directories(/usr/local/Cellar/libevent/2.0.22/include)
-    include_directories(~/Documents/ORION/liblfds/include)
-    include_directories(/usr/local/include)
-    link_directories( ~/Documents/ORION/gtest-1.7.0/lib/ )
-else()
-  message("NOT PEPPEMAS")
-  message(${PLAYER})
-  message(${PLAYER_LOWER})
-endif()
-
 add_definitions(-DsCpipename='"ORIONPIPE_"' -DAPPLEOS  -DiCfastpool -DHAVE_NETINET_IN_H -DHAVE_INTTYPES_H -DiCtcmalloc -DiCoo2sortedindex -DVERBOSE=1)
 
 set(CMAKE_CXX_COMPILER /usr/bin/g++)
@@ -39,7 +24,7 @@ FILE(GLOB SOURCE_FILES  "${CMAKE_SOURCE_DIR}/Engne/*.cpp"
 			"${CMAKE_SOURCE_DIR}/*.cpp"
                         )
 
-message( STATUS "QUI QUI QUI -------------------------------------------------" ${CMAKE_SOURCE_DIR} )
+message( STATUS ${CMAKE_SOURCE_DIR} )
 message( STATUS ${SOURCE_FILES} )
 
 list(REMOVE_ITEM SOURCE_FILES ${CMAKE_SOURCE_DIR}/Hlprs/TmplFlqu.cpp)
