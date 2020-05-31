@@ -11,3 +11,11 @@ blocks:
         - name: 'Job #1'
           commands:
             - checkout
+  - name: 'Block #2'
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands: []
+promotions:
+  - name: Promotion 1
+    pipeline_file: pipeline_2.yml
