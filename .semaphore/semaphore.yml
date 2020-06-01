@@ -16,7 +16,7 @@ blocks:
       jobs:
         - name: 'Job #1'
           commands:
-            - apt update && apt-get install -y make gcc g++
+            - sudo apt update && sudo apt install -y make gcc g++
 promotions:
   - name: Promotion 1
     pipeline_file: pipeline_2.yml
